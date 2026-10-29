@@ -1,0 +1,501 @@
+{
+  "id": "nxfSeatExpansion1",
+  "name": "NexusFlow — Seat Expansion Trigger",
+  "active": false,
+  "nodes": [
+    {
+      "id": "47c9b811-4ebb-56a9-bde5-27f2af4c6b06",
+      "name": "Seat request received",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        0,
+        300
+      ],
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "nexusflow/seat-request",
+        "responseMode": "responseNode",
+        "options": {
+          "rawBody": true
+        }
+      },
+      "webhookId": "8976f7de-ce80-56d3-aeb0-1bc0989d91d6",
+      "notes": "Signed with X-NexusFlow-Timestamp / X-NexusFlow-Signature (HMAC-SHA256 of '<ts>.<raw body>')."
+    },
+    {
+      "id": "ef956b05-7bf7-554d-b775-e584d0a44cc9",
+      "name": "Verify signature",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        220,
+        300
+      ],
+      "parameters": {
+        "jsCode": "// Verify the NexusFlow HMAC-SHA256 signature over the exact raw request body.\nconst crypto = require('crypto');\nconst item = $input.first();\nconst headers = item.json.headers || {};\nconst ts = String(headers['x-nexusflow-timestamp'] || '');\nconst sig = String(headers['x-nexusflow-signature'] || '').replace(/^sha256=/, '');\nconst raw = item.binary && item.binary.data\n  ? (await this.helpers.getBinaryDataBuffer(0, 'data')).toString('utf8')\n  : '';\nconst secret = $env.NEXUSFLOW_WEBHOOK_SECRET || '';\nlet reason = null;\nlet event = null;\nif (!secret) reason = 'n8n is missing NEXUSFLOW_WEBHOOK_SECRET';\nelse if (!ts || !sig) reason = 'missing signature headers';\nelse if (!/^\\d+$/.test(ts) || Math.abs(Date.now() / 1000 - Number(ts)) > 300) reason = 'stale or invalid timestamp';\nelse {\n  const expected = Buffer.from(crypto.createHmac('sha256', secret).update(`${ts}.${raw}`).digest('hex'), 'hex');\n  const given = Buffer.from(/^[0-9a-f]{64}$/i.test(sig) ? sig : '', 'hex');\n  if (given.length !== expected.length || !crypto.timingSafeEqual(given, expected)) reason = 'signature mismatch';\n}\nif (!reason) {\n  try { event = JSON.parse(raw); } catch (e) { reason = 'body is not valid JSON'; }\n}\nreturn [{ json: { valid: !reason, reason, event } }];\n"
+      }
+    },
+    {
+      "id": "fdb5a6fe-c1c3-55e2-a25e-cb1b57940ec1",
+      "name": "Signature valid?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        440,
+        300
+      ],
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "b5df91a3-b9ca-59ec-86da-547a31a94351",
+              "leftValue": "={{ $json.valid }}",
+              "rightValue": "",
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      }
+    },
+    {
+      "id": "08b84eb1-03da-5723-a406-91a07d6a3886",
+      "name": "Reject: bad signature",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.4,
+      "position": [
+        660,
+        480
+      ],
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ JSON.stringify({ accepted: false, reason: $json.reason }) }}",
+        "options": {
+          "responseCode": 401
+        }
+      }
+    },
+    {
+      "id": "344c3eba-b005-52a8-bb09-1943e3ab0d02",
+      "name": "Normalize seat request",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        660,
+        200
+      ],
+      "parameters": {
+        "jsCode": "const crypto = require('crypto');\n// Envelope + signature helpers (same wire format as app/core/security.py)\nconst envelope = (event_type, data, event_id) => ({\n  event_id: event_id || crypto.randomUUID(),\n  event_type,\n  occurred_at: new Date().toISOString(),\n  source: 'n8n',\n  data,\n});\nconst signed = (payload) => {\n  const body = payload === null ? '' : JSON.stringify(payload);\n  const ts = Math.floor(Date.now() / 1000).toString();\n  const signature = 'sha256=' + crypto.createHmac('sha256', $env.NEXUSFLOW_WEBHOOK_SECRET).update(`${ts}.${body}`).digest('hex');\n  return { body, ts, signature, event_id: (payload && payload.event_id) || '', event_type: (payload && payload.event_type) || '' };\n};\n\n// Accept a full seat.requested envelope or a bare request object from a form/CRM.\nconst inbound = $json.event;\nconst d = inbound && inbound.data ? inbound.data : inbound;\nconst data = {\n  request_id: d.request_id || `SRQ-${crypto.randomUUID()}`,\n  customer_id: d.customer_id,\n  contract_id: d.contract_id,\n  added_seats: Number(d.added_seats),\n  request_type: d.request_type || 'UNSPECIFIED',\n  requester_email: d.requester_email,\n  requested_at: d.requested_at || new Date().toISOString(),\n};\nfor (const k of ['desired_activation_date', 'justification']) if (d[k]) data[k] = d[k];\n// Keep the caller's event_id so retries stay idempotent end to end.\nconst payload = envelope('seat.requested', data, inbound && inbound.data ? inbound.event_id : undefined);\nreturn [{ json: { request: data, correlation_id: payload.event_id, req: signed(payload) } }];\n"
+      }
+    },
+    {
+      "id": "a1cd47dc-efb1-577f-b81c-34a9e854bfcb",
+      "name": "Evaluate $500 threshold",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        880,
+        200
+      ],
+      "parameters": {
+        "method": "POST",
+        "url": "={{ $env.NEXUSFLOW_API_BASE_URL }}/api/v1/webhooks/seats/request",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "X-NexusFlow-Timestamp",
+              "value": "={{ $json.req.ts }}"
+            },
+            {
+              "name": "X-NexusFlow-Signature",
+              "value": "={{ $json.req.signature }}"
+            },
+            {
+              "name": "X-NexusFlow-Event-Id",
+              "value": "={{ $json.req.event_id }}"
+            },
+            {
+              "name": "X-NexusFlow-Event-Type",
+              "value": "={{ $json.req.event_type }}"
+            }
+          ]
+        },
+        "options": {
+          "timeout": 30000,
+          "response": {
+            "response": {
+              "fullResponse": true,
+              "neverError": true,
+              "responseFormat": "json"
+            }
+          }
+        },
+        "sendBody": true,
+        "contentType": "raw",
+        "rawContentType": "application/json",
+        "body": "={{ $json.req.body }}"
+      },
+      "notes": "Full response + never error: downstream nodes branch on statusCode."
+    },
+    {
+      "id": "0c87ae15-4978-50b2-9837-10528fa94fa0",
+      "name": "Evaluated?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        1100,
+        200
+      ],
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "ba8a9708-a93f-5b11-bdd3-43b0c70db77d",
+              "leftValue": "={{ $json.statusCode >= 200 && $json.statusCode < 300 }}",
+              "rightValue": "",
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      }
+    },
+    {
+      "id": "402da8a4-cf5c-5661-9183-479679e24579",
+      "name": "Respond: rejected by backend",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.4,
+      "position": [
+        1320,
+        420
+      ],
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ JSON.stringify({ result: 'rejected', status: $json.statusCode, detail: $json.body.detail || $json.body }) }}",
+        "options": {
+          "responseCode": "={{ $json.statusCode >= 400 && $json.statusCode < 600 ? $json.statusCode : 502 }}"
+        }
+      }
+    },
+    {
+      "id": "792e8468-d1cd-57a8-9568-35694f98134c",
+      "name": "Finance approval required?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        1320,
+        200
+      ],
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "5cb1beb5-bc5e-5821-8f73-4a256d84acde",
+              "leftValue": "={{ $json.body.requires_finance_approval }}",
+              "rightValue": "",
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      }
+    },
+    {
+      "id": "4fc857d9-63d7-5386-8f85-3135eddcc9f2",
+      "name": "Format Finance approval request",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1540,
+        100
+      ],
+      "parameters": {
+        "jsCode": "\nconst d = $json.body;\nconst c = d.calculation;\nconst money = v => Number(v).toFixed(2);\nconst approval_request = {\n  type: 'FINANCE_SEAT_APPROVAL',\n  status: 'AWAITING_FINANCE_DECISION',\n  request_id: d.request_id,\n  approver: d.approver,\n  customer: { customer_id: d.customer_id, company_name: d.company_name, contract_id: d.contract_id, plan_tier: d.plan_tier },\n  requested_seats: d.added_seats,\n  aggregate_seats_30d: c.aggregate_seats_30d,\n  prior_requests_in_window: c.prior_requests_in_window,\n  calculation: `${c.aggregate_seats_30d} seats × $${money(c.annual_unit_price)} ÷ 12 = $${money(c.aggregate_monthly_30d)}/month (threshold $${money(c.threshold_monthly)})`,\n  decision_options: ['APPROVE', 'REJECT', 'REQUEST_CLARIFICATION'],\n  approval_validity: 'Approval expires 7 calendar days after the decision if unused (SOP-02 §3.4)',\n  blocking_items: [d.requires_plan_amendment && 'Signed plan amendment', d.requires_clarification && 'Written clarification of request type'].filter(Boolean),\n  notes: d.notes,\n};\nreturn [{ json: { decision: d, approval_request, action: 'finance_approval_requested' } }];\n"
+      }
+    },
+    {
+      "id": "b7ececa1-f600-538f-b1e2-dacf753d0f7b",
+      "name": "Format customer authorization request",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1540,
+        300
+      ],
+      "parameters": {
+        "jsCode": "\nconst d = $json.body;\nconst c = d.calculation;\nconst approval_request = {\n  type: 'CUSTOMER_AUTHORIZATION',\n  status: d.status,\n  request_id: d.request_id,\n  customer: { customer_id: d.customer_id, company_name: d.company_name, contract_id: d.contract_id, plan_tier: d.plan_tier },\n  requested_seats: d.added_seats,\n  monthly_equivalent: Number(c.aggregate_monthly_30d).toFixed(2),\n  finance_approval: 'Not required: aggregate is at or below $500.00/month',\n  required_before_provisioning: ['Explicit written customer authorization',\n    d.requires_plan_amendment && 'Signed plan amendment', d.requires_clarification && 'Clarify purchase vs reservation'].filter(Boolean),\n  notes: d.notes,\n};\nreturn [{ json: { decision: d, approval_request, action: 'customer_authorization_requested' } }];\n"
+      }
+    },
+    {
+      "id": "a5159e93-64dd-53fb-983e-27f6992cac1e",
+      "name": "Build callback",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1760,
+        200
+      ],
+      "parameters": {
+        "jsCode": "const crypto = require('crypto');\n// Envelope + signature helpers (same wire format as app/core/security.py)\nconst envelope = (event_type, data, event_id) => ({\n  event_id: event_id || crypto.randomUUID(),\n  event_type,\n  occurred_at: new Date().toISOString(),\n  source: 'n8n',\n  data,\n});\nconst signed = (payload) => {\n  const body = payload === null ? '' : JSON.stringify(payload);\n  const ts = Math.floor(Date.now() / 1000).toString();\n  const signature = 'sha256=' + crypto.createHmac('sha256', $env.NEXUSFLOW_WEBHOOK_SECRET).update(`${ts}.${body}`).digest('hex');\n  return { body, ts, signature, event_id: (payload && payload.event_id) || '', event_type: (payload && payload.event_type) || '' };\n};\n\nconst failed = false;\nconst payload = envelope(failed ? 'workflow.failed' : 'workflow.completed', {\n  workflow: 'seat_expansion_trigger',\n  correlation_id: $('Normalize seat request').first().json.correlation_id || null,\n  execution_id: String($execution.id),\n  action: $json.action,\n  subject_id: $json.decision.request_id || null,\n  outcome: { status: $json.decision.status, requires_finance_approval: $json.decision.requires_finance_approval, approval_request: $json.approval_request },\n});\nreturn [{ json: { ...$json, req: signed(payload) } }];\n"
+      }
+    },
+    {
+      "id": "ea2a9931-3a97-5277-bc0c-c16762b33cf2",
+      "name": "Report to NexusFlow",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1980,
+        200
+      ],
+      "parameters": {
+        "method": "POST",
+        "url": "={{ $env.NEXUSFLOW_API_BASE_URL }}/api/v1/webhooks/n8n/callback",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "X-NexusFlow-Timestamp",
+              "value": "={{ $json.req.ts }}"
+            },
+            {
+              "name": "X-NexusFlow-Signature",
+              "value": "={{ $json.req.signature }}"
+            },
+            {
+              "name": "X-NexusFlow-Event-Id",
+              "value": "={{ $json.req.event_id }}"
+            },
+            {
+              "name": "X-NexusFlow-Event-Type",
+              "value": "={{ $json.req.event_type }}"
+            }
+          ]
+        },
+        "options": {
+          "timeout": 30000,
+          "response": {
+            "response": {
+              "fullResponse": true,
+              "neverError": true,
+              "responseFormat": "json"
+            }
+          }
+        },
+        "sendBody": true,
+        "contentType": "raw",
+        "rawContentType": "application/json",
+        "body": "={{ $json.req.body }}"
+      },
+      "notes": "Full response + never error: downstream nodes branch on statusCode."
+    },
+    {
+      "id": "880e5dfb-53c2-5366-8901-e4ff26c99dae",
+      "name": "Respond: decision",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.4,
+      "position": [
+        2200,
+        200
+      ],
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ JSON.stringify({ result: 'evaluated', callback_status: $json.statusCode, decision: $('Build callback').first().json.decision, approval_request: $('Build callback').first().json.approval_request }) }}",
+        "options": {
+          "responseCode": 200
+        }
+      }
+    }
+  ],
+  "connections": {
+    "Seat request received": {
+      "main": [
+        [
+          {
+            "node": "Verify signature",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Verify signature": {
+      "main": [
+        [
+          {
+            "node": "Signature valid?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Signature valid?": {
+      "main": [
+        [
+          {
+            "node": "Normalize seat request",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Reject: bad signature",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Normalize seat request": {
+      "main": [
+        [
+          {
+            "node": "Evaluate $500 threshold",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Evaluate $500 threshold": {
+      "main": [
+        [
+          {
+            "node": "Evaluated?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Evaluated?": {
+      "main": [
+        [
+          {
+            "node": "Finance approval required?",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Respond: rejected by backend",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Finance approval required?": {
+      "main": [
+        [
+          {
+            "node": "Format Finance approval request",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Format customer authorization request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Format Finance approval request": {
+      "main": [
+        [
+          {
+            "node": "Build callback",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Format customer authorization request": {
+      "main": [
+        [
+          {
+            "node": "Build callback",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Build callback": {
+      "main": [
+        [
+          {
+            "node": "Report to NexusFlow",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Report to NexusFlow": {
+      "main": [
+        [
+          {
+            "node": "Respond: decision",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1",
+    "saveDataErrorExecution": "all",
+    "saveDataSuccessExecution": "all",
+    "callerPolicy": "workflowsFromSameOwner"
+  },
+  "pinData": {},
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "description": "Captures seat-add requests (signed), sends them to FastAPI for the SOP-02 $500/month rolling 30-day check, formats a Finance approval request or a customer-authorization request, logs the outcome to the callback endpoint and responds synchronously with the decision."
+  },
+  "tags": []
+}

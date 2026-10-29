@@ -1,0 +1,4 @@
+product_id,name,module_code,base_price_per_seat,description
+PRD-0001,AssetTracker,ASSETTRACKER,0.00,"Asset inventory, discovery and lifecycle management; bundled with all plans, no standalone charge"
+PRD-0002,LicenseOptimizer,LICENSEOPTIMIZER,0.00,"License entitlement and utilization reconciliation; bundled with all plans, no standalone charge"
+PRD-0003,SecurityShield,SECURITYSHIELD,0.00,"Security findings and policy risk prioritization; bundled with all plans, no standalone charge"

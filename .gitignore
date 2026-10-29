@@ -1,0 +1,54 @@
+# ---------------------------------------------------------------- secrets
+# Real credentials live only in .env (Gemini key, DB password, n8n encryption key,
+# webhook/JWT signing secrets). .env.example is the committed template.
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+.streamlit/secrets.toml
+**/.streamlit/secrets.toml
+
+# ---------------------------------------------------------------- python
+.venv/
+venv/
+env/
+__pycache__/
+*.py[cod]
+*.egg-info/
+.eggs/
+build/
+dist/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+.coverage.*
+htmlcov/
+.ipynb_checkpoints/
+
+# ---------------------------------------------------------------- containers / runtime state
+# Postgres and n8n data live in named Docker volumes (nexusflow_pg_data, nexusflow_n8n_data);
+# these catch bind-mount or export variants so container state never lands in git.
+pgdata/
+postgres-data/
+n8n_data/
+.n8n/
+var/
+*.pid
+*.sock
+*.log
+logs/
+*.dump
+*.sql.gz
+
+# ---------------------------------------------------------------- editors / OS
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.swp
+*~
+
+# ---------------------------------------------------------------- local tooling
+.claude/settings.local.json

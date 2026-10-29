@@ -1,0 +1,20 @@
+[server]
+port = 8502
+address = "127.0.0.1"
+headless = true
+
+[browser]
+gatherUsageStats = false
+
+[theme]
+base = "dark"
+primaryColor = "#2EC4B6"
+backgroundColor = "#0D1B2A"
+secondaryBackgroundColor = "#13243A"
+textColor = "#E8EEF6"
+font = "sans serif"
+
+[client]
+toolbarMode = "minimal"
+showErrorDetails = "type"   # never show end users a traceback with file paths
+showSidebarNavigation = false

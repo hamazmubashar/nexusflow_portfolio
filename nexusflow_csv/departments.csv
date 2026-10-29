@@ -1,0 +1,6 @@
+department_id,name,headcount,manager_id
+DPT-0001,Engineering,38,EMP-0001
+DPT-0002,Sales,18,EMP-0039
+DPT-0003,Customer Success/Support,17,EMP-0057
+DPT-0004,Operations/HR,8,EMP-0074
+DPT-0005,Finance,4,EMP-0082

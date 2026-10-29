@@ -1,0 +1,86 @@
+employee_id,first_name,last_name,email,department_id,role,salary,hire_date,status
+EMP-0001,Alex,Stone,alex.stone.0001@nexusflow.example,DPT-0001,VP Engineering,155000.00,2024-09-02,ACTIVE
+EMP-0002,Jordan,Bennett,jordan.bennett.0002@nexusflow.example,DPT-0001,Engineering Manager,140000.00,2021-09-17,ACTIVE
+EMP-0003,Morgan,Foster,morgan.foster.0003@nexusflow.example,DPT-0001,Engineering Manager,140000.00,2021-03-24,ACTIVE
+EMP-0004,Taylor,Nguyen,taylor.nguyen.0004@nexusflow.example,DPT-0001,Engineering Manager,140000.00,2025-03-30,ACTIVE
+EMP-0005,Riley,Turner,riley.turner.0005@nexusflow.example,DPT-0001,Software Engineer,125000.00,2022-08-18,ACTIVE
+EMP-0006,Casey,Rivera,casey.rivera.0006@nexusflow.example,DPT-0001,Software Engineer,125000.00,2022-06-17,ACTIVE
+EMP-0007,Avery,Diaz,avery.diaz.0007@nexusflow.example,DPT-0001,Software Engineer,125000.00,2022-05-04,ACTIVE
+EMP-0008,Sam,Wright,sam.wright.0008@nexusflow.example,DPT-0001,Software Engineer,125000.00,2021-11-13,ACTIVE
+EMP-0009,Jamie,Brooks,jamie.brooks.0009@nexusflow.example,DPT-0001,Software Engineer,125000.00,2025-03-20,ACTIVE
+EMP-0010,Quinn,Lee,quinn.lee.0010@nexusflow.example,DPT-0001,Software Engineer,125000.00,2021-08-29,ACTIVE
+EMP-0011,Drew,Chen,drew.chen.0011@nexusflow.example,DPT-0001,Software Engineer,125000.00,2024-11-17,ACTIVE
+EMP-0012,Skyler,Morgan,skyler.morgan.0012@nexusflow.example,DPT-0001,Software Engineer,125000.00,2025-03-28,ACTIVE
+EMP-0013,Reese,Adams,reese.adams.0013@nexusflow.example,DPT-0001,Software Engineer,125000.00,2026-02-02,ACTIVE
+EMP-0014,Parker,Kim,parker.kim.0014@nexusflow.example,DPT-0001,Software Engineer,125000.00,2024-02-22,ACTIVE
+EMP-0015,Cameron,Campbell,cameron.campbell.0015@nexusflow.example,DPT-0001,Software Engineer,125000.00,2021-07-29,ACTIVE
+EMP-0016,Rowan,Patel,rowan.patel.0016@nexusflow.example,DPT-0001,Software Engineer,125000.00,2024-05-25,ACTIVE
+EMP-0017,Hayden,Singh,hayden.singh.0017@nexusflow.example,DPT-0001,Software Engineer,125000.00,2023-06-15,ACTIVE
+EMP-0018,Alex,Stone,alex.stone.0018@nexusflow.example,DPT-0001,Software Engineer,125000.00,2021-04-07,ACTIVE
+EMP-0019,Jordan,Bennett,jordan.bennett.0019@nexusflow.example,DPT-0001,Software Engineer,125000.00,2021-04-03,ACTIVE
+EMP-0020,Morgan,Foster,morgan.foster.0020@nexusflow.example,DPT-0001,Software Engineer,125000.00,2021-08-11,ACTIVE
+EMP-0021,Taylor,Nguyen,taylor.nguyen.0021@nexusflow.example,DPT-0001,Software Engineer,125000.00,2022-04-24,ACTIVE
+EMP-0022,Riley,Turner,riley.turner.0022@nexusflow.example,DPT-0001,Software Engineer,125000.00,2022-05-23,ACTIVE
+EMP-0023,Casey,Rivera,casey.rivera.0023@nexusflow.example,DPT-0001,Software Engineer,125000.00,2023-12-02,ACTIVE
+EMP-0024,Avery,Diaz,avery.diaz.0024@nexusflow.example,DPT-0001,Software Engineer,125000.00,2024-06-17,ACTIVE
+EMP-0025,Sam,Wright,sam.wright.0025@nexusflow.example,DPT-0001,Software Engineer,125000.00,2021-03-27,ACTIVE
+EMP-0026,Jamie,Brooks,jamie.brooks.0026@nexusflow.example,DPT-0001,Site Reliability Engineer,125000.00,2024-03-26,ACTIVE
+EMP-0027,Quinn,Lee,quinn.lee.0027@nexusflow.example,DPT-0001,Site Reliability Engineer,125000.00,2022-03-15,ACTIVE
+EMP-0028,Drew,Chen,drew.chen.0028@nexusflow.example,DPT-0001,Site Reliability Engineer,125000.00,2025-02-06,ACTIVE
+EMP-0029,Skyler,Morgan,skyler.morgan.0029@nexusflow.example,DPT-0001,Site Reliability Engineer,125000.00,2024-09-23,ACTIVE
+EMP-0030,Reese,Adams,reese.adams.0030@nexusflow.example,DPT-0001,QA Engineer,125000.00,2025-01-07,ACTIVE
+EMP-0031,Parker,Kim,parker.kim.0031@nexusflow.example,DPT-0001,QA Engineer,125000.00,2024-02-22,ACTIVE
+EMP-0032,Cameron,Campbell,cameron.campbell.0032@nexusflow.example,DPT-0001,QA Engineer,125000.00,2023-06-10,ACTIVE
+EMP-0033,Rowan,Patel,rowan.patel.0033@nexusflow.example,DPT-0001,QA Engineer,125000.00,2022-04-28,ACTIVE
+EMP-0034,Hayden,Singh,hayden.singh.0034@nexusflow.example,DPT-0001,Product Manager,140000.00,2023-08-09,ACTIVE
+EMP-0035,Alex,Stone,alex.stone.0035@nexusflow.example,DPT-0001,Product Manager,140000.00,2024-05-22,ACTIVE
+EMP-0036,Jordan,Bennett,jordan.bennett.0036@nexusflow.example,DPT-0001,Product Manager,140000.00,2022-08-24,ACTIVE
+EMP-0037,Morgan,Foster,morgan.foster.0037@nexusflow.example,DPT-0001,UX Designer,125000.00,2025-08-16,ACTIVE
+EMP-0038,Taylor,Nguyen,taylor.nguyen.0038@nexusflow.example,DPT-0001,UX Designer,125000.00,2025-12-17,ACTIVE
+EMP-0039,Riley,Turner,riley.turner.0039@nexusflow.example,DPT-0002,VP Sales,135000.00,2021-02-14,ACTIVE
+EMP-0040,Casey,Rivera,casey.rivera.0040@nexusflow.example,DPT-0002,Sales Manager,120000.00,2025-05-05,ACTIVE
+EMP-0041,Avery,Diaz,avery.diaz.0041@nexusflow.example,DPT-0002,Sales Manager,120000.00,2025-08-09,ACTIVE
+EMP-0042,Sam,Wright,sam.wright.0042@nexusflow.example,DPT-0002,Account Executive,105000.00,2021-12-24,ACTIVE
+EMP-0043,Jamie,Brooks,jamie.brooks.0043@nexusflow.example,DPT-0002,Account Executive,105000.00,2024-12-31,ACTIVE
+EMP-0044,Quinn,Lee,quinn.lee.0044@nexusflow.example,DPT-0002,Account Executive,105000.00,2023-06-16,ACTIVE
+EMP-0045,Drew,Chen,drew.chen.0045@nexusflow.example,DPT-0002,Account Executive,105000.00,2022-12-29,ACTIVE
+EMP-0046,Skyler,Morgan,skyler.morgan.0046@nexusflow.example,DPT-0002,Account Executive,105000.00,2022-08-24,ACTIVE
+EMP-0047,Reese,Adams,reese.adams.0047@nexusflow.example,DPT-0002,Account Executive,105000.00,2021-12-16,ACTIVE
+EMP-0048,Parker,Kim,parker.kim.0048@nexusflow.example,DPT-0002,Account Executive,105000.00,2022-04-17,ACTIVE
+EMP-0049,Cameron,Campbell,cameron.campbell.0049@nexusflow.example,DPT-0002,Account Executive,105000.00,2026-06-15,ACTIVE
+EMP-0050,Rowan,Patel,rowan.patel.0050@nexusflow.example,DPT-0002,Account Executive,105000.00,2025-05-14,ACTIVE
+EMP-0051,Hayden,Singh,hayden.singh.0051@nexusflow.example,DPT-0002,Sales Development Representative,105000.00,2022-12-22,ACTIVE
+EMP-0052,Alex,Stone,alex.stone.0052@nexusflow.example,DPT-0002,Sales Development Representative,105000.00,2021-08-29,ACTIVE
+EMP-0053,Jordan,Bennett,jordan.bennett.0053@nexusflow.example,DPT-0002,Sales Development Representative,105000.00,2021-08-09,ACTIVE
+EMP-0054,Morgan,Foster,morgan.foster.0054@nexusflow.example,DPT-0002,Sales Development Representative,105000.00,2023-03-21,ACTIVE
+EMP-0055,Taylor,Nguyen,taylor.nguyen.0055@nexusflow.example,DPT-0002,Sales Operations Analyst,105000.00,2021-08-18,ACTIVE
+EMP-0056,Riley,Turner,riley.turner.0056@nexusflow.example,DPT-0002,Sales Operations Analyst,105000.00,2023-02-06,ACTIVE
+EMP-0057,Casey,Rivera,casey.rivera.0057@nexusflow.example,DPT-0003,VP Customer Success,115000.00,2025-11-02,ACTIVE
+EMP-0058,Avery,Diaz,avery.diaz.0058@nexusflow.example,DPT-0003,Customer Success Manager - Lead,100000.00,2023-01-06,ACTIVE
+EMP-0059,Sam,Wright,sam.wright.0059@nexusflow.example,DPT-0003,Support Manager,100000.00,2024-06-21,ACTIVE
+EMP-0060,Jamie,Brooks,jamie.brooks.0060@nexusflow.example,DPT-0003,Customer Success Manager,100000.00,2022-07-27,ACTIVE
+EMP-0061,Quinn,Lee,quinn.lee.0061@nexusflow.example,DPT-0003,Customer Success Manager,100000.00,2025-08-11,ACTIVE
+EMP-0062,Drew,Chen,drew.chen.0062@nexusflow.example,DPT-0003,Customer Success Manager,100000.00,2021-04-30,ACTIVE
+EMP-0063,Skyler,Morgan,skyler.morgan.0063@nexusflow.example,DPT-0003,Customer Success Manager,100000.00,2025-03-06,ACTIVE
+EMP-0064,Reese,Adams,reese.adams.0064@nexusflow.example,DPT-0003,Customer Success Manager,100000.00,2023-08-30,ACTIVE
+EMP-0065,Parker,Kim,parker.kim.0065@nexusflow.example,DPT-0003,Customer Success Manager,100000.00,2024-02-04,ACTIVE
+EMP-0066,Cameron,Campbell,cameron.campbell.0066@nexusflow.example,DPT-0003,Customer Success Manager,100000.00,2021-10-14,ACTIVE
+EMP-0067,Rowan,Patel,rowan.patel.0067@nexusflow.example,DPT-0003,Support Engineer,85000.00,2026-07-17,ACTIVE
+EMP-0068,Hayden,Singh,hayden.singh.0068@nexusflow.example,DPT-0003,Support Engineer,85000.00,2026-04-04,ACTIVE
+EMP-0069,Alex,Stone,alex.stone.0069@nexusflow.example,DPT-0003,Support Engineer,85000.00,2023-03-18,ACTIVE
+EMP-0070,Jordan,Bennett,jordan.bennett.0070@nexusflow.example,DPT-0003,Support Engineer,85000.00,2021-07-12,ACTIVE
+EMP-0071,Morgan,Foster,morgan.foster.0071@nexusflow.example,DPT-0003,Support Engineer,85000.00,2024-03-07,ACTIVE
+EMP-0072,Taylor,Nguyen,taylor.nguyen.0072@nexusflow.example,DPT-0003,Support Engineer,85000.00,2022-09-24,ACTIVE
+EMP-0073,Riley,Turner,riley.turner.0073@nexusflow.example,DPT-0003,Support Engineer,85000.00,2025-09-26,ACTIVE
+EMP-0074,Casey,Rivera,casey.rivera.0074@nexusflow.example,DPT-0004,Director of Operations & People,120000.00,2024-08-11,ACTIVE
+EMP-0075,Avery,Diaz,avery.diaz.0075@nexusflow.example,DPT-0004,HR Business Partner,90000.00,2024-07-21,ACTIVE
+EMP-0076,Sam,Wright,sam.wright.0076@nexusflow.example,DPT-0004,HR Business Partner,90000.00,2026-01-19,ACTIVE
+EMP-0077,Jamie,Brooks,jamie.brooks.0077@nexusflow.example,DPT-0004,IT Administrator,90000.00,2025-12-01,ACTIVE
+EMP-0078,Quinn,Lee,quinn.lee.0078@nexusflow.example,DPT-0004,IT Administrator,90000.00,2023-02-11,ACTIVE
+EMP-0079,Drew,Chen,drew.chen.0079@nexusflow.example,DPT-0004,Security & Compliance Analyst,90000.00,2024-04-28,ACTIVE
+EMP-0080,Skyler,Morgan,skyler.morgan.0080@nexusflow.example,DPT-0004,Security & Compliance Analyst,90000.00,2022-03-01,ACTIVE
+EMP-0081,Reese,Adams,reese.adams.0081@nexusflow.example,DPT-0004,Workplace Coordinator,90000.00,2025-01-13,ACTIVE
+EMP-0082,Parker,Kim,parker.kim.0082@nexusflow.example,DPT-0005,Finance Director,140000.00,2021-06-23,ACTIVE
+EMP-0083,Cameron,Campbell,cameron.campbell.0083@nexusflow.example,DPT-0005,Controller,110000.00,2021-05-05,ACTIVE
+EMP-0084,Rowan,Patel,rowan.patel.0084@nexusflow.example,DPT-0005,Billing Analyst,110000.00,2024-10-17,ACTIVE
+EMP-0085,Hayden,Singh,hayden.singh.0085@nexusflow.example,DPT-0005,FP&A Analyst,110000.00,2022-05-13,ACTIVE

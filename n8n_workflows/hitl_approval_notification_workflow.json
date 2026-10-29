@@ -1,0 +1,663 @@
+{
+  "id": "nxfHitlApproval1",
+  "name": "NexusFlow — HITL Approval Notifications",
+  "active": false,
+  "nodes": [
+    {
+      "id": "c39de904-db13-5cc7-9d76-762af75758c6",
+      "name": "Approval event received",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        0,
+        300
+      ],
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "nexusflow/approval-events",
+        "responseMode": "responseNode",
+        "options": {
+          "rawBody": true
+        }
+      },
+      "webhookId": "794cb4d6-8686-5009-9851-df82ed0499f8",
+      "notes": "Signed with X-NexusFlow-Timestamp / X-NexusFlow-Signature (HMAC-SHA256 of '<ts>.<raw body>')."
+    },
+    {
+      "id": "b25fb589-e38f-5d43-bc29-b0fd5aa5f9fc",
+      "name": "Verify signature",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        220,
+        300
+      ],
+      "parameters": {
+        "jsCode": "// Verify the NexusFlow HMAC-SHA256 signature over the exact raw request body.\nconst crypto = require('crypto');\nconst item = $input.first();\nconst headers = item.json.headers || {};\nconst ts = String(headers['x-nexusflow-timestamp'] || '');\nconst sig = String(headers['x-nexusflow-signature'] || '').replace(/^sha256=/, '');\nconst raw = item.binary && item.binary.data\n  ? (await this.helpers.getBinaryDataBuffer(0, 'data')).toString('utf8')\n  : '';\nconst secret = $env.NEXUSFLOW_WEBHOOK_SECRET || '';\nlet reason = null;\nlet event = null;\nif (!secret) reason = 'n8n is missing NEXUSFLOW_WEBHOOK_SECRET';\nelse if (!ts || !sig) reason = 'missing signature headers';\nelse if (!/^\\d+$/.test(ts) || Math.abs(Date.now() / 1000 - Number(ts)) > 300) reason = 'stale or invalid timestamp';\nelse {\n  const expected = Buffer.from(crypto.createHmac('sha256', secret).update(`${ts}.${raw}`).digest('hex'), 'hex');\n  const given = Buffer.from(/^[0-9a-f]{64}$/i.test(sig) ? sig : '', 'hex');\n  if (given.length !== expected.length || !crypto.timingSafeEqual(given, expected)) reason = 'signature mismatch';\n}\nif (!reason) {\n  try { event = JSON.parse(raw); } catch (e) { reason = 'body is not valid JSON'; }\n}\nreturn [{ json: { valid: !reason, reason, event } }];\n"
+      }
+    },
+    {
+      "id": "f79af31f-8f87-55b0-8cfc-7cc2cb90f16e",
+      "name": "Signature valid?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        440,
+        300
+      ],
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "814a284e-fe3c-5b71-9534-241670cf2bfd",
+              "leftValue": "={{ $json.valid }}",
+              "rightValue": "",
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      }
+    },
+    {
+      "id": "3e81e6e9-78ee-5586-ad87-f641451b834a",
+      "name": "Reject: bad signature",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.4,
+      "position": [
+        660,
+        480
+      ],
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ JSON.stringify({ accepted: false, reason: $json.reason }) }}",
+        "options": {
+          "responseCode": 401
+        }
+      }
+    },
+    {
+      "id": "92a39c75-2f65-58bd-b921-a758ccf66b59",
+      "name": "Ack: 202 accepted",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.4,
+      "position": [
+        660,
+        300
+      ],
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ JSON.stringify({ accepted: true, event_id: $json.event.event_id, event_type: $json.event.event_type }) }}",
+        "options": {
+          "responseCode": 202
+        }
+      }
+    },
+    {
+      "id": "da1e8a47-ff1e-52f7-95f6-88c14d59b0d4",
+      "name": "Approval requested?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        880,
+        300
+      ],
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "18cdb852-c9c6-5098-bf90-9ffef3266002",
+              "leftValue": "={{ $('Verify signature').first().json.event.event_type === 'approval.requested' }}",
+              "rightValue": "",
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      }
+    },
+    {
+      "id": "a4bccb3b-f989-5dcc-9e6b-09fcebcd658d",
+      "name": "Build approval card",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1100,
+        200
+      ],
+      "parameters": {
+        "jsCode": "\nconst ev = $('Verify signature').first().json.event.data;\nconst c = ev.card;\nconst facts = c.facts.map(f => `*${f.label}:* ${f.value}`).join('\\n');\nconst reasons = c.reasons.map(r => `• ${r.text}`).join('\\n');\nconst review = c.contract_review && c.contract_review.answer\n  ? `*Contract review (advisory, ${c.contract_review.grounded ? 'grounded' : 'NOT grounded'}):* ${c.contract_review.answer}`\n  : (c.contract_documents.length ? '*Contract review:* unavailable — review the documents manually' : '');\n// Shared channel: no token, no callback URL. Buttons carry only ids; the decision link goes to the approver privately.\nconst slack = {\n  text: `:memo: Approval needed: ${c.title}`,\n  blocks: [\n    { type: 'header', text: { type: 'plain_text', text: c.title.slice(0, 150) } },\n    { type: 'section', text: { type: 'mrkdwn', text: `${c.summary}\\n\\n${facts}`.slice(0, 2900) } },\n    { type: 'section', text: { type: 'mrkdwn', text: `*Why a human is required:*\\n${reasons}` } },\n    ...(review ? [{ type: 'section', text: { type: 'mrkdwn', text: review.slice(0, 2900) } }] : []),\n    { type: 'actions', block_id: `nexusflow_approval_${ev.approval_id}`, elements: [\n      { type: 'button', style: 'primary', text: { type: 'plain_text', text: 'Approve' }, action_id: 'nexusflow_approve',\n        value: JSON.stringify({ approval_id: ev.approval_id, action: 'APPROVE' }) },\n      { type: 'button', style: 'danger', text: { type: 'plain_text', text: 'Reject' }, action_id: 'nexusflow_reject',\n        value: JSON.stringify({ approval_id: ev.approval_id, action: 'REJECT' }) },\n    ] },\n    { type: 'context', elements: [{ type: 'mrkdwn',\n      text: `Assigned to ${c.approver.name} (${c.approver.employee_id}) · expires ${ev.expires_at} · decision link sent privately` }] },\n  ],\n};\nconst discord = {\n  content: `📝 **Approval needed** — ${c.title}`,\n  embeds: [{ title: ev.request_id, description: c.summary.slice(0, 4000), color: 15844367,\n             fields: c.facts.slice(0, 20).map(f => ({ name: f.label, value: String(f.value).slice(0, 1024), inline: true }))\n               .concat([{ name: 'Why', value: reasons.slice(0, 1024) }]) }],\n};\n// Private payload for the approver only (email/DM integration): the single-use decision link.\nconst approver_private = {\n  to: c.approver.email, approver_id: c.approver.employee_id,\n  subject: `[Action required] ${c.title}`,\n  decision: { method: ev.callback.method, url: ev.callback.url, body_template: ev.callback.body,\n              expires_at: ev.expires_at },\n};\nreturn [{ json: { kind: 'requested', approval_id: ev.approval_id, request_id: ev.request_id,\n                  correlation_id: $('Verify signature').first().json.event.event_id,\n                  channel: { slack, discord }, approver_private } }];\n"
+      }
+    },
+    {
+      "id": "8da1bba4-c74f-58c4-92d0-99506f97e454",
+      "name": "Format decision outcome",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1100,
+        420
+      ],
+      "parameters": {
+        "jsCode": "\nconst ev = $('Verify signature').first().json.event.data;\nconst icon = { EXECUTED: '✅', REJECTED: '🚫', FAILED: '⚠️' }[ev.final_state] || 'ℹ️';\nconst exec = ev.execution\n  ? ` Seats ${ev.execution.customer_seats.join(' → ')}, ARR $${ev.execution.contract_arr.join(' → $')}.` : '';\nconst who = ev.decided_by ? ` by ${ev.decided_by}` : '';\nconst text = `${icon} ${ev.request_id} (${ev.customer_id}): ${ev.decision}${who} → ${ev.final_state}.${exec}`\n  + (ev.comment ? ` Comment: \"${ev.comment}\"` : '') + (ev.error ? ` Error: ${ev.error.message}` : '');\nreturn [{ json: { kind: 'finalized', approval_id: ev.approval_id, request_id: ev.request_id,\n                  correlation_id: $('Verify signature').first().json.event.event_id,\n                  channel: { slack: { text }, discord: { content: text } }, approver_private: null } }];\n"
+      }
+    },
+    {
+      "id": "a7e5b205-6908-5691-8c58-2b04274316c4",
+      "name": "Alert channel configured?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        1320,
+        300
+      ],
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "80cd1240-0d8a-5032-8c90-f51bf29f27c8",
+              "leftValue": "={{ !!$env.NEXUSFLOW_ALERT_WEBHOOK_URL }}",
+              "rightValue": "",
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      }
+    },
+    {
+      "id": "6bf0793d-c6f1-5814-a7c4-29398c1dae49",
+      "name": "Post to channel",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1540,
+        200
+      ],
+      "parameters": {
+        "method": "POST",
+        "url": "={{ $env.NEXUSFLOW_ALERT_WEBHOOK_URL }}",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify(($env.NEXUSFLOW_ALERT_FORMAT || 'slack') === 'discord' ? $json.channel.discord : $json.channel.slack) }}",
+        "options": {
+          "timeout": 10000,
+          "response": {
+            "response": {
+              "fullResponse": true,
+              "neverError": true
+            }
+          }
+        }
+      },
+      "notes": "Channel payload only: never contains the approval token."
+    },
+    {
+      "id": "17bacc2b-b67d-5986-9dee-327fc664661b",
+      "name": "Build callback",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1760,
+        300
+      ],
+      "parameters": {
+        "jsCode": "const crypto = require('crypto');\n// Envelope + signature helpers (same wire format as app/core/security.py)\nconst envelope = (event_type, data, event_id) => ({\n  event_id: event_id || crypto.randomUUID(),\n  event_type,\n  occurred_at: new Date().toISOString(),\n  source: 'n8n',\n  data,\n});\nconst signed = (payload) => {\n  const body = payload === null ? '' : JSON.stringify(payload);\n  const ts = Math.floor(Date.now() / 1000).toString();\n  const signature = 'sha256=' + crypto.createHmac('sha256', $env.NEXUSFLOW_WEBHOOK_SECRET).update(`${ts}.${body}`).digest('hex');\n  return { body, ts, signature, event_id: (payload && payload.event_id) || '', event_type: (payload && payload.event_type) || '' };\n};\n\nconst failed = false;\nconst payload = envelope(failed ? 'workflow.failed' : 'workflow.completed', {\n  workflow: 'hitl_approval_notification',\n  correlation_id: $('Verify signature').first().json.event.event_id || null,\n  execution_id: String($execution.id),\n  action: $('Verify signature').first().json.event.event_type === 'approval.requested' ? 'approval_card_sent' : 'approval_outcome_notified',\n  subject_id: $('Verify signature').first().json.event.data.request_id || null,\n  outcome: {\n    approval_id: $('Verify signature').first().json.event.data.approval_id,\n    event_type: $('Verify signature').first().json.event.event_type,\n    final_state: $('Verify signature').first().json.event.data.final_state || null,\n    approver_notified_privately: $('Verify signature').first().json.event.event_type === 'approval.requested',\n    channel_delivery: $('Post to channel').isExecuted\n      ? { attempted: true, status: $('Post to channel').first().json.statusCode }\n      : { attempted: false, reason: 'NEXUSFLOW_ALERT_WEBHOOK_URL not set' },\n  },\n});\nreturn [{ json: { req: signed(payload) } }];  // drop card/private payload: no token in the log\n"
+      }
+    },
+    {
+      "id": "7c6df019-3ee8-51e0-9b14-59ee8b232872",
+      "name": "Report to NexusFlow",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1980,
+        300
+      ],
+      "parameters": {
+        "method": "POST",
+        "url": "={{ $env.NEXUSFLOW_API_BASE_URL }}/api/v1/webhooks/n8n/callback",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "X-NexusFlow-Timestamp",
+              "value": "={{ $json.req.ts }}"
+            },
+            {
+              "name": "X-NexusFlow-Signature",
+              "value": "={{ $json.req.signature }}"
+            },
+            {
+              "name": "X-NexusFlow-Event-Id",
+              "value": "={{ $json.req.event_id }}"
+            },
+            {
+              "name": "X-NexusFlow-Event-Type",
+              "value": "={{ $json.req.event_type }}"
+            }
+          ]
+        },
+        "options": {
+          "timeout": 30000,
+          "response": {
+            "response": {
+              "fullResponse": true,
+              "neverError": true,
+              "responseFormat": "json"
+            }
+          }
+        },
+        "sendBody": true,
+        "contentType": "raw",
+        "rawContentType": "application/json",
+        "body": "={{ $json.req.body }}"
+      },
+      "notes": "Full response + never error: downstream nodes branch on statusCode."
+    },
+    {
+      "id": "da5284f7-4b0c-5fd5-b1f2-c0af10f57020",
+      "name": "Approval decision relay",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        0,
+        700
+      ],
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "nexusflow/approval-decision",
+        "responseMode": "responseNode",
+        "options": {
+          "rawBody": true
+        }
+      },
+      "webhookId": "18e779dc-2d29-5028-9e2a-628faef7186f",
+      "notes": "Signed with X-NexusFlow-Timestamp / X-NexusFlow-Signature (HMAC-SHA256 of '<ts>.<raw body>')."
+    },
+    {
+      "id": "82f8f661-f113-54c6-9c47-a2494d178534",
+      "name": "Verify relay signature",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        220,
+        700
+      ],
+      "parameters": {
+        "jsCode": "// Verify the NexusFlow HMAC-SHA256 signature over the exact raw request body.\nconst crypto = require('crypto');\nconst item = $input.first();\nconst headers = item.json.headers || {};\nconst ts = String(headers['x-nexusflow-timestamp'] || '');\nconst sig = String(headers['x-nexusflow-signature'] || '').replace(/^sha256=/, '');\nconst raw = item.binary && item.binary.data\n  ? (await this.helpers.getBinaryDataBuffer(0, 'data')).toString('utf8')\n  : '';\nconst secret = $env.NEXUSFLOW_WEBHOOK_SECRET || '';\nlet reason = null;\nlet event = null;\nif (!secret) reason = 'n8n is missing NEXUSFLOW_WEBHOOK_SECRET';\nelse if (!ts || !sig) reason = 'missing signature headers';\nelse if (!/^\\d+$/.test(ts) || Math.abs(Date.now() / 1000 - Number(ts)) > 300) reason = 'stale or invalid timestamp';\nelse {\n  const expected = Buffer.from(crypto.createHmac('sha256', secret).update(`${ts}.${raw}`).digest('hex'), 'hex');\n  const given = Buffer.from(/^[0-9a-f]{64}$/i.test(sig) ? sig : '', 'hex');\n  if (given.length !== expected.length || !crypto.timingSafeEqual(given, expected)) reason = 'signature mismatch';\n}\nif (!reason) {\n  try { event = JSON.parse(raw); } catch (e) { reason = 'body is not valid JSON'; }\n}\nreturn [{ json: { valid: !reason, reason, event } }];\n"
+      }
+    },
+    {
+      "id": "33fb801c-a357-5514-ba7f-4edb0348db0a",
+      "name": "Relay signature valid?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        440,
+        700
+      ],
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "7c934f33-f52e-5859-9695-47e2968db2b7",
+              "leftValue": "={{ $json.valid }}",
+              "rightValue": "",
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      }
+    },
+    {
+      "id": "fc9a3d7d-800c-5955-85ec-76b3078a0080",
+      "name": "Reject relay: bad signature",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.4,
+      "position": [
+        660,
+        860
+      ],
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ JSON.stringify({ accepted: false, reason: $json.reason }) }}",
+        "options": {
+          "responseCode": 401
+        }
+      }
+    },
+    {
+      "id": "4e046aed-a3b3-5fdb-8f01-0aa960ebdf89",
+      "name": "Sign decision for API",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        660,
+        700
+      ],
+      "parameters": {
+        "jsCode": "const crypto = require('crypto');\n// Envelope + signature helpers (same wire format as app/core/security.py)\nconst envelope = (event_type, data, event_id) => ({\n  event_id: event_id || crypto.randomUUID(),\n  event_type,\n  occurred_at: new Date().toISOString(),\n  source: 'n8n',\n  data,\n});\nconst signed = (payload) => {\n  const body = payload === null ? '' : JSON.stringify(payload);\n  const ts = Math.floor(Date.now() / 1000).toString();\n  const signature = 'sha256=' + crypto.createHmac('sha256', $env.NEXUSFLOW_WEBHOOK_SECRET).update(`${ts}.${body}`).digest('hex');\n  return { body, ts, signature, event_id: (payload && payload.event_id) || '', event_type: (payload && payload.event_type) || '' };\n};\n\nconst d = $json.event.data || $json.event;\nconst body = { action: d.action, approver_id: d.approver_id };\nif (d.comment) body.comment = d.comment;\nif (d.approver_signature) body.approver_signature = d.approver_signature;\nreturn [{ json: { token: encodeURIComponent(d.approval_token || ''), req: signed(body) } }];\n"
+      }
+    },
+    {
+      "id": "c593d545-ae6b-5362-9ce5-fda8a96e340b",
+      "name": "Submit decision",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        880,
+        700
+      ],
+      "parameters": {
+        "method": "POST",
+        "url": "={{ $env.NEXUSFLOW_API_BASE_URL }}/api/v1/approvals/{{ $json.token }}/action",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "X-NexusFlow-Timestamp",
+              "value": "={{ $json.req.ts }}"
+            },
+            {
+              "name": "X-NexusFlow-Signature",
+              "value": "={{ $json.req.signature }}"
+            },
+            {
+              "name": "X-NexusFlow-Event-Id",
+              "value": "={{ $json.req.event_id }}"
+            },
+            {
+              "name": "X-NexusFlow-Event-Type",
+              "value": "={{ $json.req.event_type }}"
+            }
+          ]
+        },
+        "options": {
+          "timeout": 30000,
+          "response": {
+            "response": {
+              "fullResponse": true,
+              "neverError": true,
+              "responseFormat": "json"
+            }
+          }
+        },
+        "sendBody": true,
+        "contentType": "raw",
+        "rawContentType": "application/json",
+        "body": "={{ $json.req.body }}"
+      },
+      "notes": "Token goes in the URL path; the body is HMAC-signed so the API knows n8n relayed it."
+    },
+    {
+      "id": "9b66af81-ae11-5901-8402-1b3e0044d5d6",
+      "name": "Respond: decision result",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.4,
+      "position": [
+        1100,
+        700
+      ],
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ JSON.stringify({ status: $json.statusCode, result: $json.body }) }}",
+        "options": {
+          "responseCode": "={{ $json.statusCode }}"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "Approval event received": {
+      "main": [
+        [
+          {
+            "node": "Verify signature",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Verify signature": {
+      "main": [
+        [
+          {
+            "node": "Signature valid?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Signature valid?": {
+      "main": [
+        [
+          {
+            "node": "Ack: 202 accepted",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Reject: bad signature",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Ack: 202 accepted": {
+      "main": [
+        [
+          {
+            "node": "Approval requested?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Approval requested?": {
+      "main": [
+        [
+          {
+            "node": "Build approval card",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Format decision outcome",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Build approval card": {
+      "main": [
+        [
+          {
+            "node": "Alert channel configured?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Format decision outcome": {
+      "main": [
+        [
+          {
+            "node": "Alert channel configured?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Alert channel configured?": {
+      "main": [
+        [
+          {
+            "node": "Post to channel",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Build callback",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Post to channel": {
+      "main": [
+        [
+          {
+            "node": "Build callback",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Build callback": {
+      "main": [
+        [
+          {
+            "node": "Report to NexusFlow",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Approval decision relay": {
+      "main": [
+        [
+          {
+            "node": "Verify relay signature",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Verify relay signature": {
+      "main": [
+        [
+          {
+            "node": "Relay signature valid?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Relay signature valid?": {
+      "main": [
+        [
+          {
+            "node": "Sign decision for API",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Reject relay: bad signature",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Sign decision for API": {
+      "main": [
+        [
+          {
+            "node": "Submit decision",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Submit decision": {
+      "main": [
+        [
+          {
+            "node": "Respond: decision result",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1",
+    "saveDataErrorExecution": "all",
+    "saveDataSuccessExecution": "all",
+    "callerPolicy": "workflowsFromSameOwner"
+  },
+  "pinData": {},
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "description": "Governance agent events. approval.requested: builds the interactive approval card (Slack/Discord/generic) and a private approver payload holding the single-use token; approval.finalized: formats the outcome. The shared channel never receives the token. A second, signed webhook relays an approver's decision to POST /api/v1/approvals/{token}/action. Note: like any value n8n delivers, the token is kept in n8n execution data until EXECUTIONS_DATA_MAX_AGE prunes it."
+  },
+  "tags": []
+}

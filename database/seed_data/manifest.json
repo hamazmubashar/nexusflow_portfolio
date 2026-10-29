@@ -1,0 +1,34 @@
+{
+  "snapshot_date": "2026-10-28",
+  "seed": 42,
+  "currency": "USD",
+  "arr": "12400000.00",
+  "table_row_counts": {
+    "departments": 5,
+    "employees": 85,
+    "products": 3,
+    "customers": 120,
+    "contracts": 120,
+    "invoices": 120,
+    "payments": 114,
+    "support_tickets": 414,
+    "assets": 604
+  },
+  "import_order": [
+    "departments",
+    "employees",
+    "products",
+    "customers",
+    "contracts",
+    "invoices",
+    "payments",
+    "support_tickets",
+    "assets"
+  ],
+  "notes": [
+    "Fictional synthetic records",
+    "Six delinquent accounts remain under ACTIVE contracts",
+    "Asset sample is not a seat-by-seat inventory",
+    "Customer distribution supersedes specification v1.0 distribution; original four-digit TK keys retained"
+  ]
+}
