@@ -254,3 +254,21 @@ def test_concurrent_decisions_execute_exactly_once(env):
     assert sorted(map(str, results)) == sorted(["ALREADY_DECIDED", "EXECUTED"])
     seats_after, arr_after = account(cust, ctr)
     assert seats_after == seats_before + 43 and arr_after - arr_before == 6020
+
+
+def test_run_list_and_board_surface_a_paused_run_first(env):
+    cust, ctr = customers("ENTERPRISE")[8]
+    run, _ = hitl_run(env, cust, ctr, 43)
+    op = {"Authorization": f"Bearer {issue_jwt('EMP-0057', ['OPERATOR'])}"}
+    listed = env.client.get(f"{RUNS}", params={"active_only": "true", "limit": 50}, headers=op).json()
+    mine = next(r for r in listed["runs"] if r["run_id"] == run["run_id"])
+    assert (mine["state"], mine["priority"], mine["progress_pct"], mine["current_step"]) == \
+        ("WAITING_FOR_APPROVAL", "high", 60, "Manager approval")
+    detail = env.client.get(f"{RUNS}/{run['run_id']}", headers=op).json()
+    assert [s["status"] for s in detail["pipeline"]["steps"]] == ["complete", "complete", "complete",
+                                                                   "in_progress", "pending"]
+    assert detail["explanation"]["decision_basis"] == "deterministic"
+    board = env.client.get("/api/v1/analytics/workflow-runs", params={"limit": 50}, headers=op).json()
+    states = [i["state"] for i in board["items"]]
+    assert states == sorted(states, key=lambda s: {"waiting": 0, "running": 1, "failed": 2}.get(s, 3))
+    assert any(i["id"] == run["run_id"] and i["state"] == "waiting" for i in board["items"])

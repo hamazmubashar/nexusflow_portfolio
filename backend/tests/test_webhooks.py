@@ -41,6 +41,7 @@ WORKFLOW_DIR = REPO_ROOT / "n8n_workflows"
 WORKFLOW_FILES = sorted(WORKFLOW_DIR.glob("*_workflow.json"))
 API = "/api/v1/webhooks"
 PYTEST_EVENT_IDS: list[str] = []
+MODULE_STARTED = datetime.now(timezone.utc)
 
 
 def _db_available() -> bool:
@@ -335,6 +336,8 @@ def test_backend_calls_are_signed_and_use_env_base_url():
                 assert {"X-NexusFlow-Timestamp", "X-NexusFlow-Signature"} <= headers
                 # error bodies are application/problem+json, which n8n's autodetect would leave unparsed
                 assert node["parameters"]["options"]["response"]["response"]["responseFormat"] == "json"
+                # a timeout must not halt the run: fallback branches and callbacks still have to execute
+                assert node["onError"] == "continueRegularOutput"
                 assert node["parameters"]["url"].startswith("={{ $env.NEXUSFLOW_API_BASE_URL }}/api/v1/")
 
 
@@ -375,6 +378,8 @@ def client():
     if PYTEST_EVENT_IDS:
         query("DELETE FROM automation_events WHERE event_id::text = ANY(%s) "
               "OR payload->'data'->>'correlation_id' = ANY(%s)", (PYTEST_EVENT_IDS, PYTEST_EVENT_IDS))
+    # copilot audit rows written by the fake-copilot endpoint test
+    query("DELETE FROM automation_events WHERE event_type = 'copilot.ask' AND created_at >= %s", (MODULE_STARTED,))
 
 
 @pytest.fixture

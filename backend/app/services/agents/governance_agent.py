@@ -122,10 +122,14 @@ def _jsonable(obj):
 
 class GovernanceAgent:
     def __init__(self, clause_reviewer: ClauseReviewer | None = None, settings: Settings | None = None,
-                 now: Callable[[], datetime] = lambda: datetime.now(timezone.utc)):
+                 now: Callable[[], datetime] = lambda: datetime.now(timezone.utc),
+                 sweep_scope: str | None = None):
         self.settings = settings or get_settings()
         self.reviewer = clause_reviewer
         self.now = now
+        # SQL LIKE pattern limiting expire_stale() to matching request_ids. Production leaves it None (sweep
+        # everything); tests that move the clock forward set it so they can't expire real pending approvals.
+        self.sweep_scope = sweep_scope
 
     # ------------------------------------------------------------------ persistence
 
@@ -543,8 +547,8 @@ class GovernanceAgent:
 
     def expire_stale(self) -> list:
         with get_conn() as conn, conn.cursor() as cur:
-            cur.execute("SELECT approval_id FROM approval_requests WHERE status = 'PENDING' AND expires_at <= %s",
-                        (self.now(),))
+            cur.execute("SELECT approval_id FROM approval_requests WHERE status = 'PENDING' AND expires_at <= %s "
+                        "AND (%s::text IS NULL OR request_id LIKE %s)", (self.now(), self.sweep_scope, self.sweep_scope))
             ids = [str(r["approval_id"]) for r in cur.fetchall()]
         return [n for aid in ids for n in self._expire(aid)]
 

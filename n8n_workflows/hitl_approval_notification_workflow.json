@@ -286,6 +286,7 @@
         "rawContentType": "application/json",
         "body": "={{ $json.req.body }}"
       },
+      "onError": "continueRegularOutput",
       "notes": "Full response + never error: downstream nodes branch on statusCode."
     },
     {
@@ -433,6 +434,7 @@
         "rawContentType": "application/json",
         "body": "={{ $json.req.body }}"
       },
+      "onError": "continueRegularOutput",
       "notes": "Token goes in the URL path; the body is HMAC-signed so the API knows n8n relayed it."
     },
     {

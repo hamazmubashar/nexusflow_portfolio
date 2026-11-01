@@ -181,7 +181,8 @@ def snapshot():
 @pytest.fixture
 def env(snapshot):
     clock, reviewer = Clock(), FakeReviewer()
-    agent = GovernanceAgent(clause_reviewer=reviewer, now=clock)
+    # sweep_scope: this fixture moves the clock forward; never let that expire real approvals in the shared DB
+    agent = GovernanceAgent(clause_reviewer=reviewer, now=clock, sweep_scope=f"{PREFIX}%")
     app.state.dispatcher = N8nDispatcher.from_settings(mode="mock")
     app.dependency_overrides[get_governance_agent] = lambda: agent
     with TestClient(app) as client:
@@ -389,6 +390,27 @@ def test_expired_token_is_rejected_and_run_closed(env):
     final = [e.json for e in env.outbox if e.json["event_type"] == "approval.finalized"][-1]["data"]
     assert final["decision"] == "EXPIRED" and final["final_state"] == "REJECTED"
     assert act(env.client, token).status_code == 410  # stays dead
+
+
+def test_sweep_never_touches_requests_outside_its_scope(env):
+    """A real pending approval in the shared DB must survive a test that jumps the clock 72 h ahead."""
+    outsider = GovernanceAgent(clause_reviewer=env.reviewer, now=env.clock)   # unscoped, like production
+    cust, ctr = customers("ENTERPRISE")[9]
+    from app.schemas.webhooks import SeatRequestData
+
+    real = outsider.start(SeatRequestData(request_id=f"SRQ-REAL-{uuid.uuid4().hex[:8]}", customer_id=cust,
+                                          contract_id=ctr, added_seats=43, request_type="PURCHASE",
+                                          requester_email="it@client.example", requested_at=env.clock()))
+    try:
+        env.clock.t += timedelta(hours=SETTINGS.approval_token_ttl_hours + 1)
+        env.agent.expire_stale()                                    # scoped to SRQ-GOV-
+        [(status,)] = query("SELECT status FROM approval_requests WHERE request_id = %s", (real.request_id,))
+        assert status == "PENDING"
+    finally:
+        for table in ("approval_requests", "governance_runs", "seat_requests"):
+            query(f"DELETE FROM {table} WHERE request_id = %s RETURNING 1", (real.request_id,))
+        query("DELETE FROM automation_events WHERE subject_id = %s OR payload->'data'->>'request_id' = %s "
+              "RETURNING 1", (real.request_id, real.request_id))
 
 
 def test_pending_queue_sweeps_expired_items(env):

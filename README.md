@@ -124,6 +124,8 @@ curl -s localhost:8010/api/v1/analytics/dashboard -H "Authorization: Bearer $TOK
 
 ```bash
 cd frontend && python3 -m venv .venv && .venv/bin/pip install -r requirements.txt
-./run.sh                                  # http://localhost:8502 as Parker Kim (EMP-0082, MANAGER)
+./run.sh                                  # http://localhost:8502, opens at the login gate
+# "Explore the demo" = read-only visitor. To review as Parker Kim (EMP-0082, MANAGER), paste the token from:
+#   backend/.venv/bin/python -m app.core.security issue-token EMP-0082 MANAGER
 .venv/bin/python -m pytest                # client + AppTest against the API on :8010
 ```

@@ -6,6 +6,7 @@ Callers: OPERATOR+ users (JWT) and the n8n P1 workflow (HMAC service principal).
 from __future__ import annotations
 
 from functools import lru_cache
+from uuid import uuid4
 
 from fastapi import APIRouter, Depends, Request
 from pydantic import BaseModel, ConfigDict, Field
@@ -15,6 +16,7 @@ from app.api.v1.webhooks import parse_event
 from app.core.config import get_settings
 from app.core.errors import APIError, problem_responses
 from app.core.security import Principal, Role, require_role
+from app.services import events
 from app.services.rag.copilot import Copilot, CopilotResponse
 from app.services.rag.retriever import HybridRetriever
 
@@ -78,13 +80,29 @@ def get_copilot() -> Copilot:
 
 
 @router.post("/ask", response_model=CopilotResponse, responses=problem_responses(401, 403, 422, 503))
-async def ask(request: Request, _: Principal = Depends(reader), copilot: Copilot = Depends(get_copilot)):
+async def ask(request: Request, principal: Principal = Depends(reader), copilot: Copilot = Depends(get_copilot)):
     """Grounded answer with verified citations from SOPs, contracts and correspondence."""
     req = parse_event(CopilotAskRequest, await request.body())
     try:
-        return await run_in_threadpool(copilot.ask, req.question, req.top_k)
+        answer = await run_in_threadpool(copilot.ask, req.question, req.top_k)
     except RuntimeError as exc:  # every Gemini model failed (see Copilot._generate)
+        await run_in_threadpool(_audit_ask, principal, req.question, None, str(exc))
         raise APIError(503, "LLM_UNAVAILABLE", str(exc)) from None
+    await run_in_threadpool(_audit_ask, principal, req.question, answer, None)
+    return answer
+
+
+def _audit_ask(principal: Principal, question: str, answer: CopilotResponse | None, error: str | None) -> None:
+    """One automation_events row per copilot call, so its usage and failures show up in analytics."""
+    payload = {"asked_by": principal.subject, "question": question[:300]}
+    if answer is not None:
+        payload.update(grounded=answer.grounded, model=answer.model, citations=len(answer.citations),
+                       insufficient_context=answer.insufficient_context)
+    else:
+        payload["error"] = error[:300] if error else None
+    events.record_standalone(event_id=uuid4(), event_type="copilot.ask", direction="inbound",
+                             source=principal.subject, subject_id=None,
+                             status="PROCESSED" if answer is not None else "FAILED", payload=payload)
 
 
 @router.post("/search", response_model=CopilotSearchResponse, responses=problem_responses(401, 403, 422, 503))

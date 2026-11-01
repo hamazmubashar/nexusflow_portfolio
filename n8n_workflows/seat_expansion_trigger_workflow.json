@@ -148,6 +148,7 @@
         "rawContentType": "application/json",
         "body": "={{ $json.req.body }}"
       },
+      "onError": "continueRegularOutput",
       "notes": "Full response + never error: downstream nodes branch on statusCode."
     },
     {
@@ -322,6 +323,7 @@
         "rawContentType": "application/json",
         "body": "={{ $json.req.body }}"
       },
+      "onError": "continueRegularOutput",
       "notes": "Full response + never error: downstream nodes branch on statusCode."
     },
     {

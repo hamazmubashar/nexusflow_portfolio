@@ -92,20 +92,58 @@ def _api_up() -> bool:
 live_api = pytest.mark.skipif(not _api_up(), reason=f"API not reachable at {API}")
 
 
-@pytest.fixture(scope="module")
-def token():
-    out = subprocess.run([str(BACKEND / ".venv/bin/python"), "-m", "app.core.security", "issue-token", "EMP-0082",
-                          "MANAGER"], cwd=BACKEND, capture_output=True, text=True, check=True)
+def _mint(*args) -> str:
+    out = subprocess.run([str(BACKEND / ".venv/bin/python"), "-m", "app.core.security", *args],
+                         cwd=BACKEND, capture_output=True, text=True, check=True)
     return out.stdout.strip()
 
 
-def app(monkeypatch, token: str | None, url: str = API) -> AppTest:
+@pytest.fixture(scope="module")
+def token():
+    """Parker Kim's MANAGER token, as a reviewer would paste it."""
+    return _mint("issue-token", "EMP-0082", "MANAGER")
+
+
+@pytest.fixture(scope="module")
+def demo_token():
+    return _mint("issue-demo-token")
+
+
+def gate(monkeypatch, url: str = API, demo: str | None = "") -> AppTest:
+    """Fresh app at the login gate (nothing signed in)."""
     monkeypatch.setenv("NEXUSFLOW_API_URL", url)
-    monkeypatch.setenv("NEXUSFLOW_API_TOKEN", token or "")
+    monkeypatch.delenv("NEXUSFLOW_API_TOKEN", raising=False)
+    if demo is None:
+        monkeypatch.delenv("NEXUSFLOW_DEMO_TOKEN", raising=False)
+    else:
+        monkeypatch.setenv("NEXUSFLOW_DEMO_TOKEN", demo)
     st.cache_resource.clear()
     st.cache_data.clear()
-    at = AppTest.from_file(str(ROOT / "app.py"), default_timeout=60)
-    return at.run()
+    return AppTest.from_file(str(ROOT / "app.py"), default_timeout=60).run()
+
+
+def sign_in(at: AppTest, token: str) -> AppTest:
+    at.text_input(key="reviewer_token").set_value(token)
+    next(b for b in at.button if b.label == "Sign in").click().run()
+    return at
+
+
+def app(monkeypatch, token: str | None, url: str = API) -> AppTest:
+    """The console signed in with `token` through the real login gate."""
+    at = gate(monkeypatch, url)
+    return sign_in(at, token) if token else at
+
+
+PAGES = ["Overview", "Operations", "Revenue & SLA", "Approvals", "Copilot", "Diagnostics"]
+
+
+def group(at: AppTest, key: str):
+    """A segmented control by key (the page switcher and the time window are both button groups)."""
+    return next(g for g in at.get("button_group") if g.key == key)
+
+
+def button(at: AppTest, label: str):
+    return next(b for b in at.button if b.label == label)
 
 
 def page_text(at: AppTest) -> str:
@@ -113,20 +151,42 @@ def page_text(at: AppTest) -> str:
 
 
 @live_api
-def test_overview_shows_live_kpis(monkeypatch, token):
+def test_overview_control_panel_renders_every_widget(monkeypatch, token):
     at = app(monkeypatch, token)
     assert not at.exception, at.exception
     text = page_text(at)
-    for label in ("Total ARR", "Active accounts", "Pending approvals", "SLA compliance", "Active agent runs"):
-        assert label in text
-    assert "$12.4M" in text and ">120<" in text
+    for label in ("Active workflows", "Total executions", "Success rate", "Time saved", "Active AI agents",
+                  "Workflow execution overview", "Recent activity", "Top performing workflows",
+                  "Human review queue", "AI agent status"):
+        assert label in text, label
+    assert 'class="nf-est"' in text            # time saved is labelled as an estimate
+    assert len(at.get("plotly_chart")) == 2    # execution chart + agent donut
     assert "Parker Kim" in text and 'class="nf-badge"' in text
+
+
+@live_api
+def test_window_switch(monkeypatch, token):
+    at = app(monkeypatch, token)
+    group(at, "ops_window").set_value("7d").run()     # the 24h / 7d / 30d segmented control
+    assert not at.exception, at.exception
+    assert "compared with the 7d before it" in page_text(at)
+    assert "6 h buckets" in page_text(at)
+
+
+@live_api
+def test_revenue_page_keeps_business_kpis(monkeypatch, token):
+    at = app(monkeypatch, token)
+    at.radio(key="page").set_value("Revenue & SLA").run()
+    assert not at.exception, at.exception
+    text = page_text(at)
+    assert "$12.4M" in text and ">120<" in text and "SLA compliance" in text
 
 
 @live_api
 def test_every_page_renders(monkeypatch, token):
     at = app(monkeypatch, token)
-    for page, expect in (("Approvals", ("No approvals waiting", "Seat expansion approval")),
+    for page, expect in (("Operations", ("Active workflow queue",)), ("Revenue & SLA", ("Total ARR",)),
+                         ("Approvals", ("No approvals waiting", "Seat expansion approval")),
                          ("Copilot", ("Ask copilot",)), ("Diagnostics", ("Healthy", "Degraded", "Down"))):
         at.radio(key="page").set_value(page).run()
         assert not at.exception, (page, at.exception)
@@ -140,19 +200,104 @@ def test_copilot_sources_mode_round_trip(monkeypatch, token):
     at.radio(key="page").set_value("Copilot").run()
     at.text_area(key="copilot_q").set_value("When does a P1 ticket escalate to the VP of Engineering?")
     at.radio(key="copilot_mode").set_value("Show sources only")
-    at.button[-1].click().run()  # the form's "Ask copilot"
+    button(at, "Ask copilot").click().run()
     assert not at.exception, at.exception
     assert "passages, ranked by combined semantic and keyword match" in page_text(at)
     assert "SOP-01" in page_text(at)
 
 
+# --------------------------------------------------------------------------- login gate
+
+
 @live_api
-def test_missing_token_shows_sign_in_guidance(monkeypatch):
-    at = app(monkeypatch, token=None)
-    assert [e.value for e in at.error] and "AUTHENTICATION_REQUIRED" in at.error[0].value
-    assert "run.sh" in at.error[0].value
+def test_gate_is_shown_before_anything_else(monkeypatch):
+    at = gate(monkeypatch, demo="x")
+    assert not at.exception, at.exception
+    text = page_text(at)
+    for s in ("NexusFlow Autopilot", "AI Workflows", "Human Control", "Capture requests", "Check with AI",
+              "Human review", "Turn every request into a governed decision.", "Try the live demo",
+              "Human approval required", "No messages sent automatically", "Designed &amp; developed by Hamaz Mubashar"):
+        assert s in text, s
+    assert [b.label for b in at.button] == ["Explore the demo", "Sign in"]
+    assert at.text_input(key="reviewer_token").proto.type == 1              # PASSWORD: masked input
+    assert not at.radio and not at.get("button_group")           # no navigation before sign-in
+
+
+@live_api
+def test_bad_token_keeps_the_gate_closed(monkeypatch):
+    at = sign_in(gate(monkeypatch), "not-a-real-token")
+    assert "That token isn't valid for this API." in [e.value for e in at.error]
+    assert not at.radio
+
+
+@live_api
+def test_demo_entry_unlocks_every_tab_read_only(monkeypatch, demo_token):
+    at = gate(monkeypatch, demo=demo_token)
+    next(b for b in at.button if b.label == "Explore the demo").click().run()
+    assert not at.exception, at.exception
+    assert [o.split("  (")[0] for o in at.radio(key="page").options] == PAGES   # "(3)" = pending count
+    assert "Read-only demo access" in page_text(at)
+    for page in PAGES:
+        at.radio(key="page").set_value(page).run()
+        assert not at.exception, (page, at.exception)
+    at.radio(key="page").set_value("Approvals").run()
+    assert not any(b.label == "Approve" for b in at.button)      # the demo can look, not decide
+
+
+@live_api
+def test_reviewer_token_unlocks_decisions(monkeypatch, token):
+    at = app(monkeypatch, token)
+    assert "EMP-0082, Manager" in page_text(at)
+    at.radio(key="page").set_value("Approvals").run()
+    pending = "No approvals waiting" not in page_text(at)
+    assert any(b.label == "Approve" for b in at.button) == pending
+
+
+@live_api
+def test_top_bar_and_sidebar_stay_in_sync(monkeypatch, token):
+    at = app(monkeypatch, token)
+    group(at, "page_top").set_value("Diagnostics").run()
+    assert at.radio(key="page").value == "Diagnostics" and "Healthy" in page_text(at)
+    at.radio(key="page").set_value("Copilot").run()
+    assert group(at, "page_top").value == "Copilot"
+
+
+@live_api
+def test_sign_out_returns_to_the_gate(monkeypatch, token):
+    at = app(monkeypatch, token)
+    next(b for b in at.button if b.label == "Sign out").click().run()
+    assert not at.radio and "Try the live demo" in page_text(at)
+
+
+@live_api
+def test_invalid_session_falls_back_to_the_gate(monkeypatch):
+    at = gate(monkeypatch)
+    at.session_state["auth"] = {"token": "expired-or-revoked", "me": {"subject": "EMP-0082", "roles": []}, "mode": "token"}
+    at.run()
+    assert not at.radio and "Your session ended. Sign in again." in [e.value for e in at.error]
+
+
+@live_api
+def test_demo_button_disabled_without_demo_token(monkeypatch):
+    at = gate(monkeypatch, demo=None)
+    assert next(b for b in at.button if b.label == "Explore the demo").disabled
+    assert "start the console with frontend/run.sh" in page_text(at)
 
 
 def test_api_down_is_explained(monkeypatch):
-    at = app(monkeypatch, token="x", url="http://127.0.0.1:9")
-    assert "Can't reach the API" in at.error[0].value
+    at = gate(monkeypatch, url="http://127.0.0.1:9")
+    assert "API offline" in page_text(at)
+    assert any("isn't answering" in w.value for w in at.warning)
+
+
+@live_api
+def test_operations_page_board_and_run_inspector(monkeypatch, token):
+    at = app(monkeypatch, token)
+    at.radio(key="page").set_value("Operations").run()
+    assert not at.exception, at.exception
+    text = page_text(at)
+    assert "Active workflow queue" in text and "nf-board" in text
+    if at.selectbox:   # governance runs exist: the inspector renders the tracker + decision for the chosen run
+        assert "Workflow orchestration" in text and "AI decision and reasoning" in text and "Rules evaluated" in text
+    else:              # empty database: the page says so instead of rendering empty panels
+        assert "No governance runs yet." in text

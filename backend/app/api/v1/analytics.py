@@ -2,14 +2,18 @@
 
 from __future__ import annotations
 
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
 
 from fastapi import APIRouter, Depends, Query
 
 from app.core.db import get_conn
 from app.core.errors import problem_responses
 from app.core.security import Principal, Role, get_current_user, require_role
-from app.schemas.analytics import ActivityResponse, DashboardResponse, MetricsResponse, SlaBlock, WhoAmI
+from typing import Literal
+
+from app.schemas.analytics import (
+    ActivityResponse, DashboardResponse, MetricsResponse, OperationsResponse, SlaBlock, WhoAmI, WorkflowBoard,
+)
 from app.services.analytics import dashboard
 
 router = APIRouter(prefix="/analytics", tags=["analytics"])
@@ -23,6 +27,36 @@ def get_dashboard(activity_limit: int = Query(20, ge=0, le=100), _: Principal = 
     """Mission-control snapshot: revenue, customers, HITL queue, SLA, agent and automation KPIs, activity."""
     with get_conn() as conn, conn.cursor() as cur:
         return dashboard.build_dashboard(cur, activity_limit=activity_limit)
+
+
+@router.get("/operations", response_model=OperationsResponse, responses=AUTH_ERRORS)
+def get_operations(window: Literal["24h", "7d", "30d"] = Query("24h"), _: Principal = Depends(viewer)):
+    """Control-panel data: KPIs vs the previous window, executions over time (successful / failed /
+    human review), per-workflow stats and agent status. Time saved is an estimate (see assumed_minutes_saved)."""
+    with get_conn() as conn, conn.cursor() as cur:
+        return dashboard.operations_summary(cur, window)
+
+
+@router.get("/workflow-runs", response_model=WorkflowBoard, responses=AUTH_ERRORS)
+def get_workflow_runs(window: Literal["24h", "7d", "30d"] = Query("24h"), limit: int = Query(12, ge=1, le=50),
+                      _: Principal = Depends(viewer)):
+    """Queue board: governance agent runs + n8n workflow runs, items needing a person first."""
+    from app.api.v1.approvals import get_governance_agent
+    from app.schemas.governance import GovernanceRunView
+    from app.services.agents import explain
+
+    agent = get_governance_agent()
+    since = datetime.now(timezone.utc) - timedelta(hours=dashboard.WINDOWS[window][0])
+    with get_conn() as conn, conn.cursor() as cur:
+        cur.execute("SELECT run_id FROM governance_runs WHERE updated_at > %s "
+                    "OR state NOT IN ('EXECUTED', 'REJECTED', 'FAILED') ORDER BY updated_at DESC LIMIT %s",
+                    (since, limit))
+        ids = [str(r["run_id"]) for r in cur.fetchall()]
+    rows = [explain.summary(GovernanceRunView.from_run(agent.load(i))) for i in ids]
+    with get_conn() as conn, conn.cursor() as cur:
+        items = dashboard.workflow_board(cur, rows, window, limit)
+    counts = {s: sum(i["state"] == s for i in items) for s in ("running", "waiting", "completed", "rejected", "failed")}
+    return WorkflowBoard(window=window, counts=counts, items=items)
 
 
 @router.get("/activity", response_model=ActivityResponse, responses=AUTH_ERRORS)

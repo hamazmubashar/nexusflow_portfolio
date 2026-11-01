@@ -6,6 +6,7 @@ database is unreachable (start it with `docker compose up -d postgres`).
 """
 
 import csv
+import os
 import re
 
 import psycopg2
@@ -59,6 +60,9 @@ def _db_available() -> bool:
 
 @pytest.mark.integration
 @pytest.mark.skipif(not _db_available(), reason="PostgreSQL not reachable at DATABASE_URL")
+@pytest.mark.skipif(os.environ.get("NEXUSFLOW_TEST_ALLOW_DB_RESET") != "1",
+                    reason="destructive: drops and reloads every table, including pending approvals and agent runs. "
+                           "Run with NEXUSFLOW_TEST_ALLOW_DB_RESET=1 against a database you can wipe")
 def test_full_ingestion_into_postgres():
     report = run(get_settings().psycopg2_dsn, reset=True)
     failed = [name for name, ok in report.checks.items() if not ok]

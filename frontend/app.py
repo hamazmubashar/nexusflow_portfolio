@@ -1,25 +1,29 @@
 """NexusFlow Autopilot operator console (Streamlit).
 
-    ./frontend/run.sh            # issues a MANAGER JWT for EMP-0082 and serves on http://localhost:8502
+    ./frontend/run.sh            # mints the read-only demo token and serves on http://localhost:8502
 
-Talks only to the FastAPI backend (NEXUSFLOW_API_URL, default http://127.0.0.1:8010) with the
-JWT in NEXUSFLOW_API_TOKEN. No database access and no secrets live in the UI.
+Every visitor starts at the login gate (ui/login.py): "Explore the demo" signs in with the read-only
+token run.sh puts in NEXUSFLOW_DEMO_TOKEN; reviewers paste their own JWT. The token is kept in this
+browser session's server-side state and sent to the FastAPI backend (NEXUSFLOW_API_URL, default
+http://127.0.0.1:8010). No database access and no signing secrets live in the UI.
 """
 
 from __future__ import annotations
 
 import streamlit as st
 
+from ui import login, views
 from ui.api import ApiError, NexusFlowClient
 from ui.components import badge, esc, html_block, inject_theme, md, topbar
-from ui import views
 
 st.set_page_config(page_title="NexusFlow Autopilot", page_icon="◆", layout="wide",
                    initial_sidebar_state="expanded")
 inject_theme()
 
 PAGES = {
-    "Overview": "Revenue, accounts, SLAs and what the automation is doing right now.",
+    "Overview": "Workflows, executions, agents and the human review queue in one view.",
+    "Operations": "Every workflow run, its pipeline, and why the agent decided what it did.",
+    "Revenue & SLA": "ARR, accounts and ticket SLA compliance from the live ledger.",
     "Approvals": "Seat expansions that need a person before anything is provisioned.",
     "Copilot": "Answers from SOPs, contracts and correspondence, with every quote checked.",
     "Diagnostics": "Live status of the API and everything it depends on.",
@@ -27,14 +31,15 @@ PAGES = {
 
 
 @st.cache_resource
-def get_client() -> NexusFlowClient:
-    return NexusFlowClient()
+def public_client() -> NexusFlowClient:
+    """Unauthenticated client: only for /health, before and after sign-in."""
+    return NexusFlowClient(token="")
 
 
 @st.cache_data(ttl=15, show_spinner=False)
 def cached_health(base_url: str) -> dict:
     try:
-        return get_client().health()
+        return public_client().health()
     except ApiError as exc:
         return {"status": "down", "components": {}, "error": str(exc)}
 
@@ -42,33 +47,64 @@ def cached_health(base_url: str) -> dict:
 @st.cache_data(ttl=15, show_spinner=False)
 def cached_pending_count(token: str) -> int | None:
     try:
-        return get_client().pending_approvals()["count"]
+        return NexusFlowClient(token=token).pending_approvals()["count"]
     except ApiError:
         return None
 
 
-client = get_client()
-health = cached_health(client.base_url)
+health = cached_health(public_client().base_url)
 
+# ---------------------------------------------------------------- login gate
+auth = st.session_state.get("auth")
+if not auth:
+    login.render(public_client(), health)
+    st.stop()
+
+if "client" not in st.session_state:
+    st.session_state["client"] = NexusFlowClient(token=auth["token"])
+client: NexusFlowClient = st.session_state["client"]
 try:
-    me = client.me()
+    me = client.me()          # re-checked every run: an expired token sends you back to the gate
 except ApiError as exc:
-    me = {}
-    auth_error = exc
-else:
-    auth_error = None
+    if exc.code in ("TOKEN_EXPIRED", "INVALID_TOKEN", "AUTHENTICATION_REQUIRED"):
+        login.sign_out()
+        st.session_state["login_error"] = "Your session ended. Sign in again."
+        st.rerun()
+    me = auth["me"]
 
-# ---------------------------------------------------------------- sidebar
+# ---------------------------------------------------------------- navigation (sidebar + top bar, kept in sync)
+st.session_state.setdefault("page", "Overview")
+st.session_state.setdefault("page_top", st.session_state["page"])
+
+
+def _from_sidebar():
+    st.session_state["page_top"] = st.session_state["page"]
+
+
+def _from_top():
+    if st.session_state.get("page_top"):          # a segmented control can be clicked off; keep the page
+        st.session_state["page"] = st.session_state["page_top"]
+    else:
+        st.session_state["page_top"] = st.session_state["page"]
+
+
 with st.sidebar:
     html_block('<div class="nf-brand"><div class="nf-brand-mark" aria-hidden="true"></div><div>'
                '<div class="nf-brand-name">NexusFlow</div><div class="nf-brand-sub">Autopilot operations</div></div></div>')
-    pending = cached_pending_count(client.token) if me else None
+    pending = cached_pending_count(client.token)
     labels = {p: (f"{p}  ({pending})" if p == "Approvals" and pending else p) for p in PAGES}
-    choice = st.radio("Navigate", list(PAGES), format_func=lambda p: labels[p], label_visibility="collapsed",
-                      key="page")
-    if me:
-        html_block(f'<div class="nf-identity"><div class="nf-identity-name">{esc(me.get("name") or me["subject"])}</div>'
-                   f'<div class="nf-identity-meta">{esc(me["subject"])}, {esc(" and ".join(r.title() for r in me["roles"]))}</div></div>')
+    st.radio("Navigate", list(PAGES), format_func=lambda p: labels[p], label_visibility="collapsed",
+             key="page", on_change=_from_sidebar)
+    meta = ("Read-only demo access" if auth["mode"] == "demo"
+            else f'{me["subject"]}, {", ".join(r.title() for r in me["roles"])}')
+    html_block(f'<div class="nf-identity"><div class="nf-identity-name">{esc(me.get("name") or me["subject"])}</div>'
+               f'<div class="nf-identity-meta">{esc(meta)}</div></div>')
+    if st.button("Sign out", key="sign_out", use_container_width=True):
+        login.sign_out()
+        st.rerun()
+
+st.segmented_control("Views", list(PAGES), key="page_top", on_change=_from_top, label_visibility="collapsed")
+choice = st.session_state["page"]
 
 # ---------------------------------------------------------------- top bar
 comps = health.get("components", {})
@@ -81,13 +117,13 @@ topbar(choice, PAGES[choice], badges)
 if health.get("error"):
     st.error(md(f"{health['error']}. Start it with: cd backend && .venv/bin/uvicorn app.main:app --port 8010"))
     st.stop()
-if auth_error is not None:
-    st.error(md(f"Signed out: {auth_error.detail} ({auth_error.code}). Start the console with frontend/run.sh, "
-                "which issues a fresh access token."))
-    st.stop()
 
 if choice == "Overview":
-    views.overview(client)
+    views.overview(client, me)
+elif choice == "Operations":
+    views.operations(client)
+elif choice == "Revenue & SLA":
+    views.revenue(client)
 elif choice == "Approvals":
     views.approvals(client, me)
 elif choice == "Copilot":

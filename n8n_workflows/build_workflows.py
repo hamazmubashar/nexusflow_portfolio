@@ -146,7 +146,9 @@ class Workflow:
         if method != "GET":
             params.update({"sendBody": True, "contentType": "raw", "rawContentType": "application/json",
                            "body": "={{ $json.req.body }}"})
-        return self.add(name, "n8n-nodes-base.httpRequest", 4.2, pos, params,
+        # continueRegularOutput: a timeout or connection error becomes an item (no statusCode) instead of
+        # halting the run, so every workflow still reaches its fallback branch and its callback
+        return self.add(name, "n8n-nodes-base.httpRequest", 4.2, pos, params, onError="continueRegularOutput",
                         notes=notes or "Full response + never error: downstream nodes branch on statusCode.")
 
     def export(self) -> dict:
@@ -209,8 +211,9 @@ const question = event.data.copilot_question
   || `How should ${event.data.effective_severity} ticket ${event.data.ticket_id} be handled under SOP-01?`;
 return [{ json: { event, req: signed({ question, top_k: 6 }) } }];
 """, (880, 200))
-    ask = wf.signed_http("Ask RAG copilot", "POST", "/api/v1/copilot/ask", (1100, 200), timeout_ms=120000,
-                         notes="Gemini-backed; can take 10-30 s. A non-200 still produces an alert with a manual-SOP fallback.")
+    ask = wf.signed_http("Ask RAG copilot", "POST", "/api/v1/copilot/ask", (1100, 200), timeout_ms=240000,
+                         notes="Gemini-backed: usually 10-30 s, but model fallback can take ~3 min in an outage. "
+                               "A timeout or non-200 still produces an alert with a manual-SOP fallback.")
     fmt = wf.code("Format alert payloads", """
 const ev = $('Build copilot request').first().json.event.data;
 const res = $json;
@@ -220,7 +223,8 @@ const sources = ok ? cop.citations.map(c => `${c.doc_id} — ${c.section}`) : []
 const uniqueSources = [...new Set(sources)];
 const recommendation = ok
   ? cop.answer
-  : `RAG copilot unavailable (HTTP ${res.statusCode}). Follow SOP-01 §3 manually and page on-call Support + SRE.`;
+  : `RAG copilot unavailable (${res.statusCode ? 'HTTP ' + res.statusCode : 'no response: ' + ((res.error && res.error.message) || 'timed out')}). `
+    + 'Follow SOP-01 §3 manually and page on-call Support + SRE.';
 const sla = ev.sla;
 const icon = ev.effective_severity === 'P1' ? ':rotating_light:' : ':warning:';
 const title = `${ev.effective_severity} ${ev.ticket_id} — ${ev.company_name} (${ev.customer_id}, ${ev.plan_tier})`;

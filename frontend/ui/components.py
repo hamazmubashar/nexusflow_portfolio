@@ -73,7 +73,7 @@ def chip(text: str, tone: str = "") -> str:
 
 
 def topbar(title: str, subtitle: str, badges_html: str) -> None:
-    html_block(f'<div class="nf-topbar"><div><h1 class="nf-title">{esc(title)}</h1>'
+    html_block(f'<div class="nf-topbar"><div><div class="nf-title" role="heading" aria-level="1">{esc(title)}</div>'
                f'<p class="nf-subtitle">{esc(subtitle)}</p></div>'
                f'<div class="nf-badges" role="status" aria-label="System status">{badges_html}</div></div>')
 

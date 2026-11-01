@@ -19,6 +19,8 @@ from functools import partial
 from operator import itemgetter
 from typing import Any
 
+import httpx
+
 from langchain_core.callbacks import CallbackManagerForRetrieverRun
 from langchain_core.documents import Document
 from langchain_core.output_parsers import PydanticOutputParser
@@ -86,6 +88,10 @@ def _gemini_call(client, model: str, timeout_ms: int, prompt: ChatPromptValue) -
                 system_instruction=system, temperature=0.0, response_mime_type="application/json",
                 response_schema=LLMAnswer, http_options=types.HttpOptions(timeout=timeout_ms)),
         )
+    except httpx.TimeoutException as exc:  # hung request: like a 504, move to the next model
+        raise TransientLLMError(f"{model}: timeout ({type(exc).__name__})") from exc
+    except httpx.TransportError as exc:    # connection reset/refused: worth retrying this model
+        raise RetryableLLMError(f"{model}: {type(exc).__name__}") from exc
     except errors.APIError as exc:
         if exc.code in RETRY_SAME_MODEL:
             raise RetryableLLMError(f"{model}: {exc.code} {exc.status}") from exc

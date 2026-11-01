@@ -15,6 +15,8 @@ from __future__ import annotations
 
 import re
 import time
+
+import httpx
 from typing import Literal
 
 from pydantic import BaseModel, Field
@@ -205,6 +207,15 @@ class Copilot:
                     return model, failures, self._client.models.generate_content(
                         model=model, contents=prompt, config=config
                     )
+                except httpx.TimeoutException as exc:  # a hung request: same as a 504, try the next model
+                    failures.append(f"{model}: timeout ({type(exc).__name__})")
+                    break
+                except httpx.TransportError as exc:  # connection reset/refused: retry this model
+                    failures.append(f"{model}: {type(exc).__name__}")
+                    if attempt == self.ATTEMPTS_PER_MODEL - 1:
+                        break
+                    time.sleep(self.retry_backoff_s * 2 ** attempt)
+                    continue
                 except errors.APIError as exc:
                     if exc.code not in FALLBACK_STATUS_CODES:
                         raise

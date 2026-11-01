@@ -225,6 +225,26 @@ def test_copilot_falls_back_when_primary_model_unavailable():
     assert resp.warnings == ["Fell back past primary: 503 UNAVAILABLE"] * Copilot.ATTEMPTS_PER_MODEL
 
 
+def test_native_copilot_treats_network_timeouts_as_model_failures():
+    import httpx
+
+    answer = LLMAnswer(answer="Finance approval is mandatory above $500.00 [S2].",
+                       citations=[LLMCitation(source_id="S2", quote="Human Finance approval is mandatory")],
+                       insufficient_context=False, confidence="high")
+    client = FakeGenAI(answer)
+    ok = client._generate
+
+    def hung(model, contents, config):
+        if model == "primary":
+            raise httpx.ReadTimeout("The read operation timed out")
+        return ok(model, contents, config)
+
+    client.models.generate_content = hung
+    resp = Copilot(FakeRetriever(list(BY_ID.values())), client=client, model="primary",
+                   fallback_models=["backup"], retry_backoff_s=0).ask("Threshold?")
+    assert resp.model == "backup" and resp.warnings == ["Fell back past primary: timeout (ReadTimeout)"]
+
+
 # --------------------------------------------------------------------------- db: ingestion + search
 
 

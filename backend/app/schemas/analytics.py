@@ -209,3 +209,100 @@ class WhoAmI(Strict):
     roles: list[str]
     effective_roles: list[str]
     auth: Literal["jwt", "hmac"]
+
+
+# --------------------------------------------------------------------------- operations control panel
+
+class CountKpi(Strict):
+    value: int
+    previous: int
+    delta_pct: Pct = Field(description="% change vs the previous window; null when the previous window was empty")
+
+
+class OfTotalKpi(CountKpi):
+    of_total: int
+
+
+class RateKpi(Strict):
+    value: Pct
+    previous: Pct
+    delta_points: float | None
+
+
+class HoursKpi(Strict):
+    value: float
+    previous: float
+    delta_pct: Pct
+    estimated: Literal[True] = Field(description="Derived from assumed_minutes_saved, not measured")
+
+
+class OperationsKpis(Strict):
+    active_workflows: OfTotalKpi
+    total_executions: CountKpi
+    success_rate: RateKpi
+    time_saved_hours: HoursKpi
+    active_agents: OfTotalKpi
+
+
+class SeriesPoint(Strict):
+    t: datetime
+    successful: int
+    failed: int
+    human_review: int
+
+
+class WorkflowStat(Strict):
+    key: str
+    name: str
+    kind: str
+    executions: int
+    success_rate: float
+    human_review: int
+    last_run_at: datetime
+
+
+class AgentStatus(Strict):
+    key: str
+    name: str
+    kind: str
+    status: Literal["active", "idle", "in_review", "error"]
+    detail: str
+    runs: int
+    last_run_at: datetime | None
+
+
+class OperationsResponse(Strict):
+    generated_at: datetime
+    window: Literal["24h", "7d", "30d"]
+    window_start: datetime
+    bucket_hours: int
+    kpis: OperationsKpis
+    series: list[SeriesPoint]
+    workflows: list[WorkflowStat]
+    agents: list[AgentStatus]
+    agent_status: dict[Literal["active", "idle", "in_review", "error"], int]
+    assumed_minutes_saved: dict[str, int]
+
+
+# --------------------------------------------------------------------------- workflow queue board
+
+class BoardItem(Strict):
+    id: str
+    workflow: str
+    name: str
+    kind: str
+    subject: str | None
+    state: Literal["running", "waiting", "completed", "rejected", "failed"]
+    priority: Literal["critical", "high", "normal"]
+    steps_done: int
+    steps_total: int
+    current_step: str | None
+    detail: str
+    started_at: datetime
+    updated_at: datetime
+
+
+class WorkflowBoard(Strict):
+    window: Literal["24h", "7d", "30d"]
+    counts: dict[Literal["running", "waiting", "completed", "rejected", "failed"], int]
+    items: list[BoardItem]

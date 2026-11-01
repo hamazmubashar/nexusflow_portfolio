@@ -23,7 +23,7 @@ from datetime import datetime, timezone
 from functools import lru_cache
 from uuid import UUID, uuid4
 
-from fastapi import APIRouter, BackgroundTasks, Depends, Request
+from fastapi import APIRouter, BackgroundTasks, Depends, Query, Request
 from fastapi.responses import JSONResponse
 from pydantic import BaseModel
 from starlette.concurrency import run_in_threadpool
@@ -33,9 +33,12 @@ from app.api.v1.webhooks import dispatch_and_log, get_dispatcher, parse_event
 from app.core.db import get_conn
 from app.core.errors import APIError, problem_response, problem_responses
 from app.core.security import Principal, Role, require_role
-from app.schemas.governance import ApprovalActionRequest, ApprovalView, GovernanceRunView, PendingApprovals
+from app.schemas.governance import (
+    ApprovalActionRequest, ApprovalView, GovernanceRunList, GovernanceRunView, PendingApprovals,
+)
 from app.schemas.webhooks import SeatRequestEvent
 from app.services import events
+from app.services.agents import explain
 from app.services.agents.governance_agent import GovernanceAgent, GovernanceError, public_approval
 from app.services.n8n.dispatcher import N8nDispatcher
 
@@ -97,6 +100,19 @@ async def start_run(
     if run.duplicate:
         return JSONResponse(status_code=200, content=view.model_dump(mode="json"))
     return view
+
+
+@agents_router.get("/runs", response_model=GovernanceRunList, responses=problem_responses(401, 403, 422))
+def list_runs(limit: int = Query(20, ge=1, le=100), active_only: bool = Query(False),
+              _: Principal = Depends(reader), agent: GovernanceAgent = Depends(get_governance_agent)):
+    """Most recently updated runs first, each with its pipeline progress and decision headline."""
+    with get_conn() as conn, conn.cursor() as cur:
+        cur.execute("SELECT run_id FROM governance_runs "
+                    "WHERE (NOT %s OR state NOT IN ('EXECUTED', 'REJECTED', 'FAILED')) "
+                    "ORDER BY updated_at DESC LIMIT %s", (active_only, limit))
+        ids = [str(r["run_id"]) for r in cur.fetchall()]
+    runs = [explain.summary(GovernanceRunView.from_run(agent.load(i))) for i in ids]
+    return GovernanceRunList(count=len(runs), runs=runs)
 
 
 @agents_router.get("/runs/{run_id}", response_model=GovernanceRunView, responses=AGENT_ERRORS)

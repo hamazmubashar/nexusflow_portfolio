@@ -67,6 +67,12 @@ class NexusFlowClient:
     def dashboard(self, activity_limit: int = 12) -> dict:
         return self._request("GET", "/api/v1/analytics/dashboard", params={"activity_limit": activity_limit})
 
+    def operations(self, window: str = "24h") -> dict:
+        return self._request("GET", "/api/v1/analytics/operations", params={"window": window})
+
+    def activity(self, limit: int = 30) -> dict:
+        return self._request("GET", "/api/v1/analytics/activity", params={"limit": limit})
+
     def metrics(self) -> dict:
         return self._request("GET", "/api/v1/metrics")
 
@@ -96,6 +102,13 @@ class NexusFlowClient:
 
     def search(self, query: str, top_k: int = 6) -> dict:
         return self._request("POST", "/api/v1/copilot/search", json={"query": query, "top_k": top_k}, timeout=60)
+
+    def governance_runs(self, limit: int = 20, active_only: bool = False) -> dict:
+        return self._request("GET", "/api/v1/agents/governance/runs",
+                             params={"limit": limit, "active_only": str(active_only).lower()})
+
+    def workflow_runs(self, window: str = "24h", limit: int = 12) -> dict:
+        return self._request("GET", "/api/v1/analytics/workflow-runs", params={"window": window, "limit": limit})
 
     def run(self, run_id: str) -> dict:
         return self._request("GET", f"/api/v1/agents/governance/runs/{run_id}")

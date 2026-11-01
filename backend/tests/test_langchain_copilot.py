@@ -147,6 +147,16 @@ def test_quota_exhaustion_retries_then_falls_back():
     assert cp.ask("p1?").model == "m2" and [c.model for c in fake.calls] == ["m1", "m1", "m1", "m2"]
 
 
+def test_network_timeout_falls_back_like_a_504():
+    import httpx
+
+    cp, fake = copilot({"m1": [httpx.ReadTimeout("read timed out")], "m2": [GOOD]})
+    assert cp.ask("p1?").model == "m2" and [c.model for c in fake.calls] == ["m1", "m2"]
+    cp, _ = copilot({"m1": [httpx.ReadTimeout("t")], "m2": [httpx.ReadTimeout("t")]})
+    with pytest.raises(RuntimeError, match="timeout"):
+        cp.ask("p1?")
+
+
 def test_all_models_failing_raises_runtime_error_for_503_mapping():
     cp, _ = copilot({"m1": [server(504, "DEADLINE_EXCEEDED")], "m2": [server(504, "DEADLINE_EXCEEDED")]})
     with pytest.raises(RuntimeError, match="All Gemini models failed"):

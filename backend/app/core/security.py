@@ -107,6 +107,7 @@ IMPLIED = {Role.ADMIN: {Role.ADMIN, Role.MANAGER, Role.OPERATOR},
            Role.OPERATOR: {Role.OPERATOR},
            Role.SERVICE: {Role.SERVICE}}
 JWT_ALGORITHM = "HS256"
+DEMO_SUBJECT = "DEMO-VISITOR"
 
 
 class Principal(BaseModel):
@@ -218,7 +219,15 @@ def _cli(argv: list[str] | None = None) -> int:
     issue.add_argument("employee_id")
     issue.add_argument("roles", nargs="+", choices=[r.value for r in USER_ROLES])
     issue.add_argument("--ttl-minutes", type=int, default=None)
+    demo = sub.add_parser("issue-demo-token",
+                          help="issue a read-only OPERATOR JWT for the console's 'Explore the demo' entry")
+    demo.add_argument("--ttl-minutes", type=int, default=None)
     args = parser.parse_args(argv)
+    if args.cmd == "issue-demo-token":
+        # Not an employee: a visitor can browse every view but can't decide approvals (no MANAGER role,
+        # and approvals are bound to the assigned approver's employee id)
+        print(issue_jwt(DEMO_SUBJECT, [Role.OPERATOR.value], name="Demo visitor", ttl_minutes=args.ttl_minutes))
+        return 0
 
     from app.core.db import get_conn
 

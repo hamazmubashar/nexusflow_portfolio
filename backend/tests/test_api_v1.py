@@ -93,7 +93,8 @@ EXPECTED_OPERATIONS = {
     ("post", "/api/v1/webhooks/tickets/escalate"), ("post", "/api/v1/webhooks/seats/request"),
     ("post", "/api/v1/webhooks/invoices/delinquent"), ("get", "/api/v1/webhooks/invoices/overdue"),
     ("post", "/api/v1/webhooks/n8n/callback"),
-    ("get", "/api/v1/analytics/dashboard"), ("get", "/api/v1/analytics/activity"), ("get", "/api/v1/analytics/sla"),
+    ("get", "/api/v1/analytics/dashboard"), ("get", "/api/v1/analytics/operations"),
+    ("get", "/api/v1/analytics/workflow-runs"), ("get", "/api/v1/agents/governance/runs"), ("get", "/api/v1/analytics/activity"), ("get", "/api/v1/analytics/sla"),
 }
 
 
@@ -418,3 +419,111 @@ def test_copilot_search_returns_typed_hits(client):
     hit = r.json()["results"][0]
     assert r.json()["embedding_model"] == "fake/embedder@768"
     assert hit["doc_id"] == "SOP-01" and hit["authority"] == "governing" and hit["semantic_rank"] == 1
+
+
+# --------------------------------------------------------------------------- operations control panel
+
+from app.schemas.analytics import OperationsResponse  # noqa: E402
+from app.services.analytics import dashboard as dash  # noqa: E402
+
+FUTURE_NOW = datetime(2030, 1, 1, 12, 0, tzinfo=timezone.utc)   # far from any real data
+
+
+@pytest.fixture
+def planted_runs():
+    """Synthetic workflow callbacks: 3 in the current 24h window (one failed), 1 in the previous one."""
+    def cb(hours_ago: float, workflow: str, failed: bool = False):
+        query("INSERT INTO automation_events (event_id, event_type, direction, source, status, payload, created_at) "
+              "VALUES (gen_random_uuid(), %s, 'callback', 'pytest-ops', 'PROCESSED', %s::jsonb, %s) RETURNING 1",
+              ("workflow.failed" if failed else "workflow.completed",
+               json.dumps({"data": {"workflow": workflow}}), FUTURE_NOW - timedelta(hours=hours_ago)))
+
+    cb(2.5, "seat_expansion_trigger")
+    cb(2.2, "seat_expansion_trigger")
+    cb(1.1, "p1_ticket_escalation", failed=True)
+    cb(30, "delinquent_invoice_reconciliation")
+    yield
+    query("DELETE FROM automation_events WHERE source = 'pytest-ops' RETURNING 1")
+
+
+def test_operations_kpis_series_and_agents(planted_runs):
+    with psycopg2.connect(DSN, cursor_factory=__import__("psycopg2.extras").extras.RealDictCursor) as conn:
+        with conn.cursor() as cur:
+            ops = dash.operations_summary(cur, "24h", now=FUTURE_NOW)
+    OperationsResponse.model_validate(ops)
+    k = ops["kpis"]
+    assert k["total_executions"] == {"value": 3, "previous": 1, "delta_pct": 200.0}
+    assert k["active_workflows"]["value"] == 2 and k["active_workflows"]["previous"] == 1
+    assert k["success_rate"]["value"] == pytest.approx(66.7) and k["success_rate"]["delta_points"] == pytest.approx(-33.3)
+    # time saved counts successful runs only: 2 seat runs x 15 min = 0.5 h (previous: 1 invoice run x 25 min)
+    assert k["time_saved_hours"] == {"value": 0.5, "previous": 0.4, "delta_pct": 25.0, "estimated": True}
+    assert len(ops["series"]) in (24, 25) and ops["bucket_hours"] == 1
+    assert sum(p["successful"] for p in ops["series"]) == 2 and sum(p["failed"] for p in ops["series"]) == 1
+    assert [w["key"] for w in ops["workflows"]] == ["seat_expansion_trigger", "p1_ticket_escalation"]
+    status = {a["key"]: a["status"] for a in ops["agents"]}
+    assert status["p1_ticket_escalation"] == "error" and status["seat_expansion_trigger"] == "active"
+    assert status["delinquent_invoice_reconciliation"] == "idle"   # ran only in the previous window
+    assert sum(ops["agent_status"].values()) == len(dash.AGENTS)
+
+
+def test_operations_with_empty_previous_window_has_no_fake_deltas(planted_runs):
+    with psycopg2.connect(DSN, cursor_factory=__import__("psycopg2.extras").extras.RealDictCursor) as conn:
+        with conn.cursor() as cur:
+            # window (-4h, +20h] holds the 3 recent runs; previous (-28h, -4h] is empty (the other run is at -30h)
+            ops = dash.operations_summary(cur, "24h", now=FUTURE_NOW + timedelta(hours=20))
+    k = ops["kpis"]
+    assert k["total_executions"] == {"value": 3, "previous": 0, "delta_pct": None}
+    assert k["success_rate"]["previous"] is None and k["success_rate"]["delta_points"] is None
+
+
+def test_operations_endpoint(client):
+    r = client.get("/api/v1/analytics/operations", params={"window": "7d"}, headers=OPERATOR)
+    assert r.status_code == 200
+    ops = OperationsResponse.model_validate(r.json())
+    assert ops.window == "7d" and ops.bucket_hours == 6 and set(ops.assumed_minutes_saved) == {a[0] for a in dash.AGENTS}
+    assert_problem(client.get("/api/v1/analytics/operations", params={"window": "1y"}, headers=OPERATOR),
+                   422, "VALIDATION_FAILED")
+    assert_problem(client.get("/api/v1/analytics/operations"), 401, "AUTHENTICATION_REQUIRED")
+
+
+@pytest.fixture
+def planted_dispatches():
+    """P1 escalations dispatched to n8n: one closed by a callback, one in flight, one stale (no callback)."""
+    def ev(direction, event_type, minutes_ago, data, status="DELIVERED"):
+        query("INSERT INTO automation_events (event_id, event_type, direction, source, subject_id, status, payload, "
+              "created_at) VALUES (gen_random_uuid(), %s, %s, 'pytest-ops', 'TK-0139', %s, %s::jsonb, %s) RETURNING 1",
+              (event_type, direction, status, json.dumps({"data": data}), FUTURE_NOW - timedelta(minutes=minutes_ago)))
+
+    for corr, minutes in (("c-closed", 30), ("c-inflight", 2), ("c-stale", 45)):
+        ev("outbound", "ticket.escalation_required", minutes, {"correlation_id": corr, "effective_severity": "P1"})
+    ev("callback", "workflow.completed", 28, {"workflow": "p1_ticket_escalation", "correlation_id": "c-closed",
+                                              "action": "escalation_alert_formatted",
+                                              "outcome": {"alert": {"generic": {"severity": "P1"}}}}, "PROCESSED")
+    yield
+    query("DELETE FROM automation_events WHERE source = 'pytest-ops' RETURNING 1")
+
+
+def test_workflow_board_states_and_ordering(planted_dispatches):
+    with psycopg2.connect(DSN, cursor_factory=__import__("psycopg2.extras").extras.RealDictCursor) as conn:
+        with conn.cursor() as cur:
+            items = dash.workflow_board(cur, [], "24h", 20, now=FUTURE_NOW)
+    p1 = [i for i in items if i["workflow"] == "p1_ticket_escalation"]
+    assert [i["state"] for i in p1] == ["running", "failed", "completed"]   # attention order, not time order
+    running, stale, done = p1
+    assert running["steps_done"] == 2 and running["current_step"] == "Copilot triage"
+    assert stale["detail"] == "no callback from n8n after 10 min"
+    assert done["steps_done"] == done["steps_total"] == 4 and done["detail"] == "escalation alert formatted"
+    assert {i["priority"] for i in p1} == {"critical"}
+
+
+def test_board_and_run_list_endpoints_shape(client):
+    from app.schemas.analytics import WorkflowBoard
+    from app.schemas.governance import GovernanceRunList
+
+    r = client.get("/api/v1/analytics/workflow-runs", params={"window": "7d", "limit": 5}, headers=OPERATOR)
+    assert r.status_code == 200 and len(WorkflowBoard.model_validate(r.json()).items) <= 5
+    r = client.get("/api/v1/agents/governance/runs", params={"limit": 3}, headers=OPERATOR)
+    assert r.status_code == 200 and GovernanceRunList.model_validate(r.json()).count <= 3
+    assert_problem(client.get("/api/v1/agents/governance/runs", params={"limit": 0}, headers=OPERATOR),
+                   422, "VALIDATION_FAILED")
+    assert_problem(client.get("/api/v1/analytics/workflow-runs"), 401, "AUTHENTICATION_REQUIRED")

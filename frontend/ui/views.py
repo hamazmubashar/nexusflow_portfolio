@@ -5,12 +5,16 @@ from __future__ import annotations
 import plotly.graph_objects as go
 import streamlit as st
 
+from ui import orchestration
 from ui.api import ApiError, NexusFlowClient
 from ui.components import (
     ago, answer_html, chip, empty, esc, facts, html_block, kpi, md, money, pct, rate_row,
 )
 
 FONT = "Instrument Sans, system-ui, sans-serif"
+INK, INK_FAINT, GRID = "#0E1A2B", "#8593A6", "#EEF1F6"
+SERIES = {"successful": "#14B8A6", "failed": "#E5484D", "human_review": "#E8A317"}
+STATUS_COLOURS = {"active": "#12B886", "idle": "#B8C2D0", "in_review": "#E8A317", "error": "#E5484D"}
 FEED_TONE = {"REJECTED": "breach", "FAILED": "breach", "QUEUED_OFFLINE": "wait", "WAITING_FOR_APPROVAL": "wait"}
 
 
@@ -18,9 +22,9 @@ def show_error(exc: ApiError, what: str) -> None:
     st.error(md(f"Couldn't load {what}: {exc.detail}. Error code {exc.code}."), icon=None)
 
 
-# --------------------------------------------------------------------------- overview
+# --------------------------------------------------------------------------- revenue & SLA (former overview)
 
-def overview(client: NexusFlowClient) -> None:
+def revenue(client: NexusFlowClient) -> None:
     try:
         d = client.dashboard(activity_limit=12)
     except ApiError as exc:
@@ -59,7 +63,6 @@ def overview(client: NexusFlowClient) -> None:
     left, right = st.columns([1.6, 1], gap="medium")
     with left:
         html_block(health_panel)
-        st.write("")
         with st.container(key="glass_arr"):
             html_block('<div class="nf-panel-title">ARR by plan</div>'
                        '<div class="nf-panel-sub">Annual recurring revenue; active contracts in brackets</div>')
@@ -69,25 +72,19 @@ def overview(client: NexusFlowClient) -> None:
                 y=[f'{p["plan_tier"].title()} ({p["contracts"]})' for p in plans],
                 marker=dict(color=["#2EC4B6", "#4E93DA", "#6C63FF"][: len(plans)], line=dict(width=0)),
                 text=[money(p["arr"], True) for p in plans],
-                textposition="outside", cliponaxis=False, textfont=dict(color="#E8EEF6", size=13),
+                textposition="outside", cliponaxis=False, textfont=dict(color="#0E1A2B", size=13),
                 hovertemplate="%{y}: $%{x:,.0f}<extra></extra>"))
             fig.update_layout(height=230, margin=dict(l=0, r=8, t=4, b=0), paper_bgcolor="rgba(0,0,0,0)",
-                              plot_bgcolor="rgba(0,0,0,0)", font=dict(family=FONT, color="#E8EEF6", size=13),
+                              plot_bgcolor="rgba(0,0,0,0)", font=dict(family=FONT, color="#0E1A2B", size=13),
                               xaxis=dict(showgrid=False, visible=False,
                                          range=[0, max(float(p["arr"]) for p in plans) * 1.25]),
                               yaxis=dict(showgrid=False),
                               bargap=0.38, showlegend=False)
             st.plotly_chart(fig, use_container_width=True, config={"displayModeBar": False})
     with right:
-        items = d["recent_activity"]
-        rows = "".join(
-            f'<li><span class="nf-dot {FEED_TONE.get(i["status"], "ok")}"></span><span>{esc(i["summary"])}</span>'
-            f'<time datetime="{esc(i["at"])}">{esc(ago(i["at"]))}</time></li>' for i in items)
         html_block('<div class="nf-glass"><div class="nf-panel-title">Recent activity</div>'
                    '<div class="nf-panel-sub">Webhooks, n8n runs and agent decisions</div>'
-                   + (f'<ul class="nf-feed">{rows}</ul>' if items else
-                      '<div class="nf-empty">No activity yet. Events appear here as n8n and the agent work.</div>')
-                   + "</div>")
+                   + _feed(d["recent_activity"]) + "</div>")
 
 
 # --------------------------------------------------------------------------- approvals
@@ -231,7 +228,6 @@ def copilot(client: NexusFlowClient) -> None:
         html_block(chip(status, tone) + chip(f'Confidence {r["confidence"]}') + chip(r["model"]))
         html_block(f'<div class="nf-answer">{answer_html(r["answer"])}</div>')
     if r["citations"]:
-        st.write("")
         html_block('<div class="nf-panel-title">Sources quoted</div>'
                    '<div class="nf-panel-sub">Each quote is checked word for word against the source text.</div>')
         for i, c in enumerate(r["citations"]):  # a source can be cited more than once
@@ -297,7 +293,6 @@ def diagnostics(client: NexusFlowClient, health: dict, me: dict) -> None:
                                  "not_configured": "Not set up"}.get(c["status"], "Unknown"),
                          chip(c["status"], tone) + "<br>" + esc(", ".join(lines)), status=True))
     html_block('<div class="nf-kpis">' + "".join(cards) + "</div>")
-    st.write("")
     left, right = st.columns(2, gap="medium")
     with left:
         html_block('<div class="nf-glass"><div class="nf-panel-title">API</div>'
@@ -317,3 +312,261 @@ def diagnostics(client: NexusFlowClient, health: dict, me: dict) -> None:
             st.json(client.metrics())
         except ApiError as exc:
             show_error(exc, "metrics")
+
+
+# --------------------------------------------------------------------------- operations control panel
+
+FEED_KIND = {"event.inbound": "Webhook received", "event.outbound": "Sent to n8n", "event.callback": "n8n run",
+             "agent.transition": "Agent decision"}
+OK_STATES = {"PROCESSED", "DELIVERED", "EXECUTED", "MOCKED", "APPROVED", "CALCULATING_IMPACT",
+             "ANALYZING_CONTRACT", "INITIATED"}
+WAIT_STATES = {"QUEUED_OFFLINE", "WAITING_FOR_APPROVAL"}
+REASON_SHORT = {"MONTHLY_IMPACT_OVER_THRESHOLD": "Over $500/mo", "NEGOTIATED_CONTRACT_TERMS": "Negotiated terms",
+                "REQUEST_TYPE_NOT_PURCHASE": "Needs clarification", "CONTRACT_REVIEW_UNAVAILABLE": "Review unavailable",
+                "CONTRACT_CORPUS_UNAVAILABLE": "Corpus offline"}
+STATUS_LABEL = {"active": "Active", "idle": "Idle", "in_review": "In review", "error": "Error"}
+STATUS_TONE = {"active": "ok", "idle": "idle", "in_review": "wait", "error": "fail"}
+
+
+def compact(n: float) -> str:
+    if n >= 1_000_000:
+        return f"{n / 1_000_000:.2f}M"
+    if n >= 1_000:
+        return f"{n / 1_000:.2f}K"
+    return f"{n:,.0f}" if float(n).is_integer() else f"{n:,.1f}"
+
+
+def delta(value: float | None, window: str, points: bool = False) -> str:
+    if value is None:
+        return f'<span class="nf-delta flat">no data for previous {esc(window)}</span>'
+    tone = "up" if value > 0 else "down" if value < 0 else "flat"
+    unit = " pts" if points else "%"
+    return f'<span class="nf-delta {tone}">{value:+.1f}{unit}</span><span>vs previous {esc(window)}</span>'
+
+
+def overview(client: NexusFlowClient, me: dict) -> None:
+    flash = st.session_state.pop("approval_flash", None)
+    if flash:
+        (st.success if flash["ok"] else st.error)(md(flash["text"]))
+    lead, pick = st.columns([4, 1], vertical_alignment="center")
+    with pick:
+        window = st.segmented_control("Window", ["24h", "7d", "30d"], default="24h", key="ops_window",
+                                      label_visibility="collapsed") or "24h"
+    try:
+        ops = client.operations(window)
+        activity = client.activity(limit=30)
+        queue = client.pending_approvals()
+    except ApiError as exc:
+        return show_error(exc, "the control panel")
+    lead.markdown(f'<div class="nf-panel-sub" style="margin:0">Automation since '
+                  f'{esc(friendly_time(ops["window_start"]))}, compared with the {esc(window)} before it.</div>',
+                  unsafe_allow_html=True)
+
+    k = ops["kpis"]
+    minutes = ops["assumed_minutes_saved"]
+    est_title = "Estimate: " + ", ".join(f"{m} min per {key.replace('_', ' ')} run" for key, m in minutes.items())
+    sr = k["success_rate"]
+    html_block('<div class="nf-kpis">'
+               + _kpi("Active workflows", f'{k["active_workflows"]["value"]}<small> of {k["active_workflows"]["of_total"]}</small>',
+                      delta(k["active_workflows"]["delta_pct"], window))
+               + _kpi("Total executions", compact(k["total_executions"]["value"]),
+                      delta(k["total_executions"]["delta_pct"], window))
+               + _kpi("Success rate", pct(sr["value"]), delta(sr["delta_points"], window, points=True))
+               + _kpi("Time saved", f'{compact(k["time_saved_hours"]["value"])}h',
+                      delta(k["time_saved_hours"]["delta_pct"], window),
+                      badge_html=f'<span class="nf-est" title="{esc(est_title)}">est.</span>')
+               + _kpi("Active AI agents", f'{k["active_agents"]["value"]}<small> of {k["active_agents"]["of_total"]}</small>',
+                      delta(k["active_agents"]["delta_pct"], window))
+               + "</div>")
+
+    focus = _focus_run(client)
+    if focus:   # full-width bands: side by side, the decision card was ~300px taller than the tracker
+        with st.container(key="card_tracker"):
+            html_block(orchestration.tracker(focus))
+        with st.container(key="card_decision"):
+            html_block(orchestration.decision(focus))
+
+    left, right = st.columns([2, 1], gap="medium")
+    with left, st.container(key="card_executions"):
+        total = sum(p["successful"] + p["failed"] + p["human_review"] for p in ops["series"])
+        html_block(f'<div class="nf-card-head"><div class="nf-panel-title">Workflow execution overview</div>'
+                   f'<div class="nf-card-meta">{total} executions, {ops["bucket_hours"]} h buckets</div></div>')
+        st.plotly_chart(_execution_chart(ops["series"]), use_container_width=True, config={"displayModeBar": False})
+    with right, st.container(key="card_activity"):
+        html_block('<div class="nf-card-head"><div class="nf-panel-title">Recent activity</div>'
+                   f'<div class="nf-card-meta">latest {len(activity["items"])}</div></div>' + _feed(activity["items"]))
+
+    c1, c2, c3 = st.columns(3, gap="medium")
+    with c1, st.container(key="card_workflows"):
+        html_block('<div class="nf-card-head"><div class="nf-panel-title">Top performing workflows</div>'
+                   f'<div class="nf-card-meta">last {esc(window)}</div></div>' + _workflow_table(ops["workflows"]))
+    with c2, st.container(key="card_queue"):
+        _review_queue(client, me, queue)
+    with c3, st.container(key="card_agents"):
+        dist = ops["agent_status"]
+        html_block('<div class="nf-card-head"><div class="nf-panel-title">AI agent status</div>'
+                   f'<div class="nf-card-meta">{len(ops["agents"])} agents</div></div>')
+        st.plotly_chart(_agent_donut(dist, len(ops["agents"])), use_container_width=True,
+                        config={"displayModeBar": False})
+        html_block('<div class="nf-status-counts">' + "".join(
+            f'<span class="nf-pill {STATUS_TONE[k]}"><span class="nf-dot {STATUS_TONE[k]}"></span>'
+            f'{dist.get(k, 0)} {STATUS_LABEL[k].lower()}</span>' for k in ("active", "in_review", "error", "idle"))
+            + "</div>" + _agent_legend(ops["agents"]))
+
+
+def _kpi(label: str, value_html: str, note_html: str, badge_html: str = "") -> str:
+    return (f'<div class="nf-glass nf-kpi"><div class="nf-kpi-label"><span>{esc(label)}</span>{badge_html}</div>'
+            f'<div class="nf-kpi-value">{value_html}</div><div class="nf-kpi-note">{note_html}</div></div>')
+
+
+def _execution_chart(series: list[dict]) -> go.Figure:
+    xs = [p["t"] for p in series]
+    fig = go.Figure()
+    for key, name, fill in (("successful", "Successful", "tozeroy"), ("human_review", "Human review", None),
+                            ("failed", "Failed", None)):
+        colour = SERIES[key]
+        fig.add_trace(go.Scatter(
+            x=xs, y=[p[key] for p in series], name=name, mode="lines+markers", line=dict(color=colour, width=2.2,
+                                                                                           shape="spline", smoothing=0.6),
+            marker=dict(size=5, color=colour), fill=fill,
+            fillcolor="rgba(20,184,166,0.12)" if fill else None,
+            hovertemplate=f"{name}: %{{y}}<extra></extra>"))
+    fig.update_layout(height=320, margin=dict(l=4, r=8, t=36, b=8, autoexpand=True), paper_bgcolor="rgba(0,0,0,0)",
+                      plot_bgcolor="rgba(0,0,0,0)", font=dict(family=FONT, color=INK, size=12),
+                      hovermode="x unified",
+                      legend=dict(orientation="h", yanchor="bottom", y=1.02, x=0, font=dict(size=12)),
+                      xaxis=dict(showgrid=False, linecolor=GRID, tickfont=dict(color=INK_FAINT), automargin=True),
+                      yaxis=dict(gridcolor=GRID, zeroline=False, rangemode="tozero", tickfont=dict(color=INK_FAINT),
+                                 tickformat=",d"))
+    return fig
+
+
+def _feed(items: list[dict]) -> str:
+    if not items:
+        return '<div class="nf-empty">No events yet. Webhooks, n8n runs and agent decisions stream in here.</div>'
+    rows = []
+    for i in items:
+        tone = "fail" if i["status"] in ("REJECTED", "FAILED") else "wait" if i["status"] in WAIT_STATES else (
+            "ok" if i["status"] in OK_STATES else "idle")
+        rows.append(f'<li><span class="nf-dot {tone}"></span><span>{esc(i["summary"].replace("_", " "))}'
+                    f'<span class="nf-feed-kind">{esc(FEED_KIND.get(i["kind"], i["kind"]))}</span></span>'
+                    f'<time datetime="{esc(i["at"])}">{esc(ago(i["at"]))}</time></li>')
+    return f'<ul class="nf-feed">{"".join(rows)}</ul>'
+
+
+def _workflow_table(workflows: list[dict]) -> str:
+    if not workflows:
+        return '<div class="nf-empty">No workflow runs in this window.</div>'
+    body = "".join(
+        f'<tr><td><span class="wf-name">{esc(w["name"])}</span><span class="wf-kind">{esc(w["kind"])}'
+        f'{", " + str(w["human_review"]) + " reviewed" if w["human_review"] else ""}</span></td>'
+        f'<td class="num"><span class="nf-meter" aria-hidden="true"><span style="width:{w["success_rate"]:.0f}%"></span>'
+        f'</span>{w["success_rate"]:.1f}%</td><td class="num">{w["executions"]:,}</td></tr>'
+        for w in workflows)
+    return ('<table class="nf-table"><thead><tr><th>Workflow</th><th class="num">Success</th>'
+            f'<th class="num">Runs</th></tr></thead><tbody>{body}</tbody></table>')
+
+
+def _review_queue(client: NexusFlowClient, me: dict, queue: dict) -> None:
+    items = queue["approvals"]
+    tone = "wait" if items else "ok"
+    html_block('<div class="nf-card-head"><div class="nf-panel-title">Human review queue</div>'
+               f'<span class="nf-pill {tone}"><span class="nf-dot {tone}"></span>{len(items)} pending</span></div>')
+    if not items:
+        html_block('<div class="nf-empty">Nothing waiting. Requests over $500/month or with negotiated terms '
+                   'land here.</div>')
+    can_decide = "MANAGER" in me.get("effective_roles", [])
+    for ap in items[:4]:
+        aid = ap["approval_id"]
+        reasons = "".join(chip(REASON_SHORT.get(r, r), "wait") for r in ap["reasons"])
+        with st.container(key=f"queue_{aid.replace('-', '')}"):
+            html_block(f'<div class="nf-queue-item"><div><div class="nf-queue-title">{esc(ap["customer_id"])}, '
+                       f'+{ap["proposed_seats"]} seats</div><div class="nf-queue-meta">{esc(ap["request_id"])}, '
+                       f'expires {esc(ago_future(ap["expires_at"]))}</div></div>'
+                       f'<div class="nf-queue-amount">{esc(money(ap["monthly_cost_impact"]))}/mo</div></div>{reasons}')
+            if not (can_decide and ap["assigned_approver_id"] == me.get("subject")):
+                html_block(f'<div class="nf-queue-meta">Assigned to {esc(ap["assigned_approver_id"])}</div>')
+                continue
+            a, r, d = st.columns(3, gap="small")
+            if a.button("Approve", key=f"qapprove_{aid}", type="primary", use_container_width=True):
+                decide(client, me, ap, "APPROVE", "", me.get("name") or "")
+            with r, st.container(key=f"qreject_{aid.replace('-', '')}"), st.popover("Reject", use_container_width=True):
+                note = st.text_input("Reason for rejecting", key=f"qnote_{aid}",
+                                     placeholder="Saved to the audit trail")
+                if st.button("Reject request", key=f"qrejectgo_{aid}", disabled=not note.strip()):
+                    decide(client, me, ap, "REJECT", note, me.get("name") or "")
+            d.button("Details", key=f"qopen_{aid}", use_container_width=True,
+                     on_click=lambda: st.session_state.update(page="Approvals", page_top="Approvals"))
+    st.button(f"Open approvals ({len(items)})" if len(items) > 4 else "Open approvals", key="queue_all",
+              use_container_width=True,
+              on_click=lambda: st.session_state.update(page="Approvals", page_top="Approvals"))
+
+
+def _agent_donut(dist: dict, total: int) -> go.Figure:
+    keys = [k for k in ("active", "in_review", "error", "idle")]
+    fig = go.Figure(go.Pie(
+        labels=[STATUS_LABEL[k] for k in keys], values=[dist.get(k, 0) for k in keys], hole=0.7, sort=False,
+        marker=dict(colors=[STATUS_COLOURS[k] for k in keys], line=dict(color="#FFFFFF", width=2)),
+        textinfo="none", hovertemplate="%{label}: %{value}<extra></extra>"))
+    fig.update_layout(height=150, margin=dict(l=0, r=0, t=0, b=0), paper_bgcolor="rgba(0,0,0,0)", showlegend=False,
+                      annotations=[dict(text=f"<b>{total}</b><br><span style='font-size:11px;color:{INK_FAINT}'>agents</span>",
+                                        showarrow=False, font=dict(family=FONT, size=20, color=INK))])
+    return fig
+
+
+def _agent_legend(agents: list[dict]) -> str:
+    rows = "".join(   # one line per agent; kind and detail live in the tooltip
+        f'<li title="{esc(a["kind"])}: {esc(a["detail"])}"><span class="nf-dot {STATUS_TONE[a["status"]]}"></span>'
+        f'<span class="agent-name">{esc(a["name"])}</span><span class="agent-runs">{a["runs"]}</span>'
+        f'<span class="nf-pill {STATUS_TONE[a["status"]]}">{esc(STATUS_LABEL[a["status"]])}</span></li>'
+        for a in agents)
+    return f'<ul class="nf-legend">{rows}</ul>'
+
+
+# --------------------------------------------------------------------------- operations
+
+def _focus_run(client: NexusFlowClient, run_id: str | None = None) -> dict | None:
+    """The run to explain: the one asked for, else the newest still in flight, else the newest of all."""
+    try:
+        if run_id:
+            return client.run(run_id)
+        runs = client.governance_runs(limit=1, active_only=True)["runs"] or client.governance_runs(limit=1)["runs"]
+        return client.run(runs[0]["run_id"]) if runs else None
+    except ApiError as exc:
+        show_error(exc, "the governance run")
+        return None
+
+
+def operations(client: NexusFlowClient) -> None:
+    lead, pick = st.columns([4, 1], vertical_alignment="center")
+    with pick:
+        window = st.segmented_control("Window", ["24h", "7d", "30d"], default="24h", key="board_window",
+                                      label_visibility="collapsed") or "24h"
+    try:
+        data = client.workflow_runs(window, limit=20)
+        runs = client.governance_runs(limit=30)["runs"]
+    except ApiError as exc:
+        return show_error(exc, "workflow runs")
+    c = data["counts"]
+    lead.markdown(f'<div class="nf-panel-sub" style="margin:0">{c["running"]} running, {c["waiting"]} waiting on a '
+                  f'person, {c["failed"]} failed, {c["completed"] + c["rejected"]} finished in the last {esc(window)}.</div>',
+                  unsafe_allow_html=True)
+    with st.container(key="card_board"):
+        html_block('<div class="nf-card-head"><div class="nf-panel-title">Active workflow queue</div>'
+                   f'<div class="nf-card-meta">items needing a person first</div></div>' + orchestration.board(data))
+
+    if not runs:
+        return empty("No governance runs yet.", "Seat requests sent to the agent appear here with their full pipeline.")
+    labels = {r["run_id"]: f'{r["request_id"]}, {r["customer_id"]}: {r["state"].replace("_", " ").lower()}'
+              for r in runs}
+    chosen = st.selectbox("Inspect a governance run", list(labels), format_func=labels.get, key="ops_run")
+    run = _focus_run(client, chosen)
+    if not run:
+        return
+    with st.container(key="card_tracker_ops"):
+        html_block(orchestration.tracker(run))
+        with st.expander("State history"):
+            st.dataframe([{"at": h["at"], "to": h["to"], "reason": h["reason"]} for h in run["history"]],
+                         hide_index=True, use_container_width=True)
+    with st.container(key="card_decision_ops"):
+        html_block(orchestration.decision(run))
