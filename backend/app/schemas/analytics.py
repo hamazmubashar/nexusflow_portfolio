@@ -306,3 +306,88 @@ class WorkflowBoard(Strict):
     window: Literal["24h", "7d", "30d"]
     counts: dict[Literal["running", "waiting", "completed", "rejected", "failed"], int]
     items: list[BoardItem]
+
+
+# --------------------------------------------------------------------------- n8n workflows and AI agents pages
+
+class WorkflowNode(Strict):
+    name: str
+    role: str
+    state: Literal["ok", "fail", "idle", "unknown"]
+    runs: int
+    errors: int
+    success_rate: float | None
+    avg_ms: float | None
+
+
+class WorkflowEdge(Strict):
+    source: str
+    target: str
+    branch: Literal["yes", "no"] | None
+
+
+class WorkflowPipeline(Strict):
+    key: str
+    n8n_id: str
+    name: str
+    summary: str
+    published: bool | None = Field(description="Published in n8n; null when telemetry is unavailable")
+    state: Literal["healthy", "degraded", "idle", "unknown"]
+    executions: int
+    succeeded: int
+    failed: int
+    running: int
+    success_rate: float | None
+    avg_latency_ms: float | None
+    p95_latency_ms: float | None
+    last_run_at: datetime | None
+    nodes: list[WorkflowNode]
+    edges: list[WorkflowEdge]
+    sample_input: dict = Field(description="Synthetic example, not taken from a real execution")
+
+
+class WorkflowsResponse(Strict):
+    generated_at: datetime
+    window: Literal["24h", "7d", "30d"]
+    window_start: datetime
+    telemetry_available: bool
+    retention_hours: int
+    window_exceeds_retention: bool
+    workflows: list[WorkflowPipeline]
+
+
+class AgentTool(Strict):
+    name: str
+    description: str
+
+
+class AgentTrace(Strict):
+    at: datetime
+    title: str
+    detail: str
+    tone: Literal["ok", "wait", "fail", "idle"]
+
+
+class AgentCard(Strict):
+    key: str
+    name: str
+    engine: str
+    summary: str
+    state: Literal["active", "in_review", "idle", "error"]
+    state_detail: str
+    uses_llm: bool
+    models: list[str]
+    model_note: str
+    tools: list[AgentTool]
+    constraints: list[str]
+    runs: int
+    last_run_at: datetime | None
+    traces: list[AgentTrace]
+
+
+class AgentsResponse(Strict):
+    generated_at: datetime
+    window: Literal["24h", "7d", "30d"]
+    window_start: datetime
+    agents: list[AgentCard]
+    state_counts: dict[Literal["active", "in_review", "idle", "error"], int]

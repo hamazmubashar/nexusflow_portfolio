@@ -7,6 +7,7 @@
 
 import json
 import os
+import re
 import subprocess
 from pathlib import Path
 
@@ -134,7 +135,7 @@ def app(monkeypatch, token: str | None, url: str = API) -> AppTest:
     return sign_in(at, token) if token else at
 
 
-PAGES = ["Overview", "Operations", "Revenue & SLA", "Approvals", "Copilot", "Diagnostics"]
+PAGES = ["Overview", "Operations", "n8n Workflows", "AI Agents", "Revenue & SLA", "Approvals", "Copilot", "Diagnostics"]
 
 
 def group(at: AppTest, key: str):
@@ -185,7 +186,8 @@ def test_revenue_page_keeps_business_kpis(monkeypatch, token):
 @live_api
 def test_every_page_renders(monkeypatch, token):
     at = app(monkeypatch, token)
-    for page, expect in (("Operations", ("Active workflow queue",)), ("Revenue & SLA", ("Total ARR",)),
+    for page, expect in (("Operations", ("Active workflow queue",)), ("n8n Workflows", ("Seat Expansion Intake",)),
+                         ("AI Agents", ("Governance State Machine",)), ("Revenue & SLA", ("Total ARR",)),
                          ("Approvals", ("No approvals waiting", "Seat expansion approval")),
                          ("Copilot", ("Ask copilot",)), ("Diagnostics", ("Healthy", "Degraded", "Down"))):
         at.radio(key="page").set_value(page).run()
@@ -301,3 +303,30 @@ def test_operations_page_board_and_run_inspector(monkeypatch, token):
         assert "Workflow orchestration" in text and "AI decision and reasoning" in text and "Rules evaluated" in text
     else:              # empty database: the page says so instead of rendering empty panels
         assert "No governance runs yet." in text
+
+
+@live_api
+@pytest.mark.parametrize("page, widget_key, expected", [
+    ("n8n Workflows", "wf_window", ("Invoice Reconciliation", "Seat Expansion Intake", "P1 Escalation",
+                                    "Approval Notifications", "HMAC SHA-256", "Avg latency")),
+    ("AI Agents", "agent_window", ("Governance State Machine", "SOP RAG Copilot", "Contract Analyzer", "Policy Verifier",
+                                   "SLA Escalation Triage", "Collections Drafter", "Rule constraints", "LLM models")),
+])
+def test_architecture_pages_render_live_and_leak_nothing(monkeypatch, token, page, widget_key, expected):
+    at = app(monkeypatch, token)
+    at.radio(key="page").set_value(page).run()
+    assert not at.exception, at.exception
+    text = page_text(at) + " ".join(c.value for c in at.code)
+    for item in expected:
+        assert item in text, item
+    assert token not in text and "<iframe" not in text and not re.search(r"eyJ[\w-]{6,}\.|Bearer\s+\w|sha256=[0-9a-f]{8}", text)
+    assert page in at.segmented_control(key="page_top").value
+
+
+@live_api
+def test_architecture_page_window_switch(monkeypatch, token):
+    at = app(monkeypatch, token)
+    at.radio(key="page").set_value("n8n Workflows").run()
+    at.segmented_control(key="wf_window").set_value("30d").run()
+    assert not at.exception, at.exception
+    assert "older runs aren" in page_text(at)

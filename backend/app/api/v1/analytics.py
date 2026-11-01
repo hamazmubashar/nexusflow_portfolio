@@ -12,9 +12,10 @@ from app.core.security import Principal, Role, get_current_user, require_role
 from typing import Literal
 
 from app.schemas.analytics import (
-    ActivityResponse, DashboardResponse, MetricsResponse, OperationsResponse, SlaBlock, WhoAmI, WorkflowBoard,
+    ActivityResponse, AgentsResponse, DashboardResponse, MetricsResponse, OperationsResponse, SlaBlock, WhoAmI,
+    WorkflowBoard, WorkflowsResponse,
 )
-from app.services.analytics import dashboard
+from app.services.analytics import dashboard, platform
 
 router = APIRouter(prefix="/analytics", tags=["analytics"])
 system_router = APIRouter(tags=["system"])
@@ -57,6 +58,20 @@ def get_workflow_runs(window: Literal["24h", "7d", "30d"] = Query("24h"), limit:
         items = dashboard.workflow_board(cur, rows, window, limit)
     counts = {s: sum(i["state"] == s for i in items) for s in ("running", "waiting", "completed", "rejected", "failed")}
     return WorkflowBoard(window=window, counts=counts, items=items)
+
+
+@router.get("/n8n-workflows", response_model=WorkflowsResponse, responses=AUTH_ERRORS)
+def get_n8n_workflows(window: Literal["24h", "7d", "30d"] = Query("7d"), _: Principal = Depends(viewer)):
+    """Workflow pipelines with per-node counts, success rates and latency from n8n's execution store.
+    Only durations and statuses are read from stored runs; payloads never leave n8n."""
+    return platform.workflows_summary(window)
+
+
+@router.get("/ai-agents", response_model=AgentsResponse, responses=AUTH_ERRORS)
+def get_ai_agents(window: Literal["24h", "7d", "30d"] = Query("7d"), _: Principal = Depends(viewer)):
+    """The platform's six agents: live state, tools, rule constraints, models and sanitized recent traces."""
+    with get_conn() as conn, conn.cursor() as cur:
+        return platform.agents_summary(cur, window)
 
 
 @router.get("/activity", response_model=ActivityResponse, responses=AUTH_ERRORS)

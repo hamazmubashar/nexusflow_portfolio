@@ -94,7 +94,8 @@ EXPECTED_OPERATIONS = {
     ("post", "/api/v1/webhooks/invoices/delinquent"), ("get", "/api/v1/webhooks/invoices/overdue"),
     ("post", "/api/v1/webhooks/n8n/callback"),
     ("get", "/api/v1/analytics/dashboard"), ("get", "/api/v1/analytics/operations"),
-    ("get", "/api/v1/analytics/workflow-runs"), ("get", "/api/v1/agents/governance/runs"), ("get", "/api/v1/analytics/activity"), ("get", "/api/v1/analytics/sla"),
+    ("get", "/api/v1/analytics/workflow-runs"), ("get", "/api/v1/agents/governance/runs"), ("get", "/api/v1/analytics/activity"), ("get", "/api/v1/analytics/sla"), ("get", "/api/v1/analytics/n8n-workflows"),
+    ("get", "/api/v1/analytics/ai-agents"),
 }
 
 

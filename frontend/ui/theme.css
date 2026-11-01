@@ -458,3 +458,51 @@ textarea, input, [data-baseweb="input"], [data-baseweb="textarea"] {
 .block-container [data-testid="stHorizontalBlock"]:has(.st-key-ops_window, .st-key-board_window) > [data-testid="stColumn"]:first-child {
   flex: 1 1 0; min-width: 0;
 }
+
+/* ---------- n8n workflows page: spacing stays on the 8/16/24 grid ---------- */
+.nf-wf-note { margin: 0; }
+.nf-wf-totals { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: var(--s-2); margin-bottom: var(--s-2); }
+.nf-wf-totals .nf-glass { padding: var(--s-2); }
+.nf-wf-pills { display: flex; flex-wrap: wrap; gap: var(--s-1); align-items: center; }
+.nf-wf-stats-row { display: flex; flex-wrap: wrap; gap: var(--s-1) var(--s-3); margin-bottom: var(--s-2); }
+.nf-wf-stat { font-weight: 600; font-size: .95rem; font-variant-numeric: tabular-nums; }
+.nf-wf-lane { padding-top: var(--s-2); border-top: 1px solid var(--stroke); margin-bottom: var(--s-2); }
+.nf-wf-lane-title { color: var(--ink-faint); font-size: .76rem; font-weight: 600; margin-bottom: var(--s-1); }
+.nf-wf-flow { list-style: none !important; display: flex; flex-wrap: wrap; align-items: flex-start; gap: var(--s-2) var(--s-1); margin: 0 !important; padding: 0 !important; }
+.nf-wf-flow > li { margin: 0 !important; padding: 0 !important; }
+.nf-wf-flow > li::marker { content: none; }
+.nf-wf-step { display: flex; align-items: flex-start; gap: var(--s-1); }
+.nf-wf-col { display: flex; flex-direction: column; gap: var(--s-1); width: 168px; }
+.nf-wf-arrow { color: var(--ink-faint); line-height: 72px; }
+.nf-wf-joins { align-self: flex-start; color: var(--ink-soft); font-size: .78rem; line-height: 72px; }
+.nf-wf-node { background: var(--card-solid); border: 1px solid var(--stroke); border-radius: 8px; padding: var(--s-1); display: flex; flex-direction: column; gap: var(--s-1); min-height: 112px; }
+.nf-wf-node.small { min-height: 0; background: var(--idle-bg); }
+.nf-wf-node.ok { border-top: 2px solid var(--ok); }
+.nf-wf-node.fail { border-top: 2px solid var(--fail); background: var(--fail-bg); }
+.nf-wf-node.idle, .nf-wf-node.unknown { border-top: 2px solid var(--stroke-strong); }
+.nf-wf-role { display: flex; align-items: center; gap: var(--s-1); color: var(--ink-faint); font-size: .7rem; font-weight: 600; }
+.nf-wf-name { color: var(--ink); font-size: .82rem; font-weight: 600; line-height: 1.25; flex: 1; }
+.nf-wf-stats { display: flex; justify-content: space-between; gap: var(--s-1); color: var(--ink-soft); font-size: .7rem; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.nf-wf-branch { display: flex; flex-direction: column; gap: var(--s-1); padding-left: var(--s-1); border-left: 2px solid var(--stroke-strong); }
+.nf-wf-branch-label { color: var(--ink-faint); font-size: .7rem; font-weight: 600; }
+.nf-wf-rejoin { color: var(--ink-faint); font-size: .7rem; line-height: 1.3; }
+
+/* ---------- AI agents page ---------- */
+.nf-agent-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 420px), 1fr)); gap: var(--s-2); }
+.nf-agent-meta { display: flex; flex-wrap: wrap; align-items: center; gap: var(--s-1); margin-bottom: var(--s-1); }
+.nf-agent-meta .nf-chip, .nf-agent-models .nf-chip { margin: 0; }
+.nf-agent-section { border-top: 1px solid var(--stroke); padding-top: var(--s-2); margin-top: var(--s-2); }
+.nf-agent-section .nf-fact-label { margin-bottom: var(--s-1); }
+.nf-agent ul, .nf-agent ol { margin: 0 !important; padding: 0 !important; list-style: none !important; }
+.nf-agent li { margin: 0 !important; padding: 0 !important; font-size: .82rem; }
+.nf-agent li::marker { content: none; }
+.nf-agent-tools, .nf-agent-rules, .nf-agent-traces { display: flex; flex-direction: column; gap: var(--s-1); }
+.nf-agent-tools li { display: flex; flex-direction: column; }
+.nf-agent-tools strong { font-weight: 600; }
+.nf-agent-tools span { color: var(--ink-soft); }
+.nf-agent-rules li { color: var(--ink-soft); }
+.nf-agent-models { display: flex; flex-wrap: wrap; gap: var(--s-1); margin-bottom: var(--s-1); }
+.nf-agent-note { color: var(--ink-soft); font-size: .78rem; }
+.nf-agent-traces li { display: flex; align-items: baseline; gap: var(--s-1); }
+.nf-agent-traces li > div { flex: 1; min-width: 0; }
+.nf-agent-trace-title { display: flex; justify-content: space-between; gap: var(--s-1); font-weight: 600; font-size: .82rem; }

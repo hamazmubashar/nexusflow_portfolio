@@ -15,6 +15,7 @@ import streamlit as st
 from ui import login, views
 from ui.api import ApiError, NexusFlowClient
 from ui.components import badge, esc, html_block, inject_theme, md, topbar
+from views import ai_agents, n8n_workflows
 
 st.set_page_config(page_title="NexusFlow Autopilot", page_icon="◆", layout="wide",
                    initial_sidebar_state="expanded")
@@ -23,6 +24,8 @@ inject_theme()
 PAGES = {
     "Overview": "Workflows, executions, agents and the human review queue in one view.",
     "Operations": "Every workflow run, its pipeline, and why the agent decided what it did.",
+    "n8n Workflows": "Each automation step by step, with measured counts, success rates and latency.",
+    "AI Agents": "What each agent can do, the rules that bind it, and what it did recently.",
     "Revenue & SLA": "ARR, accounts and ticket SLA compliance from the live ledger.",
     "Approvals": "Seat expansions that need a person before anything is provisioned.",
     "Copilot": "Answers from SOPs, contracts and correspondence, with every quote checked.",
@@ -122,6 +125,10 @@ if choice == "Overview":
     views.overview(client, me)
 elif choice == "Operations":
     views.operations(client)
+elif choice == "n8n Workflows":
+    n8n_workflows.render(client)
+elif choice == "AI Agents":
+    ai_agents.render(client)
 elif choice == "Revenue & SLA":
     views.revenue(client)
 elif choice == "Approvals":

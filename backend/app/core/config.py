@@ -19,6 +19,7 @@ class Settings(BaseSettings):
     database_url: str = "postgresql+psycopg2://nexusflow:change-me-local-only@localhost:5432/nexusflow"
     gemini_api_key: str = ""
     n8n_webhook_url: str = "http://localhost:5678/webhook"
+    n8n_db_name: str = "n8n"                      # n8n's database on the same server; read-only telemetry
 
     # --- RAG (Stage 2) ---
     embedding_provider: str = "gemini"            # gemini | local (fastembed, offline)

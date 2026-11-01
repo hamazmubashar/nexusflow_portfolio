@@ -110,5 +110,11 @@ class NexusFlowClient:
     def workflow_runs(self, window: str = "24h", limit: int = 12) -> dict:
         return self._request("GET", "/api/v1/analytics/workflow-runs", params={"window": window, "limit": limit})
 
+    def n8n_workflows(self, window: str = "7d") -> dict:
+        return self._request("GET", "/api/v1/analytics/n8n-workflows", params={"window": window})
+
+    def ai_agents(self, window: str = "7d") -> dict:
+        return self._request("GET", "/api/v1/analytics/ai-agents", params={"window": window})
+
     def run(self, run_id: str) -> dict:
         return self._request("GET", f"/api/v1/agents/governance/runs/{run_id}")
