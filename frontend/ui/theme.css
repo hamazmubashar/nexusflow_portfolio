@@ -506,3 +506,7 @@ textarea, input, [data-baseweb="input"], [data-baseweb="textarea"] {
 .nf-agent-traces li { display: flex; align-items: baseline; gap: var(--s-1); }
 .nf-agent-traces li > div { flex: 1; min-width: 0; }
 .nf-agent-trace-title { display: flex; justify-content: space-between; gap: var(--s-1); font-weight: 600; font-size: .82rem; }
+
+/* ---------- sample mode ---------- */
+.nf-sample-banner { background: var(--wait-bg); border: 1px solid var(--stroke); border-radius: 8px; color: #93630A; font-size: .84rem; padding: var(--s-1) var(--s-2); margin-bottom: var(--s-2); }
+.nf-sample-banner strong { font-weight: 600; }

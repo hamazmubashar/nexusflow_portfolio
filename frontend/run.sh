@@ -11,4 +11,5 @@ export NEXUSFLOW_API_URL="${NEXUSFLOW_API_URL:-http://127.0.0.1:8010}"
 export NEXUSFLOW_DEMO_TOKEN="$(cd "$here/../backend" && .venv/bin/python -m app.core.security issue-demo-token 2>/dev/null)"
 unset NEXUSFLOW_API_TOKEN
 cd "$here"
-exec .venv/bin/streamlit run app.py "$@"
+# Local-only binding lives here, not in .streamlit/config.toml: hosts such as Community Cloud probe the default port.
+exec .venv/bin/streamlit run app.py --server.port "${PORT:-8502}" --server.address 127.0.0.1 "$@"

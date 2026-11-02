@@ -10,6 +10,7 @@ from ui.api import ApiError, NexusFlowClient
 from ui.components import (
     ago, answer_html, chip, empty, esc, facts, html_block, kpi, md, money, pct, rate_row,
 )
+from ui.synthetic import QUESTIONS
 
 FONT = "Instrument Sans, system-ui, sans-serif"
 INK, INK_FAINT, GRID = "#0E1A2B", "#8593A6", "#EEF1F6"
@@ -189,14 +190,12 @@ def decide(client: NexusFlowClient, me: dict, ap: dict, action: str, comment: st
 
 # --------------------------------------------------------------------------- copilot
 
-EXAMPLES = [
-    "What is the Enterprise P1 initial response and resolution SLA?",
-    "CUST-0040 wants 50 more seats. Does that need Finance approval?",
-    "Can we mark CUST-0011 as churned if they say payment was sent?",
-]
+EXAMPLES = list(QUESTIONS)
 
 
 def copilot(client: NexusFlowClient) -> None:
+    if client.sample:
+        st.info("Sample mode: the example questions below show recorded answers. New questions need a connected API.")
     ex_cols = st.columns(len(EXAMPLES))
     for col, q in zip(ex_cols, EXAMPLES):
         if col.button(q, key=f"ex_{hash(q)}", use_container_width=True):
@@ -274,6 +273,8 @@ LABELS = {"database": "PostgreSQL", "pgvector": "pgvector", "n8n": "n8n", "gemin
 
 
 def diagnostics(client: NexusFlowClient, health: dict, me: dict) -> None:
+    if client.sample:
+        st.info("Sample mode: no API or database is connected to this deployment.")
     if st.button("Check again", key="recheck"):
         st.cache_data.clear()
         st.rerun()

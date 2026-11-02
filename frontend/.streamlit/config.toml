@@ -1,6 +1,5 @@
+# No port or address here: hosting health checks expect Streamlit's default. run.sh sets both for local use.
 [server]
-port = 8502
-address = "127.0.0.1"
 headless = true
 
 [browser]

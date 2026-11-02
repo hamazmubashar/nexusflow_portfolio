@@ -1,0 +1,5341 @@
+{
+ "activity": {
+  "count": 30,
+  "items": [
+   {
+    "at": "2026-11-02T19:13:36.656363Z",
+    "kind": "event.callback",
+    "status": "PROCESSED",
+    "subject_id": "SRQ-SAMPLE-b6496bb4",
+    "summary": "n8n hitl_approval_notification: approval_card_sent",
+    "type": "workflow.completed"
+   },
+   {
+    "at": "2026-11-02T19:13:36.630740Z",
+    "kind": "event.outbound",
+    "status": "DELIVERED",
+    "subject_id": "SRQ-SAMPLE-b6496bb4",
+    "summary": "approval.requested \u2192 n8n",
+    "type": "approval.requested"
+   },
+   {
+    "at": "2026-11-02T19:13:36.547243Z",
+    "kind": "agent.transition",
+    "status": "WAITING_FOR_APPROVAL",
+    "subject_id": "SRQ-SAMPLE-b6496bb4",
+    "summary": "SRQ-SAMPLE-b6496bb4 (CUST-0001) \u2192 WAITING_FOR_APPROVAL: Request is not an explicit purchase; written authorization/clarification needed (SOP-02 \u00a75)",
+    "type": "WAITING_FOR_APPROVAL"
+   },
+   {
+    "at": "2026-11-02T19:13:36.528401Z",
+    "kind": "event.callback",
+    "status": "PROCESSED",
+    "subject_id": "SRQ-SAMPLE-89c3d7ae",
+    "summary": "n8n hitl_approval_notification: approval_card_sent",
+    "type": "workflow.completed"
+   },
+   {
+    "at": "2026-11-02T19:13:36.488222Z",
+    "kind": "agent.transition",
+    "status": "CALCULATING_IMPACT",
+    "subject_id": "SRQ-SAMPLE-b6496bb4",
+    "summary": "SRQ-SAMPLE-b6496bb4 (CUST-0001) \u2192 CALCULATING_IMPACT: contract and negotiated clauses analysed",
+    "type": "CALCULATING_IMPACT"
+   },
+   {
+    "at": "2026-11-02T19:13:36.487751Z",
+    "kind": "event.outbound",
+    "status": "DELIVERED",
+    "subject_id": "SRQ-SAMPLE-89c3d7ae",
+    "summary": "approval.requested \u2192 n8n",
+    "type": "approval.requested"
+   },
+   {
+    "at": "2026-11-02T19:13:36.455400Z",
+    "kind": "agent.transition",
+    "status": "ANALYZING_CONTRACT",
+    "subject_id": "SRQ-SAMPLE-b6496bb4",
+    "summary": "SRQ-SAMPLE-b6496bb4 (CUST-0001) \u2192 ANALYZING_CONTRACT: loading contract terms and negotiated clauses",
+    "type": "ANALYZING_CONTRACT"
+   },
+   {
+    "at": "2026-11-02T19:13:36.443496Z",
+    "kind": "agent.transition",
+    "status": "INITIATED",
+    "subject_id": "SRQ-SAMPLE-b6496bb4",
+    "summary": "SRQ-SAMPLE-b6496bb4 (CUST-0001) \u2192 INITIATED: seat request received from crm:EMP-0057",
+    "type": "INITIATED"
+   },
+   {
+    "at": "2026-11-02T19:13:36.411361Z",
+    "kind": "agent.transition",
+    "status": "WAITING_FOR_APPROVAL",
+    "subject_id": "SRQ-SAMPLE-89c3d7ae",
+    "summary": "SRQ-SAMPLE-89c3d7ae (CUST-0040) \u2192 WAITING_FOR_APPROVAL: Aggregate 30-day monthly equivalent exceeds $500.00 (SOP-02 \u00a71); Customer-specific contract documents exist (SOW/order form); terms need human review",
+    "type": "WAITING_FOR_APPROVAL"
+   },
+   {
+    "at": "2026-11-02T19:13:36.371440Z",
+    "kind": "agent.transition",
+    "status": "CALCULATING_IMPACT",
+    "subject_id": "SRQ-SAMPLE-89c3d7ae",
+    "summary": "SRQ-SAMPLE-89c3d7ae (CUST-0040) \u2192 CALCULATING_IMPACT: contract and negotiated clauses analysed",
+    "type": "CALCULATING_IMPACT"
+   },
+   {
+    "at": "2026-11-02T19:13:19.755430Z",
+    "kind": "event.callback",
+    "status": "PROCESSED",
+    "subject_id": "SRQ-SAMPLE-231f78e0",
+    "summary": "n8n hitl_approval_notification: approval_card_sent",
+    "type": "workflow.completed"
+   },
+   {
+    "at": "2026-11-02T19:13:19.734273Z",
+    "kind": "event.outbound",
+    "status": "DELIVERED",
+    "subject_id": "SRQ-SAMPLE-231f78e0",
+    "summary": "approval.requested \u2192 n8n",
+    "type": "approval.requested"
+   },
+   {
+    "at": "2026-11-02T19:13:19.637893Z",
+    "kind": "agent.transition",
+    "status": "ANALYZING_CONTRACT",
+    "subject_id": "SRQ-SAMPLE-89c3d7ae",
+    "summary": "SRQ-SAMPLE-89c3d7ae (CUST-0040) \u2192 ANALYZING_CONTRACT: loading contract terms and negotiated clauses",
+    "type": "ANALYZING_CONTRACT"
+   },
+   {
+    "at": "2026-11-02T19:13:19.626855Z",
+    "kind": "agent.transition",
+    "status": "INITIATED",
+    "subject_id": "SRQ-SAMPLE-89c3d7ae",
+    "summary": "SRQ-SAMPLE-89c3d7ae (CUST-0040) \u2192 INITIATED: seat request received from crm:EMP-0057",
+    "type": "INITIATED"
+   },
+   {
+    "at": "2026-11-02T19:13:19.591140Z",
+    "kind": "agent.transition",
+    "status": "WAITING_FOR_APPROVAL",
+    "subject_id": "SRQ-SAMPLE-231f78e0",
+    "summary": "SRQ-SAMPLE-231f78e0 (CUST-0071) \u2192 WAITING_FOR_APPROVAL: Aggregate 30-day monthly equivalent exceeds $500.00 (SOP-02 \u00a71)",
+    "type": "WAITING_FOR_APPROVAL"
+   },
+   {
+    "at": "2026-11-02T19:13:19.563371Z",
+    "kind": "agent.transition",
+    "status": "CALCULATING_IMPACT",
+    "subject_id": "SRQ-SAMPLE-231f78e0",
+    "summary": "SRQ-SAMPLE-231f78e0 (CUST-0071) \u2192 CALCULATING_IMPACT: contract and negotiated clauses analysed",
+    "type": "CALCULATING_IMPACT"
+   },
+   {
+    "at": "2026-11-02T19:13:19.539988Z",
+    "kind": "agent.transition",
+    "status": "ANALYZING_CONTRACT",
+    "subject_id": "SRQ-SAMPLE-231f78e0",
+    "summary": "SRQ-SAMPLE-231f78e0 (CUST-0071) \u2192 ANALYZING_CONTRACT: loading contract terms and negotiated clauses",
+    "type": "ANALYZING_CONTRACT"
+   },
+   {
+    "at": "2026-11-02T19:13:19.513763Z",
+    "kind": "agent.transition",
+    "status": "INITIATED",
+    "subject_id": "SRQ-SAMPLE-231f78e0",
+    "summary": "SRQ-SAMPLE-231f78e0 (CUST-0071) \u2192 INITIATED: seat request received from crm:EMP-0057",
+    "type": "INITIATED"
+   },
+   {
+    "at": "2026-11-01T19:29:07.362818Z",
+    "kind": "event.callback",
+    "status": "PROCESSED",
+    "subject_id": "SRQ-DEMO-71ce92a3",
+    "summary": "n8n hitl_approval_notification: approval_outcome_notified",
+    "type": "workflow.completed"
+   },
+   {
+    "at": "2026-11-01T19:29:07.344488Z",
+    "kind": "event.outbound",
+    "status": "DELIVERED",
+    "subject_id": "approval-queue",
+    "summary": "approval.finalized \u2192 n8n",
+    "type": "approval.finalized"
+   },
+   {
+    "at": "2026-11-01T19:29:07.290855Z",
+    "kind": "event.callback",
+    "status": "PROCESSED",
+    "subject_id": "SRQ-DEMO-8b8ff0cd",
+    "summary": "n8n hitl_approval_notification: approval_outcome_notified",
+    "type": "workflow.completed"
+   },
+   {
+    "at": "2026-11-01T19:29:07.203667Z",
+    "kind": "event.outbound",
+    "status": "DELIVERED",
+    "subject_id": "approval-queue",
+    "summary": "approval.finalized \u2192 n8n",
+    "type": "approval.finalized"
+   },
+   {
+    "at": "2026-11-01T19:29:07.142169Z",
+    "kind": "event.callback",
+    "status": "PROCESSED",
+    "subject_id": "SRQ-DEMO-6feba3d5",
+    "summary": "n8n hitl_approval_notification: approval_outcome_notified",
+    "type": "workflow.completed"
+   },
+   {
+    "at": "2026-11-01T19:29:07.106264Z",
+    "kind": "event.outbound",
+    "status": "DELIVERED",
+    "subject_id": "approval-queue",
+    "summary": "approval.finalized \u2192 n8n",
+    "type": "approval.finalized"
+   },
+   {
+    "at": "2026-11-01T19:29:06.929770Z",
+    "kind": "agent.transition",
+    "status": "REJECTED",
+    "subject_id": "SRQ-DEMO-71ce92a3",
+    "summary": "SRQ-DEMO-71ce92a3 (CUST-0001) \u2192 REJECTED: approval request expired without a decision",
+    "type": "REJECTED"
+   },
+   {
+    "at": "2026-11-01T19:29:06.905445Z",
+    "kind": "agent.transition",
+    "status": "REJECTED",
+    "subject_id": "SRQ-DEMO-8b8ff0cd",
+    "summary": "SRQ-DEMO-8b8ff0cd (CUST-0040) \u2192 REJECTED: approval request expired without a decision",
+    "type": "REJECTED"
+   },
+   {
+    "at": "2026-11-01T19:29:06.881599Z",
+    "kind": "agent.transition",
+    "status": "REJECTED",
+    "subject_id": "SRQ-DEMO-6feba3d5",
+    "summary": "SRQ-DEMO-6feba3d5 (CUST-0071) \u2192 REJECTED: approval request expired without a decision",
+    "type": "REJECTED"
+   },
+   {
+    "at": "2026-11-01T14:52:17.289192Z",
+    "kind": "event.callback",
+    "status": "PROCESSED",
+    "subject_id": "INV-2026-0011",
+    "summary": "n8n delinquent_invoice_reconciliation: collection_notice_drafted",
+    "type": "workflow.completed"
+   },
+   {
+    "at": "2026-11-01T14:52:17.265379Z",
+    "kind": "event.inbound",
+    "status": "PROCESSED",
+    "subject_id": "INV-2026-0011",
+    "summary": "invoice.delinquent \u2190 n8n",
+    "type": "invoice.delinquent"
+   },
+   {
+    "at": "2026-11-01T14:52:17.162145Z",
+    "kind": "event.callback",
+    "status": "PROCESSED",
+    "subject_id": "SRQ-E2E-f000577c",
+    "summary": "n8n seat_expansion_trigger: finance_approval_requested",
+    "type": "workflow.completed"
+   }
+  ]
+ },
+ "ai_agents": {
+  "agents": [
+   {
+    "constraints": [
+     "Routing is deterministic: a model can't remove a review reason or approve anything",
+     "Over $500/month on the rolling 30-day total always goes to a person (SOP-02)",
+     "Only the assigned approver can decide; ADMIN can't decide for them",
+     "Seats and ARR change only in EXECUTED, and never twice for one request"
+    ],
+    "engine": "LangGraph StateGraph",
+    "key": "governance",
+    "last_run_at": "2026-11-02T19:13:36.547243Z",
+    "model_note": "No model of its own. The advisory contract review comes from the Policy Verifier.",
+    "models": [],
+    "name": "Governance State Machine",
+    "runs": 7,
+    "state": "in_review",
+    "state_detail": "3 approvals waiting on a person",
+    "summary": "Runs each seat request through contract checks, the policy review and the financial impact, then executes it or stops for a person.",
+    "tools": [
+     {
+      "description": "Loads the contract and negotiated clauses",
+      "name": "analyze_contract"
+     },
+     {
+      "description": "Runs the policy review of customer documents",
+      "name": "check_rag_compliance"
+     },
+     {
+      "description": "Computes the 30-day total, MRR and ARR change",
+      "name": "calculate_impact"
+     },
+     {
+      "description": "Opens an approval and ends the graph until a decision",
+      "name": "wait_for_approval"
+     },
+     {
+      "description": "Updates seats and ARR in one locked transaction",
+      "name": "execute_mutation"
+     }
+    ],
+    "traces": [
+     {
+      "at": "2026-11-02T19:13:36.547243Z",
+      "detail": "SRQ-SAMPLE-b6496bb4: Request is not an explicit purchase; written authorization/clarification needed (SOP-02 \u00a75)",
+      "title": "Waiting for approval",
+      "tone": "wait"
+     },
+     {
+      "at": "2026-11-02T19:13:36.488222Z",
+      "detail": "SRQ-SAMPLE-b6496bb4: contract and negotiated clauses analysed",
+      "title": "Calculating impact",
+      "tone": "ok"
+     },
+     {
+      "at": "2026-11-02T19:13:36.455400Z",
+      "detail": "SRQ-SAMPLE-b6496bb4: loading contract terms and negotiated clauses",
+      "title": "Analyzing contract",
+      "tone": "ok"
+     },
+     {
+      "at": "2026-11-02T19:13:36.443496Z",
+      "detail": "SRQ-SAMPLE-b6496bb4: seat request received from crm:EMP-0057",
+      "title": "Initiated",
+      "tone": "ok"
+     },
+     {
+      "at": "2026-11-02T19:13:36.411361Z",
+      "detail": "SRQ-SAMPLE-89c3d7ae: Aggregate 30-day monthly equivalent exceeds $500.00 (SOP-02 \u00a71); Customer-specific contract documents exist (SOW/order form); terms need human review",
+      "title": "Waiting for approval",
+      "tone": "wait"
+     }
+    ],
+    "uses_llm": false
+   },
+   {
+    "constraints": [
+     "Answers only from retrieved passages, and says so when they aren't enough",
+     "A quote that isn't found verbatim is marked unverified",
+     "Advisory only: it can't approve, reject or change anything"
+    ],
+    "engine": "LangChain LCEL (langchain)",
+    "key": "copilot",
+    "last_run_at": "2026-10-29T14:50:37.235968Z",
+    "model_note": "First chat model is primary, the others are fallbacks; the last is for embeddings.",
+    "models": [
+     "gemini-3.5-flash",
+     "gemini-3.8-flash",
+     "gemini-flash-latest",
+     "gemini-embedding-001"
+    ],
+    "name": "SOP RAG Copilot",
+    "runs": 3,
+    "state": "error",
+    "state_detail": "Most recent run failed",
+    "summary": "Answers questions from SOPs, contracts and correspondence, citing the passages it used.",
+    "tools": [
+     {
+      "description": "pgvector cosine search plus full-text, merged with RRF (k=60)",
+      "name": "HybridRetriever.search"
+     },
+     {
+      "description": "Model output parsed into a fixed schema with citations",
+      "name": "Structured answer"
+     },
+     {
+      "description": "Checks every cited quote against the source text",
+      "name": "Quote verification"
+     }
+    ],
+    "traces": [
+     {
+      "at": "2026-10-29T14:50:37.235968Z",
+      "detail": "The model call failed, so no answer was returned",
+      "title": "Call failed",
+      "tone": "fail"
+     },
+     {
+      "at": "2026-10-29T14:36:04.111244Z",
+      "detail": "3 citation(s), gemini-3.5-flash",
+      "title": "Grounded answer",
+      "tone": "ok"
+     },
+     {
+      "at": "2026-10-29T14:29:11.527113Z",
+      "detail": "The model call failed, so no answer was returned",
+      "title": "Call failed",
+      "tone": "fail"
+     }
+    ],
+    "uses_llm": true
+   },
+   {
+    "constraints": [
+     "Missing, inactive or mismatched contracts are rejected",
+     "Delinquent accounts are rejected until Finance clears them",
+     "A request that crosses a plan tier is rejected"
+    ],
+    "engine": "LangGraph node (rule-based)",
+    "key": "contract_analyzer",
+    "last_run_at": "2026-11-02T19:13:36.555736Z",
+    "model_note": "No model: exact checks against contract records.",
+    "models": [],
+    "name": "Contract Analyzer",
+    "runs": 7,
+    "state": "active",
+    "state_detail": "7 runs in this window",
+    "summary": "Checks that the contract is active, belongs to the customer, and that the request stays within the plan.",
+    "tools": [
+     {
+      "description": "Reads the contract, plan terms and unit price",
+      "name": "Contract lookup"
+     },
+     {
+      "description": "Reads the customer's account status",
+      "name": "Account standing check"
+     },
+     {
+      "description": "Compares the new seat total with the plan's range",
+      "name": "Plan range check"
+     }
+    ],
+    "traces": [
+     {
+      "at": "2026-11-02T19:13:36.555736Z",
+      "detail": "Starter plan, 100 committed seats (SRQ-SAMPLE-b6496bb4)",
+      "title": "CUST-0001: checks passed",
+      "tone": "ok"
+     },
+     {
+      "at": "2026-11-02T19:13:36.419136Z",
+      "detail": "Enterprise plan, 1,500 committed seats (SRQ-SAMPLE-89c3d7ae)",
+      "title": "CUST-0040: checks passed",
+      "tone": "ok"
+     },
+     {
+      "at": "2026-11-02T19:13:19.601619Z",
+      "detail": "Enterprise plan, 1,500 committed seats (SRQ-SAMPLE-231f78e0)",
+      "title": "CUST-0071: checks passed",
+      "tone": "ok"
+     },
+     {
+      "at": "2026-11-01T19:29:06.925455Z",
+      "detail": "Starter plan, 100 committed seats (SRQ-DEMO-71ce92a3)",
+      "title": "CUST-0001: checks passed",
+      "tone": "ok"
+     },
+     {
+      "at": "2026-11-01T19:29:06.901275Z",
+      "detail": "Enterprise plan, 1,500 committed seats (SRQ-DEMO-8b8ff0cd)",
+      "title": "CUST-0040: checks passed",
+      "tone": "ok"
+     }
+    ],
+    "uses_llm": false
+   },
+   {
+    "constraints": [
+     "Customer-specific documents always require a person",
+     "A failed review or an unindexed corpus adds a review reason; it never passes silently",
+     "The review's confidence is advisory and doesn't affect routing"
+    ],
+    "engine": "LangGraph node + copilot",
+    "key": "policy_verifier",
+    "last_run_at": "2026-11-02T19:13:36.555736Z",
+    "model_note": "Uses the copilot's chat models for the review.",
+    "models": [
+     "gemini-3.5-flash",
+     "gemini-3.8-flash",
+     "gemini-flash-latest"
+    ],
+    "name": "Policy Verifier",
+    "runs": 6,
+    "state": "in_review",
+    "state_detail": "1 approval waiting on a person",
+    "summary": "Looks for customer-specific MSA and SOW terms, and has the copilot review them for the approver.",
+    "tools": [
+     {
+      "description": "Finds the customer's own legal documents in the corpus",
+      "name": "Customer document lookup"
+     },
+     {
+      "description": "Adds an advisory review with cited clauses to the approval card",
+      "name": "Copilot contract review"
+     }
+    ],
+    "traces": [
+     {
+      "at": "2026-11-02T19:13:36.555736Z",
+      "detail": "Standard terms apply, so no review was needed",
+      "title": "CUST-0001: no customer documents",
+      "tone": "idle"
+     },
+     {
+      "at": "2026-11-02T19:13:36.419136Z",
+      "detail": "1 document(s); high confidence (advisory); routed to a person",
+      "title": "CUST-0040: documents reviewed",
+      "tone": "wait"
+     },
+     {
+      "at": "2026-11-02T19:13:19.601619Z",
+      "detail": "Standard terms apply, so no review was needed",
+      "title": "CUST-0071: no customer documents",
+      "tone": "idle"
+     },
+     {
+      "at": "2026-11-01T19:29:06.925455Z",
+      "detail": "Standard terms apply, so no review was needed",
+      "title": "CUST-0001: no customer documents",
+      "tone": "idle"
+     },
+     {
+      "at": "2026-11-01T19:29:06.901275Z",
+      "detail": "1 document(s) found; routed to a person without a review",
+      "title": "CUST-0040: review unavailable",
+      "tone": "wait"
+     }
+    ],
+    "uses_llm": true
+   },
+   {
+    "constraints": [
+     "SLA clocks use America/Chicago business and coverage hours (SOP-01)",
+     "Only P1, P2 or explicitly requested tickets go to copilot triage",
+     "Alerts post only when a channel is configured"
+    ],
+    "engine": "Rules + n8n + copilot",
+    "key": "sla_triage",
+    "last_run_at": "2026-10-29T14:50:19.895834Z",
+    "model_note": "The SLA decision is rule-based. Only the triage note uses a model.",
+    "models": [
+     "gemini-3.5-flash",
+     "gemini-3.8-flash",
+     "gemini-flash-latest"
+    ],
+    "name": "SLA Escalation Triage",
+    "runs": 13,
+    "state": "active",
+    "state_detail": "13 runs in this window",
+    "summary": "Applies SOP-01 clocks to tickets and hands P1 and P2 escalations to n8n for copilot triage.",
+    "tools": [
+     {
+      "description": "Computes response and resolution clocks for the plan",
+      "name": "evaluate_sla"
+     },
+     {
+      "description": "Maps severity and budget used to who gets notified",
+      "name": "escalation_level"
+     },
+     {
+      "description": "Sends the signed escalation event to n8n",
+      "name": "N8nDispatcher"
+     }
+    ],
+    "traces": [
+     {
+      "at": "2026-10-29T14:50:19.895834Z",
+      "detail": "Evaluated at P1",
+      "title": "TK-0139: SLA check",
+      "tone": "ok"
+     },
+     {
+      "at": "2026-10-29T10:43:21.347981Z",
+      "detail": "Evaluated at P1",
+      "title": "TK-0139: SLA check",
+      "tone": "ok"
+     },
+     {
+      "at": "2026-10-29T10:36:16.459264Z",
+      "detail": "Evaluated at P1",
+      "title": "TK-0139: SLA check",
+      "tone": "ok"
+     },
+     {
+      "at": "2026-10-29T10:04:04.150217Z",
+      "detail": "Evaluated at P1",
+      "title": "TK-0139: SLA check",
+      "tone": "ok"
+     },
+     {
+      "at": "2026-10-29T09:35:40.594622Z",
+      "detail": "Evaluated at P1",
+      "title": "TK-0139: SLA check",
+      "tone": "ok"
+     }
+    ],
+    "uses_llm": true
+   },
+   {
+    "constraints": [
+     "The notice is a draft and is never sent automatically",
+     "Notice terms follow MSA \u00a76, including the 15-day cure period"
+    ],
+    "engine": "Rule-based service",
+    "key": "collections",
+    "last_run_at": "2026-11-01T14:52:17.265379Z",
+    "model_note": "No model: the notice comes from a fixed template.",
+    "models": [],
+    "name": "Collections Drafter",
+    "runs": 19,
+    "state": "active",
+    "state_detail": "19 runs in this window",
+    "summary": "Summarises a delinquent account and prepares a notice for Finance to review.",
+    "tools": [
+     {
+      "description": "Lists overdue invoices for the n8n schedule",
+      "name": "list_overdue"
+     },
+     {
+      "description": "Builds the account summary and notice draft",
+      "name": "summarize_delinquency"
+     }
+    ],
+    "traces": [
+     {
+      "at": "2026-11-01T14:52:17.265379Z",
+      "detail": "Notice drafted, not sent",
+      "title": "INV-2026-0011",
+      "tone": "ok"
+     },
+     {
+      "at": "2026-11-01T14:51:03.031508Z",
+      "detail": "Notice drafted, not sent",
+      "title": "INV-2026-0011",
+      "tone": "ok"
+     },
+     {
+      "at": "2026-11-01T14:50:10.535188Z",
+      "detail": "Notice drafted, not sent",
+      "title": "INV-2026-0011",
+      "tone": "ok"
+     },
+     {
+      "at": "2026-10-29T20:57:20.484216Z",
+      "detail": "Notice drafted, not sent",
+      "title": "INV-2026-0011",
+      "tone": "ok"
+     },
+     {
+      "at": "2026-10-29T14:59:24.093837Z",
+      "detail": "Notice drafted, not sent",
+      "title": "INV-2026-0011",
+      "tone": "ok"
+     }
+    ],
+    "uses_llm": false
+   }
+  ],
+  "generated_at": "2026-11-02T19:13:37.781758Z",
+  "state_counts": {
+   "active": 3,
+   "error": 1,
+   "idle": 0,
+   "in_review": 2
+  },
+  "window": "30d",
+  "window_start": "2026-10-03T19:13:37.781758Z"
+ },
+ "answers": {
+  "CUST-0040 wants 50 more seats. Does that need Finance approval?": {
+   "answer": "Yes, CUST-0040's request for 50 additional seats requires human Finance approval [S1][S3][S6]. Under the Enterprise tier pricing of $140 per seat per year, adding 50 seats equals $583.333\u2026 per month, calculated as 50 \u00d7 $140 / 12 = $583.333\u2026 [S1][S3][S6]. Human Finance approval is mandatory because the aggregated incremental monthly equivalent is strictly greater than $500.00 [S3].",
+   "citations": [
+    {
+     "authority": "governing",
+     "chunk_id": "947caa8b-9b9b-4bbf-bdb3-c83be90b8236",
+     "doc_id": "SOP-02",
+     "quote": "Enterprise `CUST-0040` (`CTR-0040`), 1500 current seats: proposed +50 = $583.333\u2026/month.",
+     "quote_verified": true,
+     "section": "4. Boundary examples",
+     "source_file": "sops/SOP_02_Seat_Provisioning.md",
+     "source_id": "S1"
+    },
+    {
+     "authority": "governing",
+     "chunk_id": "17ce96bf-adb2-4e33-ab29-d55025f29529",
+     "doc_id": "SOP-02",
+     "quote": "**Human Finance approval is mandatory when the aggregated incremental monthly equivalent is strictly greater than $500.00.**",
+     "quote_verified": true,
+     "section": "1. Rule and arithmetic",
+     "source_file": "sops/SOP_02_Seat_Provisioning.md",
+     "source_id": "S3"
+    },
+    {
+     "authority": "governing",
+     "chunk_id": "4c804415-a3c3-4062-95e2-75cf4dc7bdb9",
+     "doc_id": "SOW_Enterprise_Client_Sample",
+     "quote": "At $140 per seat per year, **50 seats = $583.333\u2026 monthly equivalent**, above the $500 approval threshold",
+     "quote_verified": true,
+     "section": "4. Change control and business friction example",
+     "source_file": "legal/SOW_Enterprise_Client_Sample.md",
+     "source_id": "S6"
+    }
+   ],
+   "confidence": "high",
+   "grounded": true,
+   "insufficient_context": false,
+   "model": "gemini-3.5-flash",
+   "question": "CUST-0040 wants 50 more seats. Does that need Finance approval?",
+   "sources_considered": [
+    {
+     "doc_id": "SOP-02",
+     "rrf_score": "0.03202",
+     "section": "4. Boundary examples",
+     "source_id": "S1"
+    },
+    {
+     "doc_id": "SOP-02",
+     "rrf_score": "0.03200",
+     "section": "3. Workflow",
+     "source_id": "S2"
+    },
+    {
+     "doc_id": "SOP-02",
+     "rrf_score": "0.03128",
+     "section": "1. Rule and arithmetic",
+     "source_id": "S3"
+    },
+    {
+     "doc_id": "Slack_Transcript_CSM_Sync",
+     "rrf_score": "0.03102",
+     "section": "Transcript (part 1/2)",
+     "source_id": "S4"
+    },
+    {
+     "doc_id": "SOP-02",
+     "rrf_score": "0.03101",
+     "section": "2. Rolling 30-calendar-day window",
+     "source_id": "S5"
+    },
+    {
+     "doc_id": "SOW_Enterprise_Client_Sample",
+     "rrf_score": "0.03089",
+     "section": "4. Change control and business friction example",
+     "source_id": "S6"
+    }
+   ],
+   "warnings": [
+    "engine: langchain"
+   ]
+  },
+  "Can we mark CUST-0011 as churned if they say payment was sent?": {
+   "answer": "No, CUST-0011 cannot be marked as CHURNED based on an unverified claim that payment was sent [S1][S2]. Rowan Patel instructed that an account must not be converted from DELINQUENT to CHURNED without verifying settlement and reconciling the bank receipt [S2]. Additionally, Finance Director Parker Kim placed a hold on any account-status change for CUST-0011 pending payment reconciliation [S2].",
+   "citations": [
+    {
+     "authority": "narrative",
+     "chunk_id": "ae6b4118-d13f-4929-830b-63f96642d773",
+     "doc_id": "Slack_Transcript_CSM_Sync",
+     "quote": "Customer says their AP team \"already sent a transfer.\"",
+     "quote_verified": true,
+     "section": "Transcript (part 1/2)",
+     "source_file": "internal_ops/Slack_Transcript_CSM_Sync.md",
+     "source_id": "S1"
+    },
+    {
+     "authority": "narrative",
+     "chunk_id": "f367d407-7485-425e-8074-6bf256bf0a2c",
+     "doc_id": "Slack_Transcript_CSM_Sync",
+     "quote": "Do **not** convert DELINQUENT to CHURNED on an unverified claim.",
+     "quote_verified": true,
+     "section": "Transcript (part 2/2)",
+     "source_file": "internal_ops/Slack_Transcript_CSM_Sync.md",
+     "source_id": "S2"
+    },
+    {
+     "authority": "narrative",
+     "chunk_id": "f367d407-7485-425e-8074-6bf256bf0a2c",
+     "doc_id": "Slack_Transcript_CSM_Sync",
+     "quote": "HOLD any account-status change for `CUST-0011` pending payment reconciliation.",
+     "quote_verified": true,
+     "section": "Transcript (part 2/2)",
+     "source_file": "internal_ops/Slack_Transcript_CSM_Sync.md",
+     "source_id": "S2"
+    }
+   ],
+   "confidence": "high",
+   "grounded": true,
+   "insufficient_context": false,
+   "model": "gemini-3.5-flash",
+   "question": "Can we mark CUST-0011 as churned if they say payment was sent?",
+   "sources_considered": [
+    {
+     "doc_id": "Slack_Transcript_CSM_Sync",
+     "rrf_score": "0.03252",
+     "section": "Transcript (part 1/2)",
+     "source_id": "S1"
+    },
+    {
+     "doc_id": "Slack_Transcript_CSM_Sync",
+     "rrf_score": "0.03227",
+     "section": "Transcript (part 2/2)",
+     "source_id": "S2"
+    },
+    {
+     "doc_id": "Finance_Collection_Notice",
+     "rrf_score": "0.03175",
+     "section": "Body (part 1/2)",
+     "source_id": "S3"
+    },
+    {
+     "doc_id": "Finance_Collection_Notice",
+     "rrf_score": "0.03102",
+     "section": "Body (part 2/2)",
+     "source_id": "S4"
+    },
+    {
+     "doc_id": "Slack_Transcript_CSM_Sync",
+     "rrf_score": "0.03055",
+     "section": "Overview",
+     "source_id": "S5"
+    },
+    {
+     "doc_id": "MSA_Template_v1.0",
+     "rrf_score": "0.03054",
+     "section": "6. Fees, late payment, and disputed charges",
+     "source_id": "S6"
+    }
+   ],
+   "warnings": [
+    "engine: langchain"
+   ]
+  },
+  "What is the Enterprise P1 initial response and resolution SLA?": {
+   "answer": "For Enterprise tier tickets, the P1 initial human response SLA is 15 clock minutes [S1][S2]. The P1 resolution SLA is 4 clock hours [S2][S4]. Both SLAs operate 24\u00d77 [S1][S2].",
+   "citations": [
+    {
+     "authority": "governing",
+     "chunk_id": "add1de3f-77e5-40ad-8102-3a9f54a2e257",
+     "doc_id": "SOP-01",
+     "quote": "| P1 | 4 business hours | 1 coverage hour | 15 clock minutes |",
+     "quote_verified": true,
+     "section": "2. Human initial response matrix",
+     "source_file": "sops/SOP_01_Ticket_Escalation.md",
+     "source_id": "S1"
+    },
+    {
+     "authority": "governing",
+     "chunk_id": "8f378f01-eb8b-47e3-811a-a2beedc2a74f",
+     "doc_id": "SOW_Enterprise_Client_Sample",
+     "quote": "P1 initial human response 15 clock minutes, resolution 4 clock hours, both 24\u00d77.",
+     "quote_verified": true,
+     "section": "3. Service commitments",
+     "source_file": "legal/SOW_Enterprise_Client_Sample.md",
+     "source_id": "S2"
+    },
+    {
+     "authority": "governing",
+     "chunk_id": "7da8b7c9-7c1c-426d-8061-eb8e024aba4b",
+     "doc_id": "SOP-01",
+     "quote": "| P1 | Production-wide outage, severe security incident, essential service unusable | 2 business days | 8 coverage hours | 4 clock hours |",
+     "quote_verified": true,
+     "section": "1. Severity rubric",
+     "source_file": "sops/SOP_01_Ticket_Escalation.md",
+     "source_id": "S4"
+    }
+   ],
+   "confidence": "high",
+   "grounded": true,
+   "insufficient_context": false,
+   "model": "gemini-3.5-flash",
+   "question": "What is the Enterprise P1 initial response and resolution SLA?",
+   "sources_considered": [
+    {
+     "doc_id": "SOP-01",
+     "rrf_score": "0.03252",
+     "section": "2. Human initial response matrix",
+     "source_id": "S1"
+    },
+    {
+     "doc_id": "SOW_Enterprise_Client_Sample",
+     "rrf_score": "0.03252",
+     "section": "3. Service commitments",
+     "source_id": "S2"
+    },
+    {
+     "doc_id": "SOP-01",
+     "rrf_score": "0.03150",
+     "section": "3. Procedure",
+     "source_id": "S3"
+    },
+    {
+     "doc_id": "SOP-01",
+     "rrf_score": "0.03126",
+     "section": "1. Severity rubric",
+     "source_id": "S4"
+    },
+    {
+     "doc_id": "Email_Thread_P1_Outage",
+     "rrf_score": "0.03078",
+     "section": "Message from alex.stone.0069@nexusflow.example 2026-10-28 09:10 UTC",
+     "source_id": "S5"
+    },
+    {
+     "doc_id": "Email_Thread_P1_Outage",
+     "rrf_score": "0.02942",
+     "section": "Message from alex.stone.0069@nexusflow.example 2026-10-28 10:22 UTC",
+     "source_id": "S6"
+    }
+   ],
+   "warnings": [
+    "engine: langchain"
+   ]
+  }
+ },
+ "captured_at": "2026-11-02T19:13:37.466357+00:00",
+ "dashboard": {
+  "agents": {
+   "active_runs": 3,
+   "arr_added": "0.00",
+   "by_engine": {
+    "langgraph": 7
+   },
+   "by_state": {
+    "REJECTED": 4,
+    "WAITING_FOR_APPROVAL": 3
+   },
+   "failure_rate_pct": 0.0,
+   "seats_provisioned": 0,
+   "state_transitions": 30,
+   "total_runs": 7
+  },
+  "approvals": {
+   "awaiting_expiry_sweep": 0,
+   "decided": {
+    "approved": 0,
+    "expired": 3,
+    "rejected": 0
+   },
+   "oldest_pending_age_hours": 0.0,
+   "pending": 3,
+   "pending_monthly_impact": "1185.00"
+  },
+  "automation": {
+   "inbound_events": {
+    "accept_rate_pct": 85.4,
+    "processed": 82,
+    "rejected": 14
+   },
+   "n8n_dispatches": {
+    "delivered": 25,
+    "failed": 0,
+    "mocked": 3,
+    "queued_offline": 0,
+    "success_rate_pct": 100.0
+   },
+   "total_events": 196,
+   "workflow_runs": {
+    "completed": 72,
+    "failed": 0,
+    "success_rate_pct": 100.0
+   }
+  },
+  "customers": {
+   "active_customers": 120,
+   "by_status": {
+    "ACTIVE": 114,
+    "DELINQUENT": 6
+   },
+   "by_tier": {
+    "ENTERPRISE": 12,
+    "MID_MARKET": 38,
+    "SMB": 70
+   },
+   "total_customers": 120
+  },
+  "generated_at": "2026-11-02T19:13:37.474712Z",
+  "recent_activity": [
+   {
+    "at": "2026-11-02T19:13:36.656363Z",
+    "kind": "event.callback",
+    "status": "PROCESSED",
+    "subject_id": "SRQ-SAMPLE-b6496bb4",
+    "summary": "n8n hitl_approval_notification: approval_card_sent",
+    "type": "workflow.completed"
+   },
+   {
+    "at": "2026-11-02T19:13:36.630740Z",
+    "kind": "event.outbound",
+    "status": "DELIVERED",
+    "subject_id": "SRQ-SAMPLE-b6496bb4",
+    "summary": "approval.requested \u2192 n8n",
+    "type": "approval.requested"
+   },
+   {
+    "at": "2026-11-02T19:13:36.547243Z",
+    "kind": "agent.transition",
+    "status": "WAITING_FOR_APPROVAL",
+    "subject_id": "SRQ-SAMPLE-b6496bb4",
+    "summary": "SRQ-SAMPLE-b6496bb4 (CUST-0001) \u2192 WAITING_FOR_APPROVAL: Request is not an explicit purchase; written authorization/clarification needed (SOP-02 \u00a75)",
+    "type": "WAITING_FOR_APPROVAL"
+   },
+   {
+    "at": "2026-11-02T19:13:36.528401Z",
+    "kind": "event.callback",
+    "status": "PROCESSED",
+    "subject_id": "SRQ-SAMPLE-89c3d7ae",
+    "summary": "n8n hitl_approval_notification: approval_card_sent",
+    "type": "workflow.completed"
+   },
+   {
+    "at": "2026-11-02T19:13:36.488222Z",
+    "kind": "agent.transition",
+    "status": "CALCULATING_IMPACT",
+    "subject_id": "SRQ-SAMPLE-b6496bb4",
+    "summary": "SRQ-SAMPLE-b6496bb4 (CUST-0001) \u2192 CALCULATING_IMPACT: contract and negotiated clauses analysed",
+    "type": "CALCULATING_IMPACT"
+   },
+   {
+    "at": "2026-11-02T19:13:36.487751Z",
+    "kind": "event.outbound",
+    "status": "DELIVERED",
+    "subject_id": "SRQ-SAMPLE-89c3d7ae",
+    "summary": "approval.requested \u2192 n8n",
+    "type": "approval.requested"
+   },
+   {
+    "at": "2026-11-02T19:13:36.455400Z",
+    "kind": "agent.transition",
+    "status": "ANALYZING_CONTRACT",
+    "subject_id": "SRQ-SAMPLE-b6496bb4",
+    "summary": "SRQ-SAMPLE-b6496bb4 (CUST-0001) \u2192 ANALYZING_CONTRACT: loading contract terms and negotiated clauses",
+    "type": "ANALYZING_CONTRACT"
+   },
+   {
+    "at": "2026-11-02T19:13:36.443496Z",
+    "kind": "agent.transition",
+    "status": "INITIATED",
+    "subject_id": "SRQ-SAMPLE-b6496bb4",
+    "summary": "SRQ-SAMPLE-b6496bb4 (CUST-0001) \u2192 INITIATED: seat request received from crm:EMP-0057",
+    "type": "INITIATED"
+   },
+   {
+    "at": "2026-11-02T19:13:36.411361Z",
+    "kind": "agent.transition",
+    "status": "WAITING_FOR_APPROVAL",
+    "subject_id": "SRQ-SAMPLE-89c3d7ae",
+    "summary": "SRQ-SAMPLE-89c3d7ae (CUST-0040) \u2192 WAITING_FOR_APPROVAL: Aggregate 30-day monthly equivalent exceeds $500.00 (SOP-02 \u00a71); Customer-specific contract documents exist (SOW/order form); terms need human review",
+    "type": "WAITING_FOR_APPROVAL"
+   },
+   {
+    "at": "2026-11-02T19:13:36.371440Z",
+    "kind": "agent.transition",
+    "status": "CALCULATING_IMPACT",
+    "subject_id": "SRQ-SAMPLE-89c3d7ae",
+    "summary": "SRQ-SAMPLE-89c3d7ae (CUST-0040) \u2192 CALCULATING_IMPACT: contract and negotiated clauses analysed",
+    "type": "CALCULATING_IMPACT"
+   },
+   {
+    "at": "2026-11-02T19:13:19.755430Z",
+    "kind": "event.callback",
+    "status": "PROCESSED",
+    "subject_id": "SRQ-SAMPLE-231f78e0",
+    "summary": "n8n hitl_approval_notification: approval_card_sent",
+    "type": "workflow.completed"
+   },
+   {
+    "at": "2026-11-02T19:13:19.734273Z",
+    "kind": "event.outbound",
+    "status": "DELIVERED",
+    "subject_id": "SRQ-SAMPLE-231f78e0",
+    "summary": "approval.requested \u2192 n8n",
+    "type": "approval.requested"
+   }
+  ],
+  "revenue": {
+   "active_arr": "12400000.00",
+   "active_contracts": 120,
+   "baseline_arr": "12400000.00",
+   "by_plan": [
+    {
+     "arr": "2522800.00",
+     "contracts": 12,
+     "plan_tier": "ENTERPRISE"
+    },
+    {
+     "arr": "5700000.00",
+     "contracts": 38,
+     "plan_tier": "GROWTH"
+    },
+    {
+     "arr": "4177200.00",
+     "contracts": 70,
+     "plan_tier": "STARTER"
+    }
+   ],
+   "delta_vs_baseline": "0.00",
+   "mrr": "1033333.33"
+  },
+  "sla": {
+   "as_of": "2026-11-02T19:13:37.474712Z",
+   "by_severity": {
+    "P1": {
+     "compliance_rate_pct": null,
+     "resolved": 0,
+     "within_sla": 0
+    },
+    "P2": {
+     "compliance_rate_pct": 98.7,
+     "resolved": 75,
+     "within_sla": 74
+    },
+    "P3": {
+     "compliance_rate_pct": 100.0,
+     "resolved": 168,
+     "within_sla": 168
+    },
+    "P4": {
+     "compliance_rate_pct": 100.0,
+     "resolved": 88,
+     "within_sla": 88
+    }
+   },
+   "compliance_rate_pct": 99.7,
+   "open_at_risk": 11,
+   "open_breached": 26,
+   "open_tickets": 83,
+   "resolved_tickets": 331,
+   "resolved_within_sla": 330
+  }
+ },
+ "governance_runs": [
+  {
+   "contract_id": "CTR-0001",
+   "current_step": "Manager approval",
+   "customer_id": "CUST-0001",
+   "headline": "Paused for manager approval: not an explicit purchase",
+   "monthly_impact": "100.00",
+   "priority": "normal",
+   "progress_pct": 60,
+   "request_id": "SRQ-SAMPLE-b6496bb4",
+   "run_id": "358c6351-bde3-4ba2-a852-dc27c6d76d3a",
+   "started_at": "2026-11-02T19:13:36.443496+00:00",
+   "state": "WAITING_FOR_APPROVAL",
+   "steps_done": 3,
+   "steps_total": 5,
+   "updated_at": "2026-11-02T19:13:36.547243+00:00"
+  },
+  {
+   "contract_id": "CTR-0040",
+   "current_step": "Manager approval",
+   "customer_id": "CUST-0040",
+   "headline": "Paused for manager approval: 30-day total over $500/month, customer-specific contract terms",
+   "monthly_impact": "583.33",
+   "priority": "high",
+   "progress_pct": 60,
+   "request_id": "SRQ-SAMPLE-89c3d7ae",
+   "run_id": "53b1907d-a5f4-45aa-b7f2-8142ec5917f3",
+   "started_at": "2026-11-02T19:13:19.626855+00:00",
+   "state": "WAITING_FOR_APPROVAL",
+   "steps_done": 3,
+   "steps_total": 5,
+   "updated_at": "2026-11-02T19:13:36.411361+00:00"
+  },
+  {
+   "contract_id": "CTR-0071",
+   "current_step": "Manager approval",
+   "customer_id": "CUST-0071",
+   "headline": "Paused for manager approval: 30-day total over $500/month",
+   "monthly_impact": "501.67",
+   "priority": "high",
+   "progress_pct": 60,
+   "request_id": "SRQ-SAMPLE-231f78e0",
+   "run_id": "e58dcbb1-beea-446f-ae57-1d5dccc3c1c2",
+   "started_at": "2026-11-02T19:13:19.513763+00:00",
+   "state": "WAITING_FOR_APPROVAL",
+   "steps_done": 3,
+   "steps_total": 5,
+   "updated_at": "2026-11-02T19:13:19.591140+00:00"
+  },
+  {
+   "contract_id": "CTR-0001",
+   "current_step": null,
+   "customer_id": "CUST-0001",
+   "headline": "Approval expired without a decision: nothing provisioned",
+   "monthly_impact": "100.00",
+   "priority": "normal",
+   "progress_pct": 100,
+   "request_id": "SRQ-DEMO-71ce92a3",
+   "run_id": "9aac56cc-2a04-444b-8edd-77668a16ea05",
+   "started_at": "2026-10-29T14:59:04.353419+00:00",
+   "state": "REJECTED",
+   "steps_done": 4,
+   "steps_total": 4,
+   "updated_at": "2026-11-01T19:29:06.929770+00:00"
+  },
+  {
+   "contract_id": "CTR-0040",
+   "current_step": null,
+   "customer_id": "CUST-0040",
+   "headline": "Approval expired without a decision: nothing provisioned",
+   "monthly_impact": "116.67",
+   "priority": "high",
+   "progress_pct": 100,
+   "request_id": "SRQ-DEMO-8b8ff0cd",
+   "run_id": "35fd21b1-f8a6-4adb-99f8-9c9bbbfe14f9",
+   "started_at": "2026-10-29T14:57:11.532073+00:00",
+   "state": "REJECTED",
+   "steps_done": 4,
+   "steps_total": 4,
+   "updated_at": "2026-11-01T19:29:06.905445+00:00"
+  },
+  {
+   "contract_id": "CTR-0071",
+   "current_step": null,
+   "customer_id": "CUST-0071",
+   "headline": "Approval expired without a decision: nothing provisioned",
+   "monthly_impact": "501.67",
+   "priority": "high",
+   "progress_pct": 100,
+   "request_id": "SRQ-DEMO-6feba3d5",
+   "run_id": "d75080a0-19e4-4063-b2d5-6737e86c0658",
+   "started_at": "2026-10-29T14:57:11.443692+00:00",
+   "state": "REJECTED",
+   "steps_done": 4,
+   "steps_total": 4,
+   "updated_at": "2026-11-01T19:29:06.881599+00:00"
+  },
+  {
+   "contract_id": "CTR-0011",
+   "current_step": null,
+   "customer_id": "CUST-0011",
+   "headline": "Rejected by the agent: CUST-0011 is DELINQUENT; Finance must clear the account first",
+   "monthly_impact": null,
+   "priority": "normal",
+   "progress_pct": 100,
+   "request_id": "SRQ-DEMO-430fb251",
+   "run_id": "4d40cf47-73ed-4532-8dbe-c1f46c8f12d8",
+   "started_at": "2026-10-29T14:48:41.435276+00:00",
+   "state": "REJECTED",
+   "steps_done": 1,
+   "steps_total": 1,
+   "updated_at": "2026-10-29T14:48:41.447288+00:00"
+  }
+ ],
+ "metrics": {
+  "active_customers": 120,
+  "arr": {
+   "active": "12400000.00",
+   "baseline": "12400000.00",
+   "delta": "0.00"
+  },
+  "executions": {
+   "governance_runs_active": 3,
+   "governance_runs_by_state": {
+    "REJECTED": 4,
+    "WAITING_FOR_APPROVAL": 3
+   },
+   "governance_runs_total": 7,
+   "n8n_dispatches_total": 25,
+   "workflow_runs_total": 72
+  },
+  "generated_at": "2026-11-02T19:13:37.514516Z",
+  "pending_approvals": 3,
+  "rates": {
+   "agent_failure_pct": 0.0,
+   "inbound_accept_pct": 85.4,
+   "n8n_dispatch_success_pct": 100.0,
+   "sla_compliance_pct": 99.7,
+   "workflow_success_pct": 100.0
+  }
+ },
+ "n8n_workflows": {
+  "generated_at": "2026-11-02T19:13:37.735287Z",
+  "retention_hours": 168,
+  "telemetry_available": true,
+  "window": "7d",
+  "window_exceeds_retention": false,
+  "window_start": "2026-10-26T19:13:37.735287Z",
+  "workflows": [
+   {
+    "avg_latency_ms": 161.2,
+    "edges": [
+     {
+      "branch": null,
+      "source": "Weekdays 09:00 Chicago",
+      "target": "Sign overdue poll"
+     },
+     {
+      "branch": null,
+      "source": "Run on demand",
+      "target": "Sign overdue poll"
+     },
+     {
+      "branch": null,
+      "source": "Sign overdue poll",
+      "target": "Fetch overdue invoices"
+     },
+     {
+      "branch": null,
+      "source": "Fetch overdue invoices",
+      "target": "Fan out overdue invoices"
+     },
+     {
+      "branch": null,
+      "source": "Fan out overdue invoices",
+      "target": "Build delinquency event"
+     },
+     {
+      "branch": null,
+      "source": "Delinquency alert received",
+      "target": "Verify signature"
+     },
+     {
+      "branch": null,
+      "source": "Verify signature",
+      "target": "Signature valid?"
+     },
+     {
+      "branch": "yes",
+      "source": "Signature valid?",
+      "target": "Ack: 202 accepted"
+     },
+     {
+      "branch": "no",
+      "source": "Signature valid?",
+      "target": "Reject: bad signature"
+     },
+     {
+      "branch": null,
+      "source": "Ack: 202 accepted",
+      "target": "Normalize alert"
+     },
+     {
+      "branch": null,
+      "source": "Normalize alert",
+      "target": "Build delinquency event"
+     },
+     {
+      "branch": null,
+      "source": "Build delinquency event",
+      "target": "Get account summary & draft notice"
+     },
+     {
+      "branch": null,
+      "source": "Get account summary & draft notice",
+      "target": "Build action log"
+     },
+     {
+      "branch": null,
+      "source": "Build action log",
+      "target": "Log action in NexusFlow"
+     }
+    ],
+    "executions": 21,
+    "failed": 0,
+    "key": "delinquent_invoice_reconciliation",
+    "last_run_at": "2026-11-01T14:52:17.229000Z",
+    "n8n_id": "nxfDelinquentInv1",
+    "name": "Invoice Reconciliation",
+    "nodes": [
+     {
+      "avg_ms": 1.0,
+      "errors": 0,
+      "name": "Weekdays 09:00 Chicago",
+      "role": "Schedule trigger",
+      "runs": 1,
+      "state": "ok",
+      "success_rate": 100.0
+     },
+     {
+      "avg_ms": 3.0,
+      "errors": 0,
+      "name": "Run on demand",
+      "role": "Manual trigger",
+      "runs": 1,
+      "state": "ok",
+      "success_rate": 100.0
+     },
+     {
+      "avg_ms": 334.0,
+      "errors": 0,
+      "name": "Sign overdue poll",
+      "role": "HMAC SHA-256",
+      "runs": 2,
+      "state": "ok",
+      "success_rate": 100.0
+     },
+     {
+      "avg_ms": 145.5,
+      "errors": 0,
+      "name": "Fetch overdue invoices",
+      "role": "API call",
+      "runs": 2,
+      "state": "ok",
+      "success_rate": 100.0
+     },
+     {
+      "avg_ms": 10.5,
+      "errors": 0,
+      "name": "Fan out overdue invoices",
+      "role": "Transform",
+      "runs": 2,
+      "state": "ok",
+      "success_rate": 100.0
+     },
+     {
+      "avg_ms": 0.1,
+      "errors": 0,
+      "name": "Delinquency alert received",
+      "role": "Webhook trigger",
+      "runs": 19,
+      "state": "ok",
+      "success_rate": 100.0
+     },
+     {
+      "avg_ms": 9.8,
+      "errors": 0,
+      "name": "Verify signature",
+      "role": "HMAC SHA-256",
+      "runs": 19,
+      "state": "ok",
+      "success_rate": 100.0
+     },
+     {
+      "avg_ms": 2.5,
+      "errors": 0,
+      "name": "Signature valid?",
+      "role": "HMAC SHA-256",
+      "runs": 19,
+      "state": "ok",
+      "success_rate": 100.0
+     },
+     {
+      "avg_ms": null,
+      "errors": 0,
+      "name": "Reject: bad signature",
+      "role": "Response",
+      "runs": 0,
+      "state": "idle",
+      "success_rate": null
+     },
+     {
+      "avg_ms": 3.1,
+      "errors": 0,
+      "name": "Ack: 202 accepted",
+      "role": "Response",
+      "runs": 19,
+      "state": "ok",
+      "success_rate": 100.0
+     },
+     {
+      "avg_ms": 6.7,
+      "errors": 0,
+      "name": "Normalize alert",
+      "role": "Transform",
+      "runs": 19,
+      "state": "ok",
+      "success_rate": 100.0
+     },
+     {
+      "avg_ms": 6.4,
+      "errors": 0,
+      "name": "Build delinquency event",
+      "role": "Transform",
+      "runs": 21,
+      "state": "ok",
+      "success_rate": 100.0
+     },
+     {
+      "avg_ms": 33.2,
+      "errors": 0,
+      "name": "Get account summary & draft notice",
+      "role": "Rule engine",
+      "runs": 21,
+      "state": "ok",
+      "success_rate": 100.0
+     },
+     {
+      "avg_ms": 11.2,
+      "errors": 0,
+      "name": "Build action log",
+      "role": "Transform",
+      "runs": 21,
+      "state": "ok",
+      "success_rate": 100.0
+     },
+     {
+      "avg_ms": 24.4,
+      "errors": 0,
+      "name": "Log action in NexusFlow",
+      "role": "Audit callback",
+      "runs": 21,
+      "state": "ok",
+      "success_rate": 100.0
+     }
+    ],
+    "p95_latency_ms": 411.0,
+    "published": true,
+    "running": 0,
+    "sample_input": {
+     "body": {
+      "data": {
+       "as_of": "2026-01-01",
+       "customer_id": "CUST-0000",
+       "draft_notice": true,
+       "invoice_id": "INV-SAMPLE-0001"
+      },
+      "event_id": "00000000-0000-4000-8000-000000000001",
+      "event_type": "invoice.delinquent",
+      "occurred_at": "2026-01-01T00:00:00Z",
+      "source": "n8n"
+     },
+     "headers": {
+      "X-NexusFlow-Signature": "[redacted]",
+      "X-NexusFlow-Timestamp": "1767225600"
+     }
+    },
+    "state": "healthy",
+    "succeeded": 21,
+    "success_rate": 100.0,
+    "summary": "Finds overdue invoices on a schedule or from a signed alert, then builds the account summary and a collection notice draft. The draft is never sent."
+   },
+   {
+    "avg_latency_ms": 66.4,
+    "edges": [
+     {
+      "branch": null,
+      "source": "Seat request received",
+      "target": "Verify signature"
+     },
+     {
+      "branch": null,
+      "source": "Verify signature",
+      "target": "Signature valid?"
+     },
+     {
+      "branch": "yes",
+      "source": "Signature valid?",
+      "target": "Normalize seat request"
+     },
+     {
+      "branch": "no",
+      "source": "Signature valid?",
+      "target": "Reject: bad signature"
+     },
+     {
+      "branch": null,
+      "source": "Normalize seat request",
+      "target": "Evaluate $500 threshold"
+     },
+     {
+      "branch": null,
+      "source": "Evaluate $500 threshold",
+      "target": "Evaluated?"
+     },
+     {
+      "branch": "yes",
+      "source": "Evaluated?",
+      "target": "Finance approval required?"
+     },
+     {
+      "branch": "no",
+      "source": "Evaluated?",
+      "target": "Respond: rejected by backend"
+     },
+     {
+      "branch": "yes",
+      "source": "Finance approval required?",
+      "target": "Format Finance approval request"
+     },
+     {
+      "branch": "no",
+      "source": "Finance approval required?",
+      "target": "Format customer authorization request"
+     },
+     {
+      "branch": null,
+      "source": "Format Finance approval request",
+      "target": "Build callback"
+     },
+     {
+      "branch": null,
+      "source": "Format customer authorization request",
+      "target": "Build callback"
+     },
+     {
+      "branch": null,
+      "source": "Build callback",
+      "target": "Report to NexusFlow"
+     },
+     {
+      "branch": null,
+      "source": "Report to NexusFlow",
+      "target": "Respond: decision"
+     }
+    ],
+    "executions": 38,
+    "failed": 0,
+    "key": "seat_expansion_trigger",
+    "last_run_at": "2026-11-01T14:52:17.191000Z",
+    "n8n_id": "nxfSeatExpansion1",
+    "name": "Seat Expansion Intake",
+    "nodes": [
+     {
+      "avg_ms": 0.3,
+      "errors": 0,
+      "name": "Seat request received",
+      "role": "Webhook trigger",
+      "runs": 38,
+      "state": "ok",
+      "success_rate": 100.0
+     },
+     {
+      "avg_ms": 10.4,
+      "errors": 0,
+      "name": "Verify signature",
+      "role": "HMAC SHA-256",
+      "runs": 38,
+      "state": "ok",
+      "success_rate": 100.0
+     },
+     {
+      "avg_ms": 4.2,
+      "errors": 0,
+      "name": "Signature valid?",
+      "role": "HMAC SHA-256",
+      "runs": 38,
+      "state": "ok",
+      "success_rate": 100.0
+     },
+     {
+      "avg_ms": 3.1,
+      "errors": 0,
+      "name": "Reject: bad signature",
+      "role": "Response",
+      "runs": 19,
+      "state": "ok",
+      "success_rate": 100.0
+     },
+     {
+      "avg_ms": 6.9,
+      "errors": 0,
+      "name": "Normalize seat request",
+      "role": "Transform",
+      "runs": 19,
+      "state": "ok",
+      "success_rate": 100.0
+     },
+     {
+      "avg_ms": 33.7,
+      "errors": 0,
+      "name": "Evaluate $500 threshold",
+      "role": "Rule engine",
+      "runs": 19,
+      "state": "ok",
+      "success_rate": 100.0
+     },
+     {
+      "avg_ms": 2.6,
+      "errors": 0,
+      "name": "Evaluated?",
+      "role": "Decision",
+      "runs": 19,
+      "state": "ok",
+      "success_rate": 100.0
+     },
+     {
+      "avg_ms": null,
+      "errors": 0,
+      "name": "Respond: rejected by backend",
+      "role": "Response",
+      "runs": 0,
+      "state": "idle",
+      "success_rate": null
+     },
+     {
+      "avg_ms": 1.9,
+      "errors": 0,
+      "name": "Finance approval required?",
+      "role": "Decision",
+      "runs": 19,
+      "state": "ok",
+      "success_rate": 100.0
+     },
+     {
+      "avg_ms": 5.5,
+      "errors": 0,
+      "name": "Format Finance approval request",
+      "role": "Transform",
+      "runs": 19,
+      "state": "ok",
+      "success_rate": 100.0
+     },
+     {
+      "avg_ms": null,
+      "errors": 0,
+      "name": "Format customer authorization request",
+      "role": "Transform",
+      "runs": 0,
+      "state": "idle",
+      "success_rate": null
+     },
+     {
+      "avg_ms": 6.5,
+      "errors": 0,
+      "name": "Build callback",
+      "role": "Transform",
+      "runs": 19,
+      "state": "ok",
+      "success_rate": 100.0
+     },
+     {
+      "avg_ms": 18.6,
+      "errors": 0,
+      "name": "Report to NexusFlow",
+      "role": "Audit callback",
+      "runs": 19,
+      "state": "ok",
+      "success_rate": 100.0
+     },
+     {
+      "avg_ms": 6.9,
+      "errors": 0,
+      "name": "Respond: decision",
+      "role": "Response",
+      "runs": 19,
+      "state": "ok",
+      "success_rate": 100.0
+     }
+    ],
+    "p95_latency_ms": 168.9,
+    "published": true,
+    "running": 0,
+    "sample_input": {
+     "body": {
+      "data": {
+       "added_seats": 5,
+       "contract_id": "CTR-0000",
+       "customer_id": "CUST-0000",
+       "request_id": "SRQ-SAMPLE-0001",
+       "request_type": "PURCHASE",
+       "requested_at": "2026-01-01T00:00:00Z",
+       "requester_email": "requester@example.com"
+      },
+      "event_id": "00000000-0000-4000-8000-000000000001",
+      "event_type": "seat.requested",
+      "occurred_at": "2026-01-01T00:00:00Z",
+      "source": "n8n"
+     },
+     "headers": {
+      "X-NexusFlow-Signature": "[redacted]",
+      "X-NexusFlow-Timestamp": "1767225600"
+     }
+    },
+    "state": "healthy",
+    "succeeded": 38,
+    "success_rate": 100.0,
+    "summary": "Takes a signed seat request, applies the $500/month rule over the rolling 30 days and formats the approval request. It never provisions seats."
+   },
+   {
+    "avg_latency_ms": 47364.2,
+    "edges": [
+     {
+      "branch": null,
+      "source": "Escalation event received",
+      "target": "Verify signature"
+     },
+     {
+      "branch": null,
+      "source": "Verify signature",
+      "target": "Signature valid?"
+     },
+     {
+      "branch": "yes",
+      "source": "Signature valid?",
+      "target": "Ack: 202 accepted"
+     },
+     {
+      "branch": "no",
+      "source": "Signature valid?",
+      "target": "Reject: bad signature"
+     },
+     {
+      "branch": null,
+      "source": "Ack: 202 accepted",
+      "target": "Build copilot request"
+     },
+     {
+      "branch": null,
+      "source": "Build copilot request",
+      "target": "Ask RAG copilot"
+     },
+     {
+      "branch": null,
+      "source": "Ask RAG copilot",
+      "target": "Format alert payloads"
+     },
+     {
+      "branch": null,
+      "source": "Format alert payloads",
+      "target": "Alert channel configured?"
+     },
+     {
+      "branch": "yes",
+      "source": "Alert channel configured?",
+      "target": "Post alert to channel"
+     },
+     {
+      "branch": "no",
+      "source": "Alert channel configured?",
+      "target": "Build callback"
+     },
+     {
+      "branch": null,
+      "source": "Post alert to channel",
+      "target": "Build callback"
+     },
+     {
+      "branch": null,
+      "source": "Build callback",
+      "target": "Report to NexusFlow"
+     }
+    ],
+    "executions": 13,
+    "failed": 3,
+    "key": "p1_ticket_escalation",
+    "last_run_at": "2026-10-29T14:50:19.931000Z",
+    "n8n_id": "nxfP1TicketEscal1",
+    "name": "P1 Escalation",
+    "nodes": [
+     {
+      "avg_ms": 0.3,
+      "errors": 0,
+      "name": "Escalation event received",
+      "role": "Webhook trigger",
+      "runs": 13,
+      "state": "ok",
+      "success_rate": 100.0
+     },
+     {
+      "avg_ms": 13.4,
+      "errors": 0,
+      "name": "Verify signature",
+      "role": "HMAC SHA-256",
+      "runs": 13,
+      "state": "ok",
+      "success_rate": 100.0
+     },
+     {
+      "avg_ms": 4.6,
+      "errors": 0,
+      "name": "Signature valid?",
+      "role": "HMAC SHA-256",
+      "runs": 13,
+      "state": "ok",
+      "success_rate": 100.0
+     },
+     {
+      "avg_ms": null,
+      "errors": 0,
+      "name": "Reject: bad signature",
+      "role": "Response",
+      "runs": 0,
+      "state": "idle",
+      "success_rate": null
+     },
+     {
+      "avg_ms": 5.5,
+      "errors": 0,
+      "name": "Ack: 202 accepted",
+      "role": "Response",
+      "runs": 13,
+      "state": "ok",
+      "success_rate": 100.0
+     },
+     {
+      "avg_ms": 11.5,
+      "errors": 0,
+      "name": "Build copilot request",
+      "role": "Transform",
+      "runs": 13,
+      "state": "ok",
+      "success_rate": 100.0
+     },
+     {
+      "avg_ms": 47264.5,
+      "errors": 3,
+      "name": "Ask RAG copilot",
+      "role": "AI copilot",
+      "runs": 13,
+      "state": "fail",
+      "success_rate": 76.9
+     },
+     {
+      "avg_ms": 25.2,
+      "errors": 0,
+      "name": "Format alert payloads",
+      "role": "Transform",
+      "runs": 10,
+      "state": "ok",
+      "success_rate": 100.0
+     },
+     {
+      "avg_ms": 6.1,
+      "errors": 0,
+      "name": "Alert channel configured?",
+      "role": "Decision",
+      "runs": 10,
+      "state": "ok",
+      "success_rate": 100.0
+     },
+     {
+      "avg_ms": null,
+      "errors": 0,
+      "name": "Post alert to channel",
+      "role": "Notification dispatch",
+      "runs": 0,
+      "state": "idle",
+      "success_rate": null
+     },
+     {
+      "avg_ms": 11.5,
+      "errors": 0,
+      "name": "Build callback",
+      "role": "Transform",
+      "runs": 10,
+      "state": "ok",
+      "success_rate": 100.0
+     },
+     {
+      "avg_ms": 26.4,
+      "errors": 0,
+      "name": "Report to NexusFlow",
+      "role": "Audit callback",
+      "runs": 10,
+      "state": "ok",
+      "success_rate": 100.0
+     }
+    ],
+    "p95_latency_ms": 120099.8,
+    "published": true,
+    "running": 0,
+    "sample_input": {
+     "body": {
+      "data": {
+       "customer_id": "CUST-0000",
+       "effective_severity": "P1",
+       "summary": "Sample: authentication outage reported by the customer",
+       "ticket_id": "TK-0000"
+      },
+      "event_id": "00000000-0000-4000-8000-000000000001",
+      "event_type": "ticket.escalation_required",
+      "occurred_at": "2026-01-01T00:00:00Z",
+      "source": "nexusflow-api"
+     },
+     "headers": {
+      "X-NexusFlow-Signature": "[redacted]",
+      "X-NexusFlow-Timestamp": "1767225600"
+     }
+    },
+    "state": "degraded",
+    "succeeded": 10,
+    "success_rate": 76.9,
+    "summary": "Receives a P1 or P2 escalation from the API, asks the RAG copilot for triage and formats the alert. The alert posts only if a channel is configured."
+   },
+   {
+    "avg_latency_ms": 93.2,
+    "edges": [
+     {
+      "branch": null,
+      "source": "Approval event received",
+      "target": "Verify signature"
+     },
+     {
+      "branch": null,
+      "source": "Verify signature",
+      "target": "Signature valid?"
+     },
+     {
+      "branch": "yes",
+      "source": "Signature valid?",
+      "target": "Ack: 202 accepted"
+     },
+     {
+      "branch": "no",
+      "source": "Signature valid?",
+      "target": "Reject: bad signature"
+     },
+     {
+      "branch": null,
+      "source": "Ack: 202 accepted",
+      "target": "Approval requested?"
+     },
+     {
+      "branch": "yes",
+      "source": "Approval requested?",
+      "target": "Build approval card"
+     },
+     {
+      "branch": "no",
+      "source": "Approval requested?",
+      "target": "Format decision outcome"
+     },
+     {
+      "branch": null,
+      "source": "Build approval card",
+      "target": "Alert channel configured?"
+     },
+     {
+      "branch": null,
+      "source": "Format decision outcome",
+      "target": "Alert channel configured?"
+     },
+     {
+      "branch": "yes",
+      "source": "Alert channel configured?",
+      "target": "Post to channel"
+     },
+     {
+      "branch": "no",
+      "source": "Alert channel configured?",
+      "target": "Build callback"
+     },
+     {
+      "branch": null,
+      "source": "Post to channel",
+      "target": "Build callback"
+     },
+     {
+      "branch": null,
+      "source": "Build callback",
+      "target": "Report to NexusFlow"
+     },
+     {
+      "branch": null,
+      "source": "Approval decision relay",
+      "target": "Verify relay signature"
+     },
+     {
+      "branch": null,
+      "source": "Verify relay signature",
+      "target": "Relay signature valid?"
+     },
+     {
+      "branch": "yes",
+      "source": "Relay signature valid?",
+      "target": "Sign decision for API"
+     },
+     {
+      "branch": "no",
+      "source": "Relay signature valid?",
+      "target": "Reject relay: bad signature"
+     },
+     {
+      "branch": null,
+      "source": "Sign decision for API",
+      "target": "Submit decision"
+     },
+     {
+      "branch": null,
+      "source": "Submit decision",
+      "target": "Respond: decision result"
+     }
+    ],
+    "executions": 95,
+    "failed": 0,
+    "key": "hitl_approval_notification",
+    "last_run_at": "2026-11-02T19:13:36.583000Z",
+    "n8n_id": "nxfHitlApproval1",
+    "name": "Approval Notifications",
+    "nodes": [
+     {
+      "avg_ms": 0.3,
+      "errors": 0,
+      "name": "Approval event received",
+      "role": "Webhook trigger",
+      "runs": 57,
+      "state": "ok",
+      "success_rate": 100.0
+     },
+     {
+      "avg_ms": 12.4,
+      "errors": 0,
+      "name": "Verify signature",
+      "role": "HMAC SHA-256",
+      "runs": 57,
+      "state": "ok",
+      "success_rate": 100.0
+     },
+     {
+      "avg_ms": 5.0,
+      "errors": 0,
+      "name": "Signature valid?",
+      "role": "HMAC SHA-256",
+      "runs": 57,
+      "state": "ok",
+      "success_rate": 100.0
+     },
+     {
+      "avg_ms": null,
+      "errors": 0,
+      "name": "Reject: bad signature",
+      "role": "Response",
+      "runs": 0,
+      "state": "idle",
+      "success_rate": null
+     },
+     {
+      "avg_ms": 2.2,
+      "errors": 0,
+      "name": "Ack: 202 accepted",
+      "role": "Response",
+      "runs": 57,
+      "state": "ok",
+      "success_rate": 100.0
+     },
+     {
+      "avg_ms": 2.7,
+      "errors": 0,
+      "name": "Approval requested?",
+      "role": "Decision",
+      "runs": 57,
+      "state": "ok",
+      "success_rate": 100.0
+     },
+     {
+      "avg_ms": 10.2,
+      "errors": 0,
+      "name": "Build approval card",
+      "role": "Transform",
+      "runs": 33,
+      "state": "ok",
+      "success_rate": 100.0
+     },
+     {
+      "avg_ms": 8.1,
+      "errors": 0,
+      "name": "Format decision outcome",
+      "role": "Transform",
+      "runs": 24,
+      "state": "ok",
+      "success_rate": 100.0
+     },
+     {
+      "avg_ms": 1.6,
+      "errors": 0,
+      "name": "Alert channel configured?",
+      "role": "Decision",
+      "runs": 57,
+      "state": "ok",
+      "success_rate": 100.0
+     },
+     {
+      "avg_ms": null,
+      "errors": 0,
+      "name": "Post to channel",
+      "role": "Notification dispatch",
+      "runs": 0,
+      "state": "idle",
+      "success_rate": null
+     },
+     {
+      "avg_ms": 8.1,
+      "errors": 0,
+      "name": "Build callback",
+      "role": "Transform",
+      "runs": 57,
+      "state": "ok",
+      "success_rate": 100.0
+     },
+     {
+      "avg_ms": 26.9,
+      "errors": 0,
+      "name": "Report to NexusFlow",
+      "role": "Audit callback",
+      "runs": 57,
+      "state": "ok",
+      "success_rate": 100.0
+     },
+     {
+      "avg_ms": 0.1,
+      "errors": 0,
+      "name": "Approval decision relay",
+      "role": "Webhook trigger",
+      "runs": 38,
+      "state": "ok",
+      "success_rate": 100.0
+     },
+     {
+      "avg_ms": 10.8,
+      "errors": 0,
+      "name": "Verify relay signature",
+      "role": "HMAC SHA-256",
+      "runs": 38,
+      "state": "ok",
+      "success_rate": 100.0
+     },
+     {
+      "avg_ms": 3.7,
+      "errors": 0,
+      "name": "Relay signature valid?",
+      "role": "HMAC SHA-256",
+      "runs": 38,
+      "state": "ok",
+      "success_rate": 100.0
+     },
+     {
+      "avg_ms": null,
+      "errors": 0,
+      "name": "Reject relay: bad signature",
+      "role": "Response",
+      "runs": 0,
+      "state": "idle",
+      "success_rate": null
+     },
+     {
+      "avg_ms": 6.2,
+      "errors": 0,
+      "name": "Sign decision for API",
+      "role": "HMAC SHA-256",
+      "runs": 38,
+      "state": "ok",
+      "success_rate": 100.0
+     },
+     {
+      "avg_ms": 78.0,
+      "errors": 0,
+      "name": "Submit decision",
+      "role": "Governance agent",
+      "runs": 38,
+      "state": "ok",
+      "success_rate": 100.0
+     },
+     {
+      "avg_ms": 4.0,
+      "errors": 0,
+      "name": "Respond: decision result",
+      "role": "Response",
+      "runs": 38,
+      "state": "ok",
+      "success_rate": 100.0
+     }
+    ],
+    "p95_latency_ms": 199.1,
+    "published": true,
+    "running": 0,
+    "sample_input": {
+     "body": {
+      "data": {
+       "approval_id": "00000000-0000-4000-8000-000000000002",
+       "contract_id": "CTR-0000",
+       "customer_id": "CUST-0000",
+       "request_id": "SRQ-SAMPLE-0001",
+       "run_id": "00000000-0000-4000-8000-000000000003",
+       "state": "WAITING_FOR_APPROVAL"
+      },
+      "event_id": "00000000-0000-4000-8000-000000000001",
+      "event_type": "approval.requested",
+      "occurred_at": "2026-01-01T00:00:00Z",
+      "source": "nexusflow-api"
+     },
+     "headers": {
+      "X-NexusFlow-Signature": "[redacted]",
+      "X-NexusFlow-Timestamp": "1767225600"
+     }
+    },
+    "state": "healthy",
+    "succeeded": 95,
+    "success_rate": 100.0,
+    "summary": "Posts the governance agent's approval card, without its token, and relays signed decisions back to the agent through a second entry point."
+   }
+  ]
+ },
+ "operations": {
+  "agent_status": {
+   "active": 4,
+   "error": 1,
+   "idle": 0,
+   "in_review": 1
+  },
+  "agents": [
+   {
+    "detail": "9 runs in window",
+    "key": "p1_ticket_escalation",
+    "kind": "n8n workflow",
+    "last_run_at": "2026-10-29T14:50:37.320484Z",
+    "name": "P1 escalation",
+    "runs": 9,
+    "status": "active"
+   },
+   {
+    "detail": "20 runs in window",
+    "key": "seat_expansion_trigger",
+    "kind": "n8n workflow",
+    "last_run_at": "2026-11-01T14:52:17.162145Z",
+    "name": "Seat expansion intake",
+    "runs": 20,
+    "status": "active"
+   },
+   {
+    "detail": "31 runs in window",
+    "key": "delinquent_invoice_reconciliation",
+    "kind": "n8n workflow",
+    "last_run_at": "2026-11-01T14:52:17.289192Z",
+    "name": "Invoice reconciliation",
+    "runs": 31,
+    "status": "active"
+   },
+   {
+    "detail": "12 runs in window",
+    "key": "hitl_approval_notification",
+    "kind": "n8n workflow",
+    "last_run_at": "2026-11-02T19:13:36.656363Z",
+    "name": "Approval notifications",
+    "runs": 12,
+    "status": "active"
+   },
+   {
+    "detail": "3 approvals waiting",
+    "key": "governance_agent",
+    "kind": "LangGraph agent",
+    "last_run_at": "2026-11-02T19:13:36.440291Z",
+    "name": "Governance agent",
+    "runs": 7,
+    "status": "in_review"
+   },
+   {
+    "detail": "last run failed",
+    "key": "rag_copilot",
+    "kind": "LangChain chain",
+    "last_run_at": "2026-10-29T14:50:37.235968Z",
+    "name": "RAG copilot",
+    "runs": 3,
+    "status": "error"
+   }
+  ],
+  "assumed_minutes_saved": {
+   "delinquent_invoice_reconciliation": 25,
+   "governance_agent": 15,
+   "hitl_approval_notification": 5,
+   "p1_ticket_escalation": 20,
+   "rag_copilot": 10,
+   "seat_expansion_trigger": 15
+  },
+  "bucket_hours": 6,
+  "generated_at": "2026-11-02T19:13:37.541320Z",
+  "kpis": {
+   "active_agents": {
+    "delta_pct": null,
+    "of_total": 6,
+    "previous": 0,
+    "value": 6
+   },
+   "active_workflows": {
+    "delta_pct": null,
+    "of_total": 4,
+    "previous": 0,
+    "value": 4
+   },
+   "success_rate": {
+    "delta_points": null,
+    "previous": null,
+    "value": 97.6
+   },
+   "time_saved_hours": {
+    "delta_pct": null,
+    "estimated": true,
+    "previous": 0.0,
+    "value": 23.8
+   },
+   "total_executions": {
+    "delta_pct": null,
+    "previous": 0,
+    "value": 82
+   }
+  },
+  "series": [
+   {
+    "failed": 0,
+    "human_review": 0,
+    "successful": 0,
+    "t": "2026-10-26T18:00:00Z"
+   },
+   {
+    "failed": 0,
+    "human_review": 0,
+    "successful": 0,
+    "t": "2026-10-27T00:00:00Z"
+   },
+   {
+    "failed": 0,
+    "human_review": 0,
+    "successful": 0,
+    "t": "2026-10-27T06:00:00Z"
+   },
+   {
+    "failed": 0,
+    "human_review": 0,
+    "successful": 0,
+    "t": "2026-10-27T12:00:00Z"
+   },
+   {
+    "failed": 0,
+    "human_review": 0,
+    "successful": 0,
+    "t": "2026-10-27T18:00:00Z"
+   },
+   {
+    "failed": 0,
+    "human_review": 0,
+    "successful": 0,
+    "t": "2026-10-28T00:00:00Z"
+   },
+   {
+    "failed": 0,
+    "human_review": 0,
+    "successful": 0,
+    "t": "2026-10-28T06:00:00Z"
+   },
+   {
+    "failed": 0,
+    "human_review": 0,
+    "successful": 0,
+    "t": "2026-10-28T12:00:00Z"
+   },
+   {
+    "failed": 0,
+    "human_review": 0,
+    "successful": 27,
+    "t": "2026-10-28T18:00:00Z"
+   },
+   {
+    "failed": 0,
+    "human_review": 0,
+    "successful": 0,
+    "t": "2026-10-29T00:00:00Z"
+   },
+   {
+    "failed": 0,
+    "human_review": 0,
+    "successful": 14,
+    "t": "2026-10-29T06:00:00Z"
+   },
+   {
+    "failed": 2,
+    "human_review": 3,
+    "successful": 19,
+    "t": "2026-10-29T12:00:00Z"
+   },
+   {
+    "failed": 0,
+    "human_review": 0,
+    "successful": 2,
+    "t": "2026-10-29T18:00:00Z"
+   },
+   {
+    "failed": 0,
+    "human_review": 0,
+    "successful": 0,
+    "t": "2026-10-30T00:00:00Z"
+   },
+   {
+    "failed": 0,
+    "human_review": 0,
+    "successful": 0,
+    "t": "2026-10-30T06:00:00Z"
+   },
+   {
+    "failed": 0,
+    "human_review": 0,
+    "successful": 0,
+    "t": "2026-10-30T12:00:00Z"
+   },
+   {
+    "failed": 0,
+    "human_review": 0,
+    "successful": 0,
+    "t": "2026-10-30T18:00:00Z"
+   },
+   {
+    "failed": 0,
+    "human_review": 0,
+    "successful": 0,
+    "t": "2026-10-31T00:00:00Z"
+   },
+   {
+    "failed": 0,
+    "human_review": 0,
+    "successful": 0,
+    "t": "2026-10-31T06:00:00Z"
+   },
+   {
+    "failed": 0,
+    "human_review": 0,
+    "successful": 0,
+    "t": "2026-10-31T12:00:00Z"
+   },
+   {
+    "failed": 0,
+    "human_review": 0,
+    "successful": 0,
+    "t": "2026-10-31T18:00:00Z"
+   },
+   {
+    "failed": 0,
+    "human_review": 0,
+    "successful": 0,
+    "t": "2026-11-01T00:00:00Z"
+   },
+   {
+    "failed": 0,
+    "human_review": 0,
+    "successful": 0,
+    "t": "2026-11-01T06:00:00Z"
+   },
+   {
+    "failed": 0,
+    "human_review": 0,
+    "successful": 6,
+    "t": "2026-11-01T12:00:00Z"
+   },
+   {
+    "failed": 0,
+    "human_review": 0,
+    "successful": 3,
+    "t": "2026-11-01T18:00:00Z"
+   },
+   {
+    "failed": 0,
+    "human_review": 0,
+    "successful": 0,
+    "t": "2026-11-02T00:00:00Z"
+   },
+   {
+    "failed": 0,
+    "human_review": 0,
+    "successful": 0,
+    "t": "2026-11-02T06:00:00Z"
+   },
+   {
+    "failed": 0,
+    "human_review": 0,
+    "successful": 0,
+    "t": "2026-11-02T12:00:00Z"
+   },
+   {
+    "failed": 0,
+    "human_review": 3,
+    "successful": 3,
+    "t": "2026-11-02T18:00:00Z"
+   }
+  ],
+  "window": "7d",
+  "window_start": "2026-10-26T19:13:37.541320Z",
+  "workflows": [
+   {
+    "executions": 31,
+    "human_review": 0,
+    "key": "delinquent_invoice_reconciliation",
+    "kind": "n8n workflow",
+    "last_run_at": "2026-11-01T14:52:17.289192Z",
+    "name": "Invoice reconciliation",
+    "success_rate": 100.0
+   },
+   {
+    "executions": 20,
+    "human_review": 0,
+    "key": "seat_expansion_trigger",
+    "kind": "n8n workflow",
+    "last_run_at": "2026-11-01T14:52:17.162145Z",
+    "name": "Seat expansion intake",
+    "success_rate": 100.0
+   },
+   {
+    "executions": 12,
+    "human_review": 0,
+    "key": "hitl_approval_notification",
+    "kind": "n8n workflow",
+    "last_run_at": "2026-11-02T19:13:36.656363Z",
+    "name": "Approval notifications",
+    "success_rate": 100.0
+   },
+   {
+    "executions": 9,
+    "human_review": 0,
+    "key": "p1_ticket_escalation",
+    "kind": "n8n workflow",
+    "last_run_at": "2026-10-29T14:50:37.320484Z",
+    "name": "P1 escalation",
+    "success_rate": 100.0
+   },
+   {
+    "executions": 7,
+    "human_review": 6,
+    "key": "governance_agent",
+    "kind": "LangGraph agent",
+    "last_run_at": "2026-11-02T19:13:36.440291Z",
+    "name": "Governance agent",
+    "success_rate": 100.0
+   },
+   {
+    "executions": 3,
+    "human_review": 0,
+    "key": "rag_copilot",
+    "kind": "LangChain chain",
+    "last_run_at": "2026-10-29T14:50:37.235968Z",
+    "name": "RAG copilot",
+    "success_rate": 33.3
+   }
+  ]
+ },
+ "pending_approvals": {
+  "approvals": [
+   {
+    "aggregate_monthly_30d": "501.67",
+    "annual_arr_impact": "6020.00",
+    "approval_id": "fa3023b1-2415-4e7d-b429-53f9a6f4948e",
+    "assigned_approver_id": "EMP-0082",
+    "card": {
+     "approver": {
+      "email": "parker.kim.0082@nexusflow.example",
+      "employee_id": "EMP-0082",
+      "name": "Parker Kim",
+      "role": "Finance Director"
+     },
+     "contract_documents": [],
+     "contract_review": null,
+     "facts": [
+      {
+       "label": "Request",
+       "value": "SRQ-SAMPLE-231f78e0"
+      },
+      {
+       "label": "Customer",
+       "value": "Nexus Client 0071 LLC (CUST-0071)"
+      },
+      {
+       "label": "Contract",
+       "value": "CTR-0071 \u00b7 ENTERPRISE \u00b7 $140.00/seat/yr"
+      },
+      {
+       "label": "Seats",
+       "value": "1500 -> 1543"
+      },
+      {
+       "label": "Monthly impact",
+       "value": "$501.67 (30-day aggregate $501.67)"
+      },
+      {
+       "label": "ARR impact",
+       "value": "+$6020.00"
+      },
+      {
+       "label": "Requested by",
+       "value": "requester@example.com (PURCHASE)"
+      },
+      {
+       "label": "Expires",
+       "value": "2026-11-05T19:13:19.588799+00:00"
+      }
+     ],
+     "reasons": [
+      {
+       "code": "MONTHLY_IMPACT_OVER_THRESHOLD",
+       "text": "Aggregate 30-day monthly equivalent exceeds $500.00 (SOP-02 \u00a71)"
+      }
+     ],
+     "summary": "43 \u00d7 $140.00 \u00f7 12 = $501.67/month; 30-day aggregate $501.67/month vs $500.00 threshold. ARR $210000.00 -> $216020.00.",
+     "title": "Seat expansion approval: Nexus Client 0071 LLC (+43 seats)"
+    },
+    "contract_id": "CTR-0071",
+    "created_at": "2026-11-02 19:13:19.587710+00:00",
+    "customer_id": "CUST-0071",
+    "decided_at": null,
+    "decided_by": null,
+    "decision_comment": null,
+    "expires_at": "2026-11-05 19:13:19.588799+00:00",
+    "monthly_cost_impact": "501.67",
+    "plan_tier": "ENTERPRISE",
+    "proposed_seats": 43,
+    "reasons": [
+     "MONTHLY_IMPACT_OVER_THRESHOLD"
+    ],
+    "request_id": "SRQ-SAMPLE-231f78e0",
+    "run_id": "e58dcbb1-beea-446f-ae57-1d5dccc3c1c2",
+    "status": "PENDING"
+   },
+   {
+    "aggregate_monthly_30d": "583.33",
+    "annual_arr_impact": "7000.00",
+    "approval_id": "547cb047-89c9-42a0-8982-30e5a8c19205",
+    "assigned_approver_id": "EMP-0082",
+    "card": {
+     "approver": {
+      "email": "parker.kim.0082@nexusflow.example",
+      "employee_id": "EMP-0082",
+      "name": "Parker Kim",
+      "role": "Finance Director"
+     },
+     "contract_documents": [
+      "legal/SOW_Enterprise_Client_Sample.md"
+     ],
+     "contract_review": {
+      "answer": "No, the SOW and contract documents for Nexus Client 0040 LLC (CUST-0040, contract CTR-0040) do not contain negotiated terms that change standard pricing, approval thresholds, or change control requirements [S1][S5][S6]. The pricing is set at the standard Enterprise annual unit price of **$140.00 per seat per year** [S5]. For an addition of 50 seats, the monthly cost calculation is 50 seats \u00d7 $140.00 / 12 months = $583.333\u2026 monthly equivalent, which exceeds the $500 approval threshold [S1][S2]. Consequently, **no seats are provisioned** until human Finance approval and customer authorization are recorded [S1]. Regarding change control, the SOW specifies that **Any material change to scope or price requires a signed amendment** [S6], and for the 50-seat addition, **An exact seat count, effective date, and whether a signed amendment is required remain unresolved** [S1].",
+      "citations": [
+       {
+        "doc_id": "SOW_Enterprise_Client_Sample",
+        "quote": "**50 seats = $583.333\u2026 monthly equivalent**, above the $500 approval threshold; **no seats are provisioned** until a human Finance approval and customer authorization are recorded.",
+        "quote_verified": true,
+        "section": "4. Change control and business friction example"
+       },
+       {
+        "doc_id": "SOP-02",
+        "quote": "Enterprise `CUST-0040` (`CTR-0040`), 1500 current seats: proposed +50 = $583.333\u2026/month.",
+        "quote_verified": true,
+        "section": "4. Boundary examples"
+       },
+       {
+        "doc_id": "SOW_Enterprise_Client_Sample",
+        "quote": "Enterprise annual unit price: **$140.00 per seat per year**",
+        "quote_verified": true,
+        "section": "1. Commercial schedule"
+       },
+       {
+        "doc_id": "SOW_Enterprise_Client_Sample",
+        "quote": "Any material change to scope or price requires a signed amendment.",
+        "quote_verified": true,
+        "section": "6. Exclusions and assumptions"
+       }
+      ],
+      "confidence": "high",
+      "grounded": true,
+      "insufficient_context": false,
+      "model": "gemini-3.5-flash",
+      "question": "For Nexus Client 0040 LLC (CUST-0040, contract CTR-0040, ENTERPRISE plan), do the customer's SOW or contract documents contain negotiated terms that change seat pricing, seat-expansion approval, change control or amendment requirements for adding 50 seats? Quote the exact terms."
+     },
+     "facts": [
+      {
+       "label": "Request",
+       "value": "SRQ-SAMPLE-89c3d7ae"
+      },
+      {
+       "label": "Customer",
+       "value": "Nexus Client 0040 LLC (CUST-0040)"
+      },
+      {
+       "label": "Contract",
+       "value": "CTR-0040 \u00b7 ENTERPRISE \u00b7 $140.00/seat/yr"
+      },
+      {
+       "label": "Seats",
+       "value": "1500 -> 1550"
+      },
+      {
+       "label": "Monthly impact",
+       "value": "$583.33 (30-day aggregate $583.33)"
+      },
+      {
+       "label": "ARR impact",
+       "value": "+$7000.00"
+      },
+      {
+       "label": "Requested by",
+       "value": "requester@example.com (PURCHASE)"
+      },
+      {
+       "label": "Expires",
+       "value": "2026-11-05T19:13:36.407983+00:00"
+      }
+     ],
+     "reasons": [
+      {
+       "code": "MONTHLY_IMPACT_OVER_THRESHOLD",
+       "text": "Aggregate 30-day monthly equivalent exceeds $500.00 (SOP-02 \u00a71)"
+      },
+      {
+       "code": "NEGOTIATED_CONTRACT_TERMS",
+       "text": "Customer-specific contract documents exist (SOW/order form); terms need human review"
+      }
+     ],
+     "summary": "50 \u00d7 $140.00 \u00f7 12 = $583.33/month; 30-day aggregate $583.33/month vs $500.00 threshold. ARR $210000.00 -> $217000.00.",
+     "title": "Seat expansion approval: Nexus Client 0040 LLC (+50 seats)"
+    },
+    "contract_id": "CTR-0040",
+    "created_at": "2026-11-02 19:13:36.405412+00:00",
+    "customer_id": "CUST-0040",
+    "decided_at": null,
+    "decided_by": null,
+    "decision_comment": null,
+    "expires_at": "2026-11-05 19:13:36.407983+00:00",
+    "monthly_cost_impact": "583.33",
+    "plan_tier": "ENTERPRISE",
+    "proposed_seats": 50,
+    "reasons": [
+     "MONTHLY_IMPACT_OVER_THRESHOLD",
+     "NEGOTIATED_CONTRACT_TERMS"
+    ],
+    "request_id": "SRQ-SAMPLE-89c3d7ae",
+    "run_id": "53b1907d-a5f4-45aa-b7f2-8142ec5917f3",
+    "status": "PENDING"
+   },
+   {
+    "aggregate_monthly_30d": "100.00",
+    "annual_arr_impact": "1200.00",
+    "approval_id": "e2ed23c8-d780-4613-8e2f-55ca8ce16d39",
+    "assigned_approver_id": "EMP-0082",
+    "card": {
+     "approver": {
+      "email": "parker.kim.0082@nexusflow.example",
+      "employee_id": "EMP-0082",
+      "name": "Parker Kim",
+      "role": "Finance Director"
+     },
+     "contract_documents": [],
+     "contract_review": null,
+     "facts": [
+      {
+       "label": "Request",
+       "value": "SRQ-SAMPLE-b6496bb4"
+      },
+      {
+       "label": "Customer",
+       "value": "Nexus Client 0001 LLC (CUST-0001)"
+      },
+      {
+       "label": "Contract",
+       "value": "CTR-0001 \u00b7 STARTER \u00b7 $600.00/seat/yr"
+      },
+      {
+       "label": "Seats",
+       "value": "100 -> 102"
+      },
+      {
+       "label": "Monthly impact",
+       "value": "$100.00 (30-day aggregate $100.00)"
+      },
+      {
+       "label": "ARR impact",
+       "value": "+$1200.00"
+      },
+      {
+       "label": "Requested by",
+       "value": "requester@example.com (RESERVATION)"
+      },
+      {
+       "label": "Expires",
+       "value": "2026-11-05T19:13:36.545752+00:00"
+      }
+     ],
+     "reasons": [
+      {
+       "code": "REQUEST_TYPE_NOT_PURCHASE",
+       "text": "Request is not an explicit purchase; written authorization/clarification needed (SOP-02 \u00a75)"
+      }
+     ],
+     "summary": "2 \u00d7 $600.00 \u00f7 12 = $100.00/month; 30-day aggregate $100.00/month vs $500.00 threshold. ARR $60000.00 -> $61200.00.",
+     "title": "Seat expansion approval: Nexus Client 0001 LLC (+2 seats)"
+    },
+    "contract_id": "CTR-0001",
+    "created_at": "2026-11-02 19:13:36.543428+00:00",
+    "customer_id": "CUST-0001",
+    "decided_at": null,
+    "decided_by": null,
+    "decision_comment": null,
+    "expires_at": "2026-11-05 19:13:36.545752+00:00",
+    "monthly_cost_impact": "100.00",
+    "plan_tier": "STARTER",
+    "proposed_seats": 2,
+    "reasons": [
+     "REQUEST_TYPE_NOT_PURCHASE"
+    ],
+    "request_id": "SRQ-SAMPLE-b6496bb4",
+    "run_id": "358c6351-bde3-4ba2-a852-dc27c6d76d3a",
+    "status": "PENDING"
+   }
+  ],
+  "count": 3,
+  "expired_now": 0
+ },
+ "runs": {
+  "358c6351-bde3-4ba2-a852-dc27c6d76d3a": {
+   "approval": {
+    "aggregate_monthly_30d": "100.00",
+    "annual_arr_impact": "1200.00",
+    "approval_id": "e2ed23c8-d780-4613-8e2f-55ca8ce16d39",
+    "assigned_approver_id": "EMP-0082",
+    "card": {
+     "approver": {
+      "email": "parker.kim.0082@nexusflow.example",
+      "employee_id": "EMP-0082",
+      "name": "Parker Kim",
+      "role": "Finance Director"
+     },
+     "contract_documents": [],
+     "contract_review": null,
+     "facts": [
+      {
+       "label": "Request",
+       "value": "SRQ-SAMPLE-b6496bb4"
+      },
+      {
+       "label": "Customer",
+       "value": "Nexus Client 0001 LLC (CUST-0001)"
+      },
+      {
+       "label": "Contract",
+       "value": "CTR-0001 \u00b7 STARTER \u00b7 $600.00/seat/yr"
+      },
+      {
+       "label": "Seats",
+       "value": "100 -> 102"
+      },
+      {
+       "label": "Monthly impact",
+       "value": "$100.00 (30-day aggregate $100.00)"
+      },
+      {
+       "label": "ARR impact",
+       "value": "+$1200.00"
+      },
+      {
+       "label": "Requested by",
+       "value": "requester@example.com (RESERVATION)"
+      },
+      {
+       "label": "Expires",
+       "value": "2026-11-05T19:13:36.545752+00:00"
+      }
+     ],
+     "reasons": [
+      {
+       "code": "REQUEST_TYPE_NOT_PURCHASE",
+       "text": "Request is not an explicit purchase; written authorization/clarification needed (SOP-02 \u00a75)"
+      }
+     ],
+     "summary": "2 \u00d7 $600.00 \u00f7 12 = $100.00/month; 30-day aggregate $100.00/month vs $500.00 threshold. ARR $60000.00 -> $61200.00.",
+     "title": "Seat expansion approval: Nexus Client 0001 LLC (+2 seats)"
+    },
+    "contract_id": "CTR-0001",
+    "created_at": "2026-11-02 19:13:36.543428+00:00",
+    "customer_id": "CUST-0001",
+    "decided_at": null,
+    "decided_by": null,
+    "decision_comment": null,
+    "expires_at": "2026-11-05 19:13:36.545752+00:00",
+    "monthly_cost_impact": "100.00",
+    "plan_tier": "STARTER",
+    "proposed_seats": 2,
+    "reasons": [
+     "REQUEST_TYPE_NOT_PURCHASE"
+    ],
+    "request_id": "SRQ-SAMPLE-b6496bb4",
+    "run_id": "358c6351-bde3-4ba2-a852-dc27c6d76d3a",
+    "status": "PENDING"
+   },
+   "clause_check": {
+    "corpus_indexed": true,
+    "documents": [],
+    "review": null
+   },
+   "contract": {
+    "annual_recurring_revenue": "60000.00",
+    "annual_unit_price": "600.00",
+    "auto_renew": true,
+    "committed_seats": 100,
+    "company_name": "Nexus Client 0001 LLC",
+    "contract_status": "ACTIVE",
+    "customer_tier": "SMB",
+    "days_remaining_in_term": 95,
+    "plan_tier": "STARTER",
+    "term": [
+     "2026-02-05",
+     "2027-02-05"
+    ],
+    "tier_seat_range": [
+     50,
+     249
+    ]
+   },
+   "contract_id": "CTR-0001",
+   "customer_id": "CUST-0001",
+   "decision": {
+    "by": "agent",
+    "outcome": "HITL_REQUIRED",
+    "reasons": [
+     "REQUEST_TYPE_NOT_PURCHASE"
+    ]
+   },
+   "duplicate": false,
+   "error": null,
+   "execution": null,
+   "explanation": {
+    "actions": [
+     {
+      "label": "Seat request recorded as PENDING_CLARIFICATION",
+      "status": "done"
+     },
+     {
+      "label": "Approval opened for EMP-0082",
+      "status": "done"
+     }
+    ],
+    "advisory_confidence": null,
+    "checks": [
+     {
+      "detail": "Starter plan, 95 days left in term",
+      "label": "Contract is active and belongs to the customer",
+      "status": "pass"
+     },
+     {
+      "detail": "Account ACTIVE",
+      "label": "Customer account is in good standing",
+      "status": "pass"
+     },
+     {
+      "detail": "102 seats vs Starter range 50-249",
+      "label": "Seats stay within the plan's range",
+      "status": "pass"
+     },
+     {
+      "detail": "2 seats in the window, including 0 earlier requests",
+      "label": "Rolling 30-day seat total checked",
+      "status": "pass"
+     },
+     {
+      "detail": "$100.00/month vs $500.00 (2 \u00d7 $600.00 \u00f7 12 = $100.00/month)",
+      "label": "$500/month approval threshold",
+      "status": "pass"
+     },
+     {
+      "detail": "Reservation or unclear request: needs written authorisation",
+      "label": "Request is an explicit purchase",
+      "status": "flag"
+     },
+     {
+      "detail": "No SOW or order form for this customer",
+      "label": "No customer-specific contract terms",
+      "status": "pass"
+     },
+     {
+      "detail": "Not needed",
+      "label": "Copilot contract review",
+      "status": "skipped"
+     }
+    ],
+    "decision_basis": "deterministic",
+    "failures": 0,
+    "flags": 1,
+    "headline": "Paused for manager approval: not an explicit purchase",
+    "rules_evaluated": 7,
+    "rules_total": 8
+   },
+   "history": [
+    {
+     "at": "2026-11-02T19:13:36.443496+00:00",
+     "from": null,
+     "reason": "seat request received from crm:EMP-0057",
+     "to": "INITIATED"
+    },
+    {
+     "at": "2026-11-02T19:13:36.455400+00:00",
+     "from": "INITIATED",
+     "reason": "loading contract terms and negotiated clauses",
+     "to": "ANALYZING_CONTRACT"
+    },
+    {
+     "at": "2026-11-02T19:13:36.488222+00:00",
+     "from": "ANALYZING_CONTRACT",
+     "reason": "contract and negotiated clauses analysed",
+     "to": "CALCULATING_IMPACT"
+    },
+    {
+     "at": "2026-11-02T19:13:36.547243+00:00",
+     "from": "CALCULATING_IMPACT",
+     "reason": "Request is not an explicit purchase; written authorization/clarification needed (SOP-02 \u00a75)",
+     "to": "WAITING_FOR_APPROVAL"
+    }
+   ],
+   "human_decision": null,
+   "impact": {
+    "added_seats": 2,
+    "aggregate_monthly_30d": "100",
+    "aggregate_monthly_30d_display": "100.00",
+    "aggregate_seats_30d": 2,
+    "annual_arr_impact": "1200.00",
+    "arr_after": "61200.00",
+    "arr_before": "60000.00",
+    "formula": "2 \u00d7 $600.00 \u00f7 12 = $100.00/month",
+    "monthly_cost_impact": "100",
+    "monthly_cost_impact_display": "100.00",
+    "mrr_after": "5100.00",
+    "mrr_before": "5000.00",
+    "prior_requests_in_window": [],
+    "projected_seats": 102,
+    "seat_request_status": "PENDING_CLARIFICATION",
+    "threshold_monthly": "500.00"
+   },
+   "pipeline": {
+    "current_step": "Manager approval",
+    "eta": "Waiting on EMP-0082; the remaining steps finish within seconds of a decision. The request expires in 72 h.",
+    "finished": false,
+    "progress_pct": 60,
+    "steps": [
+     {
+      "at": "2026-11-02T19:13:36.488222+00:00",
+      "description": "Contract, account standing and plan terms",
+      "key": "analyze_contract",
+      "name": "Contract analysis",
+      "status": "complete"
+     },
+     {
+      "at": "2026-11-02T19:13:36.488222+00:00",
+      "description": "Customer-specific MSA/SOW terms (RAG)",
+      "key": "check_rag_compliance",
+      "name": "Policy verification",
+      "status": "complete"
+     },
+     {
+      "at": "2026-11-02T19:13:36.547243+00:00",
+      "description": "30-day seat total, MRR and ARR impact",
+      "key": "calculate_impact",
+      "name": "Financial delta",
+      "status": "complete"
+     },
+     {
+      "at": null,
+      "description": "Human-in-the-loop decision",
+      "key": "wait_for_approval",
+      "name": "Manager approval",
+      "status": "in_progress"
+     },
+     {
+      "at": null,
+      "description": "Seats and ARR updated",
+      "key": "execute_mutation",
+      "name": "Provisioning",
+      "status": "pending"
+     }
+    ]
+   },
+   "request_id": "SRQ-SAMPLE-b6496bb4",
+   "run_id": "358c6351-bde3-4ba2-a852-dc27c6d76d3a",
+   "state": "WAITING_FOR_APPROVAL"
+  },
+  "35fd21b1-f8a6-4adb-99f8-9c9bbbfe14f9": {
+   "approval": {
+    "aggregate_monthly_30d": "116.67",
+    "annual_arr_impact": "1400.00",
+    "approval_id": "096b8cf4-f04d-4404-986d-70e75bf0af8b",
+    "assigned_approver_id": "EMP-0082",
+    "card": {
+     "approver": {
+      "email": "parker.kim.0082@nexusflow.example",
+      "employee_id": "EMP-0082",
+      "name": "Parker Kim",
+      "role": "Finance Director"
+     },
+     "contract_documents": [
+      "legal/SOW_Enterprise_Client_Sample.md"
+     ],
+     "contract_review": {
+      "error": "RuntimeError: All Gemini models failed: gemini-3.5-flash: 429 RESOURCE_EXHAUSTED",
+      "question": "For Nexus Client 0040 LLC (CUST-0040, contract CTR-0040, ENTERPRISE plan), do the customer's SOW or contract documents contain negotiated terms that change seat pricing, seat-expansion approval, change control or amendment requirements for adding 10 seats? Quote the exact terms."
+     },
+     "facts": [
+      {
+       "label": "Request",
+       "value": "SRQ-DEMO-8b8ff0cd"
+      },
+      {
+       "label": "Customer",
+       "value": "Nexus Client 0040 LLC (CUST-0040)"
+      },
+      {
+       "label": "Contract",
+       "value": "CTR-0040 \u00b7 ENTERPRISE \u00b7 $140.00/seat/yr"
+      },
+      {
+       "label": "Seats",
+       "value": "1500 -> 1510"
+      },
+      {
+       "label": "Monthly impact",
+       "value": "$116.67 (30-day aggregate $116.67)"
+      },
+      {
+       "label": "ARR impact",
+       "value": "+$1400.00"
+      },
+      {
+       "label": "Requested by",
+       "value": "it-admin@client.example (PURCHASE)"
+      },
+      {
+       "label": "Expires",
+       "value": "2026-11-01T14:59:04.305912+00:00"
+      }
+     ],
+     "reasons": [
+      {
+       "code": "NEGOTIATED_CONTRACT_TERMS",
+       "text": "Customer-specific contract documents exist (SOW/order form); terms need human review"
+      },
+      {
+       "code": "CONTRACT_REVIEW_UNAVAILABLE",
+       "text": "Copilot review of the customer's contract documents failed"
+      }
+     ],
+     "summary": "10 \u00d7 $140.00 \u00f7 12 = $116.67/month; 30-day aggregate $116.67/month vs $500.00 threshold. ARR $210000.00 -> $211400.00.",
+     "title": "Seat expansion approval: Nexus Client 0040 LLC (+10 seats)"
+    },
+    "contract_id": "CTR-0040",
+    "created_at": "2026-10-29 14:59:04.302374+00:00",
+    "customer_id": "CUST-0040",
+    "decided_at": null,
+    "decided_by": null,
+    "decision_comment": null,
+    "expires_at": "2026-11-01 14:59:04.305912+00:00",
+    "monthly_cost_impact": "116.67",
+    "plan_tier": "ENTERPRISE",
+    "proposed_seats": 10,
+    "reasons": [
+     "NEGOTIATED_CONTRACT_TERMS",
+     "CONTRACT_REVIEW_UNAVAILABLE"
+    ],
+    "request_id": "SRQ-DEMO-8b8ff0cd",
+    "run_id": "35fd21b1-f8a6-4adb-99f8-9c9bbbfe14f9",
+    "status": "EXPIRED"
+   },
+   "clause_check": {
+    "corpus_indexed": true,
+    "documents": [
+     {
+      "doc_id": "SOW_Enterprise_Client_Sample",
+      "source_file": "legal/SOW_Enterprise_Client_Sample.md",
+      "title": "Statement of Work \u2014 Nexus Client 0040 LLC"
+     }
+    ],
+    "review": {
+     "error": "RuntimeError: All Gemini models failed: gemini-3.5-flash: 429 RESOURCE_EXHAUSTED",
+     "question": "For Nexus Client 0040 LLC (CUST-0040, contract CTR-0040, ENTERPRISE plan), do the customer's SOW or contract documents contain negotiated terms that change seat pricing, seat-expansion approval, change control or amendment requirements for adding 10 seats? Quote the exact terms."
+    }
+   },
+   "contract": {
+    "annual_recurring_revenue": "210000.00",
+    "annual_unit_price": "140.00",
+    "auto_renew": true,
+    "committed_seats": 1500,
+    "company_name": "Nexus Client 0040 LLC",
+    "contract_status": "ACTIVE",
+    "customer_tier": "ENTERPRISE",
+    "days_remaining_in_term": 161,
+    "plan_tier": "ENTERPRISE",
+    "term": [
+     "2026-04-08",
+     "2027-04-08"
+    ],
+    "tier_seat_range": [
+     1000,
+     10000
+    ]
+   },
+   "contract_id": "CTR-0040",
+   "customer_id": "CUST-0040",
+   "decision": {
+    "by": "agent",
+    "outcome": "HITL_REQUIRED",
+    "reasons": [
+     "NEGOTIATED_CONTRACT_TERMS",
+     "CONTRACT_REVIEW_UNAVAILABLE"
+    ]
+   },
+   "duplicate": false,
+   "error": null,
+   "execution": null,
+   "explanation": {
+    "actions": [
+     {
+      "label": "Seat request recorded as PENDING_CUSTOMER_AUTHORIZATION",
+      "status": "done"
+     },
+     {
+      "label": "Approval opened for EMP-0082",
+      "status": "done"
+     },
+     {
+      "label": "Approval expired",
+      "status": "done"
+     },
+     {
+      "label": "No seats or ARR changed",
+      "status": "done"
+     }
+    ],
+    "advisory_confidence": null,
+    "checks": [
+     {
+      "detail": "Enterprise plan, 161 days left in term",
+      "label": "Contract is active and belongs to the customer",
+      "status": "pass"
+     },
+     {
+      "detail": "Account ACTIVE",
+      "label": "Customer account is in good standing",
+      "status": "pass"
+     },
+     {
+      "detail": "1,510 seats vs Enterprise range 1,000-10,000",
+      "label": "Seats stay within the plan's range",
+      "status": "pass"
+     },
+     {
+      "detail": "10 seats in the window, including 0 earlier requests",
+      "label": "Rolling 30-day seat total checked",
+      "status": "pass"
+     },
+     {
+      "detail": "$116.67/month vs $500.00 (10 \u00d7 $140.00 \u00f7 12 = $116.67/month)",
+      "label": "$500/month approval threshold",
+      "status": "pass"
+     },
+     {
+      "detail": "PURCHASE",
+      "label": "Request is an explicit purchase",
+      "status": "pass"
+     },
+     {
+      "detail": "Found SOW_Enterprise_Client_Sample.md",
+      "label": "No customer-specific contract terms",
+      "status": "flag"
+     },
+     {
+      "detail": "Review unavailable: a person must read the documents",
+      "label": "Copilot contract review",
+      "status": "flag"
+     }
+    ],
+    "decision_basis": "deterministic",
+    "failures": 0,
+    "flags": 2,
+    "headline": "Approval expired without a decision: nothing provisioned",
+    "rules_evaluated": 8,
+    "rules_total": 8
+   },
+   "history": [
+    {
+     "at": "2026-10-29T14:57:11.532073+00:00",
+     "from": null,
+     "reason": "seat request received from crm:EMP-0057",
+     "to": "INITIATED"
+    },
+    {
+     "at": "2026-10-29T14:57:11.542294+00:00",
+     "from": "INITIATED",
+     "reason": "loading contract terms and negotiated clauses",
+     "to": "ANALYZING_CONTRACT"
+    },
+    {
+     "at": "2026-10-29T14:59:04.252651+00:00",
+     "from": "ANALYZING_CONTRACT",
+     "reason": "contract and negotiated clauses analysed",
+     "to": "CALCULATING_IMPACT"
+    },
+    {
+     "at": "2026-10-29T14:59:04.309320+00:00",
+     "from": "CALCULATING_IMPACT",
+     "reason": "Customer-specific contract documents exist (SOW/order form); terms need human review; Copilot review of the customer's contract documents failed",
+     "to": "WAITING_FOR_APPROVAL"
+    },
+    {
+     "at": "2026-11-01T19:29:06.905445+00:00",
+     "from": "WAITING_FOR_APPROVAL",
+     "reason": "approval request expired without a decision",
+     "to": "REJECTED"
+    }
+   ],
+   "human_decision": {
+    "at": "2026-11-01T19:29:06.905432+00:00",
+    "by": null,
+    "outcome": "EXPIRED"
+   },
+   "impact": {
+    "added_seats": 10,
+    "aggregate_monthly_30d": "116.6666666666666666666666667",
+    "aggregate_monthly_30d_display": "116.67",
+    "aggregate_seats_30d": 10,
+    "annual_arr_impact": "1400.00",
+    "arr_after": "211400.00",
+    "arr_before": "210000.00",
+    "formula": "10 \u00d7 $140.00 \u00f7 12 = $116.67/month",
+    "monthly_cost_impact": "116.6666666666666666666666667",
+    "monthly_cost_impact_display": "116.67",
+    "mrr_after": "17616.67",
+    "mrr_before": "17500.00",
+    "prior_requests_in_window": [],
+    "projected_seats": 1510,
+    "seat_request_status": "PENDING_CUSTOMER_AUTHORIZATION",
+    "threshold_monthly": "500.00"
+   },
+   "pipeline": {
+    "current_step": null,
+    "eta": null,
+    "finished": true,
+    "progress_pct": 100,
+    "steps": [
+     {
+      "at": "2026-10-29T14:59:04.252651+00:00",
+      "description": "Contract, account standing and plan terms",
+      "key": "analyze_contract",
+      "name": "Contract analysis",
+      "status": "complete"
+     },
+     {
+      "at": "2026-10-29T14:59:04.252651+00:00",
+      "description": "Customer-specific MSA/SOW terms (RAG)",
+      "key": "check_rag_compliance",
+      "name": "Policy verification",
+      "status": "complete"
+     },
+     {
+      "at": "2026-10-29T14:59:04.309320+00:00",
+      "description": "30-day seat total, MRR and ARR impact",
+      "key": "calculate_impact",
+      "name": "Financial delta",
+      "status": "complete"
+     },
+     {
+      "at": "2026-11-01T19:29:06.905432+00:00",
+      "description": "Human-in-the-loop decision",
+      "key": "wait_for_approval",
+      "name": "Manager approval",
+      "status": "expired"
+     },
+     {
+      "at": null,
+      "description": "Seats and ARR updated",
+      "key": "execute_mutation",
+      "name": "Provisioning",
+      "status": "skipped"
+     }
+    ]
+   },
+   "request_id": "SRQ-DEMO-8b8ff0cd",
+   "run_id": "35fd21b1-f8a6-4adb-99f8-9c9bbbfe14f9",
+   "state": "REJECTED"
+  },
+  "4d40cf47-73ed-4532-8dbe-c1f46c8f12d8": {
+   "approval": null,
+   "clause_check": null,
+   "contract": null,
+   "contract_id": "CTR-0011",
+   "customer_id": "CUST-0011",
+   "decision": {
+    "by": "agent",
+    "code": "CUSTOMER_NOT_ACTIVE",
+    "message": "CUST-0011 is DELINQUENT; Finance must clear the account first",
+    "outcome": "REJECTED"
+   },
+   "duplicate": false,
+   "error": null,
+   "execution": null,
+   "explanation": {
+    "actions": [
+     {
+      "label": "No seats or ARR changed",
+      "status": "done"
+     }
+    ],
+    "advisory_confidence": null,
+    "checks": [
+     {
+      "detail": "Contract checked before account standing",
+      "label": "Contract is active and belongs to the customer",
+      "status": "pass"
+     },
+     {
+      "detail": "CUST-0011 is DELINQUENT; Finance must clear the account first",
+      "label": "Customer account is in good standing",
+      "status": "fail"
+     },
+     {
+      "detail": "Not reached",
+      "label": "Seats stay within the plan's range",
+      "status": "skipped"
+     },
+     {
+      "detail": "Not reached",
+      "label": "Rolling 30-day seat total checked",
+      "status": "skipped"
+     },
+     {
+      "detail": "Not reached",
+      "label": "$500/month approval threshold",
+      "status": "skipped"
+     },
+     {
+      "detail": "Not reached",
+      "label": "Request is an explicit purchase",
+      "status": "skipped"
+     },
+     {
+      "detail": "Not reached",
+      "label": "No customer-specific contract terms",
+      "status": "skipped"
+     },
+     {
+      "detail": "Not reached",
+      "label": "Copilot contract review",
+      "status": "skipped"
+     }
+    ],
+    "decision_basis": "deterministic",
+    "failures": 1,
+    "flags": 0,
+    "headline": "Rejected by the agent: CUST-0011 is DELINQUENT; Finance must clear the account first",
+    "rules_evaluated": 2,
+    "rules_total": 8
+   },
+   "history": [
+    {
+     "at": "2026-10-29T14:48:41.435276+00:00",
+     "from": null,
+     "reason": "seat request received from crm:EMP-0057",
+     "to": "INITIATED"
+    },
+    {
+     "at": "2026-10-29T14:48:41.443897+00:00",
+     "from": "INITIATED",
+     "reason": "loading contract terms and negotiated clauses",
+     "to": "ANALYZING_CONTRACT"
+    },
+    {
+     "at": "2026-10-29T14:48:41.447288+00:00",
+     "from": "ANALYZING_CONTRACT",
+     "reason": "CUST-0011 is DELINQUENT; Finance must clear the account first",
+     "to": "REJECTED"
+    }
+   ],
+   "human_decision": null,
+   "impact": null,
+   "pipeline": {
+    "current_step": null,
+    "eta": null,
+    "finished": true,
+    "progress_pct": 100,
+    "steps": [
+     {
+      "at": "2026-10-29T14:48:41.447288+00:00",
+      "description": "Contract, account standing and plan terms",
+      "key": "analyze_contract",
+      "name": "Contract analysis",
+      "status": "rejected"
+     },
+     {
+      "at": null,
+      "description": "Customer-specific MSA/SOW terms (RAG)",
+      "key": "check_rag_compliance",
+      "name": "Policy verification",
+      "status": "skipped"
+     },
+     {
+      "at": null,
+      "description": "30-day seat total, MRR and ARR impact",
+      "key": "calculate_impact",
+      "name": "Financial delta",
+      "status": "skipped"
+     },
+     {
+      "at": null,
+      "description": "Human-in-the-loop decision",
+      "key": "wait_for_approval",
+      "name": "Manager approval",
+      "status": "skipped"
+     },
+     {
+      "at": null,
+      "description": "Seats and ARR updated",
+      "key": "execute_mutation",
+      "name": "Provisioning",
+      "status": "skipped"
+     }
+    ]
+   },
+   "request_id": "SRQ-DEMO-430fb251",
+   "run_id": "4d40cf47-73ed-4532-8dbe-c1f46c8f12d8",
+   "state": "REJECTED"
+  },
+  "53b1907d-a5f4-45aa-b7f2-8142ec5917f3": {
+   "approval": {
+    "aggregate_monthly_30d": "583.33",
+    "annual_arr_impact": "7000.00",
+    "approval_id": "547cb047-89c9-42a0-8982-30e5a8c19205",
+    "assigned_approver_id": "EMP-0082",
+    "card": {
+     "approver": {
+      "email": "parker.kim.0082@nexusflow.example",
+      "employee_id": "EMP-0082",
+      "name": "Parker Kim",
+      "role": "Finance Director"
+     },
+     "contract_documents": [
+      "legal/SOW_Enterprise_Client_Sample.md"
+     ],
+     "contract_review": {
+      "answer": "No, the SOW and contract documents for Nexus Client 0040 LLC (CUST-0040, contract CTR-0040) do not contain negotiated terms that change standard pricing, approval thresholds, or change control requirements [S1][S5][S6]. The pricing is set at the standard Enterprise annual unit price of **$140.00 per seat per year** [S5]. For an addition of 50 seats, the monthly cost calculation is 50 seats \u00d7 $140.00 / 12 months = $583.333\u2026 monthly equivalent, which exceeds the $500 approval threshold [S1][S2]. Consequently, **no seats are provisioned** until human Finance approval and customer authorization are recorded [S1]. Regarding change control, the SOW specifies that **Any material change to scope or price requires a signed amendment** [S6], and for the 50-seat addition, **An exact seat count, effective date, and whether a signed amendment is required remain unresolved** [S1].",
+      "citations": [
+       {
+        "doc_id": "SOW_Enterprise_Client_Sample",
+        "quote": "**50 seats = $583.333\u2026 monthly equivalent**, above the $500 approval threshold; **no seats are provisioned** until a human Finance approval and customer authorization are recorded.",
+        "quote_verified": true,
+        "section": "4. Change control and business friction example"
+       },
+       {
+        "doc_id": "SOP-02",
+        "quote": "Enterprise `CUST-0040` (`CTR-0040`), 1500 current seats: proposed +50 = $583.333\u2026/month.",
+        "quote_verified": true,
+        "section": "4. Boundary examples"
+       },
+       {
+        "doc_id": "SOW_Enterprise_Client_Sample",
+        "quote": "Enterprise annual unit price: **$140.00 per seat per year**",
+        "quote_verified": true,
+        "section": "1. Commercial schedule"
+       },
+       {
+        "doc_id": "SOW_Enterprise_Client_Sample",
+        "quote": "Any material change to scope or price requires a signed amendment.",
+        "quote_verified": true,
+        "section": "6. Exclusions and assumptions"
+       }
+      ],
+      "confidence": "high",
+      "grounded": true,
+      "insufficient_context": false,
+      "model": "gemini-3.5-flash",
+      "question": "For Nexus Client 0040 LLC (CUST-0040, contract CTR-0040, ENTERPRISE plan), do the customer's SOW or contract documents contain negotiated terms that change seat pricing, seat-expansion approval, change control or amendment requirements for adding 50 seats? Quote the exact terms."
+     },
+     "facts": [
+      {
+       "label": "Request",
+       "value": "SRQ-SAMPLE-89c3d7ae"
+      },
+      {
+       "label": "Customer",
+       "value": "Nexus Client 0040 LLC (CUST-0040)"
+      },
+      {
+       "label": "Contract",
+       "value": "CTR-0040 \u00b7 ENTERPRISE \u00b7 $140.00/seat/yr"
+      },
+      {
+       "label": "Seats",
+       "value": "1500 -> 1550"
+      },
+      {
+       "label": "Monthly impact",
+       "value": "$583.33 (30-day aggregate $583.33)"
+      },
+      {
+       "label": "ARR impact",
+       "value": "+$7000.00"
+      },
+      {
+       "label": "Requested by",
+       "value": "requester@example.com (PURCHASE)"
+      },
+      {
+       "label": "Expires",
+       "value": "2026-11-05T19:13:36.407983+00:00"
+      }
+     ],
+     "reasons": [
+      {
+       "code": "MONTHLY_IMPACT_OVER_THRESHOLD",
+       "text": "Aggregate 30-day monthly equivalent exceeds $500.00 (SOP-02 \u00a71)"
+      },
+      {
+       "code": "NEGOTIATED_CONTRACT_TERMS",
+       "text": "Customer-specific contract documents exist (SOW/order form); terms need human review"
+      }
+     ],
+     "summary": "50 \u00d7 $140.00 \u00f7 12 = $583.33/month; 30-day aggregate $583.33/month vs $500.00 threshold. ARR $210000.00 -> $217000.00.",
+     "title": "Seat expansion approval: Nexus Client 0040 LLC (+50 seats)"
+    },
+    "contract_id": "CTR-0040",
+    "created_at": "2026-11-02 19:13:36.405412+00:00",
+    "customer_id": "CUST-0040",
+    "decided_at": null,
+    "decided_by": null,
+    "decision_comment": null,
+    "expires_at": "2026-11-05 19:13:36.407983+00:00",
+    "monthly_cost_impact": "583.33",
+    "plan_tier": "ENTERPRISE",
+    "proposed_seats": 50,
+    "reasons": [
+     "MONTHLY_IMPACT_OVER_THRESHOLD",
+     "NEGOTIATED_CONTRACT_TERMS"
+    ],
+    "request_id": "SRQ-SAMPLE-89c3d7ae",
+    "run_id": "53b1907d-a5f4-45aa-b7f2-8142ec5917f3",
+    "status": "PENDING"
+   },
+   "clause_check": {
+    "corpus_indexed": true,
+    "documents": [
+     {
+      "doc_id": "SOW_Enterprise_Client_Sample",
+      "source_file": "legal/SOW_Enterprise_Client_Sample.md",
+      "title": "Statement of Work \u2014 Nexus Client 0040 LLC"
+     }
+    ],
+    "review": {
+     "answer": "No, the SOW and contract documents for Nexus Client 0040 LLC (CUST-0040, contract CTR-0040) do not contain negotiated terms that change standard pricing, approval thresholds, or change control requirements [S1][S5][S6]. The pricing is set at the standard Enterprise annual unit price of **$140.00 per seat per year** [S5]. For an addition of 50 seats, the monthly cost calculation is 50 seats \u00d7 $140.00 / 12 months = $583.333\u2026 monthly equivalent, which exceeds the $500 approval threshold [S1][S2]. Consequently, **no seats are provisioned** until human Finance approval and customer authorization are recorded [S1]. Regarding change control, the SOW specifies that **Any material change to scope or price requires a signed amendment** [S6], and for the 50-seat addition, **An exact seat count, effective date, and whether a signed amendment is required remain unresolved** [S1].",
+     "citations": [
+      {
+       "doc_id": "SOW_Enterprise_Client_Sample",
+       "quote": "**50 seats = $583.333\u2026 monthly equivalent**, above the $500 approval threshold; **no seats are provisioned** until a human Finance approval and customer authorization are recorded.",
+       "quote_verified": true,
+       "section": "4. Change control and business friction example"
+      },
+      {
+       "doc_id": "SOP-02",
+       "quote": "Enterprise `CUST-0040` (`CTR-0040`), 1500 current seats: proposed +50 = $583.333\u2026/month.",
+       "quote_verified": true,
+       "section": "4. Boundary examples"
+      },
+      {
+       "doc_id": "SOW_Enterprise_Client_Sample",
+       "quote": "Enterprise annual unit price: **$140.00 per seat per year**",
+       "quote_verified": true,
+       "section": "1. Commercial schedule"
+      },
+      {
+       "doc_id": "SOW_Enterprise_Client_Sample",
+       "quote": "Any material change to scope or price requires a signed amendment.",
+       "quote_verified": true,
+       "section": "6. Exclusions and assumptions"
+      }
+     ],
+     "confidence": "high",
+     "grounded": true,
+     "insufficient_context": false,
+     "model": "gemini-3.5-flash",
+     "question": "For Nexus Client 0040 LLC (CUST-0040, contract CTR-0040, ENTERPRISE plan), do the customer's SOW or contract documents contain negotiated terms that change seat pricing, seat-expansion approval, change control or amendment requirements for adding 50 seats? Quote the exact terms."
+    }
+   },
+   "contract": {
+    "annual_recurring_revenue": "210000.00",
+    "annual_unit_price": "140.00",
+    "auto_renew": true,
+    "committed_seats": 1500,
+    "company_name": "Nexus Client 0040 LLC",
+    "contract_status": "ACTIVE",
+    "customer_tier": "ENTERPRISE",
+    "days_remaining_in_term": 157,
+    "plan_tier": "ENTERPRISE",
+    "term": [
+     "2026-04-08",
+     "2027-04-08"
+    ],
+    "tier_seat_range": [
+     1000,
+     10000
+    ]
+   },
+   "contract_id": "CTR-0040",
+   "customer_id": "CUST-0040",
+   "decision": {
+    "by": "agent",
+    "outcome": "HITL_REQUIRED",
+    "reasons": [
+     "MONTHLY_IMPACT_OVER_THRESHOLD",
+     "NEGOTIATED_CONTRACT_TERMS"
+    ]
+   },
+   "duplicate": false,
+   "error": null,
+   "execution": null,
+   "explanation": {
+    "actions": [
+     {
+      "label": "Seat request recorded as PENDING_FINANCE_APPROVAL",
+      "status": "done"
+     },
+     {
+      "label": "Approval opened for EMP-0082",
+      "status": "done"
+     }
+    ],
+    "advisory_confidence": "high",
+    "checks": [
+     {
+      "detail": "Enterprise plan, 157 days left in term",
+      "label": "Contract is active and belongs to the customer",
+      "status": "pass"
+     },
+     {
+      "detail": "Account ACTIVE",
+      "label": "Customer account is in good standing",
+      "status": "pass"
+     },
+     {
+      "detail": "1,550 seats vs Enterprise range 1,000-10,000",
+      "label": "Seats stay within the plan's range",
+      "status": "pass"
+     },
+     {
+      "detail": "50 seats in the window, including 0 earlier requests",
+      "label": "Rolling 30-day seat total checked",
+      "status": "pass"
+     },
+     {
+      "detail": "$583.33/month vs $500.00 (50 \u00d7 $140.00 \u00f7 12 = $583.33/month)",
+      "label": "$500/month approval threshold",
+      "status": "flag"
+     },
+     {
+      "detail": "PURCHASE",
+      "label": "Request is an explicit purchase",
+      "status": "pass"
+     },
+     {
+      "detail": "Found SOW_Enterprise_Client_Sample.md",
+      "label": "No customer-specific contract terms",
+      "status": "flag"
+     },
+     {
+      "detail": "Grounded, high confidence (advisory: can't approve or remove a reason)",
+      "label": "Copilot contract review",
+      "status": "pass"
+     }
+    ],
+    "decision_basis": "deterministic",
+    "failures": 0,
+    "flags": 2,
+    "headline": "Paused for manager approval: 30-day total over $500/month, customer-specific contract terms",
+    "rules_evaluated": 8,
+    "rules_total": 8
+   },
+   "history": [
+    {
+     "at": "2026-11-02T19:13:19.626855+00:00",
+     "from": null,
+     "reason": "seat request received from crm:EMP-0057",
+     "to": "INITIATED"
+    },
+    {
+     "at": "2026-11-02T19:13:19.637893+00:00",
+     "from": "INITIATED",
+     "reason": "loading contract terms and negotiated clauses",
+     "to": "ANALYZING_CONTRACT"
+    },
+    {
+     "at": "2026-11-02T19:13:36.371440+00:00",
+     "from": "ANALYZING_CONTRACT",
+     "reason": "contract and negotiated clauses analysed",
+     "to": "CALCULATING_IMPACT"
+    },
+    {
+     "at": "2026-11-02T19:13:36.411361+00:00",
+     "from": "CALCULATING_IMPACT",
+     "reason": "Aggregate 30-day monthly equivalent exceeds $500.00 (SOP-02 \u00a71); Customer-specific contract documents exist (SOW/order form); terms need human review",
+     "to": "WAITING_FOR_APPROVAL"
+    }
+   ],
+   "human_decision": null,
+   "impact": {
+    "added_seats": 50,
+    "aggregate_monthly_30d": "583.3333333333333333333333333",
+    "aggregate_monthly_30d_display": "583.33",
+    "aggregate_seats_30d": 50,
+    "annual_arr_impact": "7000.00",
+    "arr_after": "217000.00",
+    "arr_before": "210000.00",
+    "formula": "50 \u00d7 $140.00 \u00f7 12 = $583.33/month",
+    "monthly_cost_impact": "583.3333333333333333333333333",
+    "monthly_cost_impact_display": "583.33",
+    "mrr_after": "18083.33",
+    "mrr_before": "17500.00",
+    "prior_requests_in_window": [],
+    "projected_seats": 1550,
+    "seat_request_status": "PENDING_FINANCE_APPROVAL",
+    "threshold_monthly": "500.00"
+   },
+   "pipeline": {
+    "current_step": "Manager approval",
+    "eta": "Waiting on EMP-0082; the remaining steps finish within seconds of a decision. The request expires in 72 h.",
+    "finished": false,
+    "progress_pct": 60,
+    "steps": [
+     {
+      "at": "2026-11-02T19:13:36.371440+00:00",
+      "description": "Contract, account standing and plan terms",
+      "key": "analyze_contract",
+      "name": "Contract analysis",
+      "status": "complete"
+     },
+     {
+      "at": "2026-11-02T19:13:36.371440+00:00",
+      "description": "Customer-specific MSA/SOW terms (RAG)",
+      "key": "check_rag_compliance",
+      "name": "Policy verification",
+      "status": "complete"
+     },
+     {
+      "at": "2026-11-02T19:13:36.411361+00:00",
+      "description": "30-day seat total, MRR and ARR impact",
+      "key": "calculate_impact",
+      "name": "Financial delta",
+      "status": "complete"
+     },
+     {
+      "at": null,
+      "description": "Human-in-the-loop decision",
+      "key": "wait_for_approval",
+      "name": "Manager approval",
+      "status": "in_progress"
+     },
+     {
+      "at": null,
+      "description": "Seats and ARR updated",
+      "key": "execute_mutation",
+      "name": "Provisioning",
+      "status": "pending"
+     }
+    ]
+   },
+   "request_id": "SRQ-SAMPLE-89c3d7ae",
+   "run_id": "53b1907d-a5f4-45aa-b7f2-8142ec5917f3",
+   "state": "WAITING_FOR_APPROVAL"
+  },
+  "9aac56cc-2a04-444b-8edd-77668a16ea05": {
+   "approval": {
+    "aggregate_monthly_30d": "100.00",
+    "annual_arr_impact": "1200.00",
+    "approval_id": "6569792a-3f2b-4139-a099-1aad437a5fc4",
+    "assigned_approver_id": "EMP-0082",
+    "card": {
+     "approver": {
+      "email": "parker.kim.0082@nexusflow.example",
+      "employee_id": "EMP-0082",
+      "name": "Parker Kim",
+      "role": "Finance Director"
+     },
+     "contract_documents": [],
+     "contract_review": null,
+     "facts": [
+      {
+       "label": "Request",
+       "value": "SRQ-DEMO-71ce92a3"
+      },
+      {
+       "label": "Customer",
+       "value": "Nexus Client 0001 LLC (CUST-0001)"
+      },
+      {
+       "label": "Contract",
+       "value": "CTR-0001 \u00b7 STARTER \u00b7 $600.00/seat/yr"
+      },
+      {
+       "label": "Seats",
+       "value": "100 -> 102"
+      },
+      {
+       "label": "Monthly impact",
+       "value": "$100.00 (30-day aggregate $100.00)"
+      },
+      {
+       "label": "ARR impact",
+       "value": "+$1200.00"
+      },
+      {
+       "label": "Requested by",
+       "value": "it-admin@client.example (RESERVATION)"
+      },
+      {
+       "label": "Expires",
+       "value": "2026-11-01T14:59:04.430650+00:00"
+      }
+     ],
+     "reasons": [
+      {
+       "code": "REQUEST_TYPE_NOT_PURCHASE",
+       "text": "Request is not an explicit purchase; written authorization/clarification needed (SOP-02 \u00a75)"
+      }
+     ],
+     "summary": "2 \u00d7 $600.00 \u00f7 12 = $100.00/month; 30-day aggregate $100.00/month vs $500.00 threshold. ARR $60000.00 -> $61200.00.",
+     "title": "Seat expansion approval: Nexus Client 0001 LLC (+2 seats)"
+    },
+    "contract_id": "CTR-0001",
+    "created_at": "2026-10-29 14:59:04.428529+00:00",
+    "customer_id": "CUST-0001",
+    "decided_at": null,
+    "decided_by": null,
+    "decision_comment": null,
+    "expires_at": "2026-11-01 14:59:04.430650+00:00",
+    "monthly_cost_impact": "100.00",
+    "plan_tier": "STARTER",
+    "proposed_seats": 2,
+    "reasons": [
+     "REQUEST_TYPE_NOT_PURCHASE"
+    ],
+    "request_id": "SRQ-DEMO-71ce92a3",
+    "run_id": "9aac56cc-2a04-444b-8edd-77668a16ea05",
+    "status": "EXPIRED"
+   },
+   "clause_check": {
+    "corpus_indexed": true,
+    "documents": [],
+    "review": null
+   },
+   "contract": {
+    "annual_recurring_revenue": "60000.00",
+    "annual_unit_price": "600.00",
+    "auto_renew": true,
+    "committed_seats": 100,
+    "company_name": "Nexus Client 0001 LLC",
+    "contract_status": "ACTIVE",
+    "customer_tier": "SMB",
+    "days_remaining_in_term": 99,
+    "plan_tier": "STARTER",
+    "term": [
+     "2026-02-05",
+     "2027-02-05"
+    ],
+    "tier_seat_range": [
+     50,
+     249
+    ]
+   },
+   "contract_id": "CTR-0001",
+   "customer_id": "CUST-0001",
+   "decision": {
+    "by": "agent",
+    "outcome": "HITL_REQUIRED",
+    "reasons": [
+     "REQUEST_TYPE_NOT_PURCHASE"
+    ]
+   },
+   "duplicate": false,
+   "error": null,
+   "execution": null,
+   "explanation": {
+    "actions": [
+     {
+      "label": "Seat request recorded as PENDING_CLARIFICATION",
+      "status": "done"
+     },
+     {
+      "label": "Approval opened for EMP-0082",
+      "status": "done"
+     },
+     {
+      "label": "Approval expired",
+      "status": "done"
+     },
+     {
+      "label": "No seats or ARR changed",
+      "status": "done"
+     }
+    ],
+    "advisory_confidence": null,
+    "checks": [
+     {
+      "detail": "Starter plan, 99 days left in term",
+      "label": "Contract is active and belongs to the customer",
+      "status": "pass"
+     },
+     {
+      "detail": "Account ACTIVE",
+      "label": "Customer account is in good standing",
+      "status": "pass"
+     },
+     {
+      "detail": "102 seats vs Starter range 50-249",
+      "label": "Seats stay within the plan's range",
+      "status": "pass"
+     },
+     {
+      "detail": "2 seats in the window, including 0 earlier requests",
+      "label": "Rolling 30-day seat total checked",
+      "status": "pass"
+     },
+     {
+      "detail": "$100.00/month vs $500.00 (2 \u00d7 $600.00 \u00f7 12 = $100.00/month)",
+      "label": "$500/month approval threshold",
+      "status": "pass"
+     },
+     {
+      "detail": "Reservation or unclear request: needs written authorisation",
+      "label": "Request is an explicit purchase",
+      "status": "flag"
+     },
+     {
+      "detail": "No SOW or order form for this customer",
+      "label": "No customer-specific contract terms",
+      "status": "pass"
+     },
+     {
+      "detail": "Not needed",
+      "label": "Copilot contract review",
+      "status": "skipped"
+     }
+    ],
+    "decision_basis": "deterministic",
+    "failures": 0,
+    "flags": 1,
+    "headline": "Approval expired without a decision: nothing provisioned",
+    "rules_evaluated": 7,
+    "rules_total": 8
+   },
+   "history": [
+    {
+     "at": "2026-10-29T14:59:04.353419+00:00",
+     "from": null,
+     "reason": "seat request received from crm:EMP-0057",
+     "to": "INITIATED"
+    },
+    {
+     "at": "2026-10-29T14:59:04.364221+00:00",
+     "from": "INITIATED",
+     "reason": "loading contract terms and negotiated clauses",
+     "to": "ANALYZING_CONTRACT"
+    },
+    {
+     "at": "2026-10-29T14:59:04.389156+00:00",
+     "from": "ANALYZING_CONTRACT",
+     "reason": "contract and negotiated clauses analysed",
+     "to": "CALCULATING_IMPACT"
+    },
+    {
+     "at": "2026-10-29T14:59:04.432284+00:00",
+     "from": "CALCULATING_IMPACT",
+     "reason": "Request is not an explicit purchase; written authorization/clarification needed (SOP-02 \u00a75)",
+     "to": "WAITING_FOR_APPROVAL"
+    },
+    {
+     "at": "2026-11-01T19:29:06.929770+00:00",
+     "from": "WAITING_FOR_APPROVAL",
+     "reason": "approval request expired without a decision",
+     "to": "REJECTED"
+    }
+   ],
+   "human_decision": {
+    "at": "2026-11-01T19:29:06.929760+00:00",
+    "by": null,
+    "outcome": "EXPIRED"
+   },
+   "impact": {
+    "added_seats": 2,
+    "aggregate_monthly_30d": "100",
+    "aggregate_monthly_30d_display": "100.00",
+    "aggregate_seats_30d": 2,
+    "annual_arr_impact": "1200.00",
+    "arr_after": "61200.00",
+    "arr_before": "60000.00",
+    "formula": "2 \u00d7 $600.00 \u00f7 12 = $100.00/month",
+    "monthly_cost_impact": "100",
+    "monthly_cost_impact_display": "100.00",
+    "mrr_after": "5100.00",
+    "mrr_before": "5000.00",
+    "prior_requests_in_window": [],
+    "projected_seats": 102,
+    "seat_request_status": "PENDING_CLARIFICATION",
+    "threshold_monthly": "500.00"
+   },
+   "pipeline": {
+    "current_step": null,
+    "eta": null,
+    "finished": true,
+    "progress_pct": 100,
+    "steps": [
+     {
+      "at": "2026-10-29T14:59:04.389156+00:00",
+      "description": "Contract, account standing and plan terms",
+      "key": "analyze_contract",
+      "name": "Contract analysis",
+      "status": "complete"
+     },
+     {
+      "at": "2026-10-29T14:59:04.389156+00:00",
+      "description": "Customer-specific MSA/SOW terms (RAG)",
+      "key": "check_rag_compliance",
+      "name": "Policy verification",
+      "status": "complete"
+     },
+     {
+      "at": "2026-10-29T14:59:04.432284+00:00",
+      "description": "30-day seat total, MRR and ARR impact",
+      "key": "calculate_impact",
+      "name": "Financial delta",
+      "status": "complete"
+     },
+     {
+      "at": "2026-11-01T19:29:06.929760+00:00",
+      "description": "Human-in-the-loop decision",
+      "key": "wait_for_approval",
+      "name": "Manager approval",
+      "status": "expired"
+     },
+     {
+      "at": null,
+      "description": "Seats and ARR updated",
+      "key": "execute_mutation",
+      "name": "Provisioning",
+      "status": "skipped"
+     }
+    ]
+   },
+   "request_id": "SRQ-DEMO-71ce92a3",
+   "run_id": "9aac56cc-2a04-444b-8edd-77668a16ea05",
+   "state": "REJECTED"
+  },
+  "d75080a0-19e4-4063-b2d5-6737e86c0658": {
+   "approval": {
+    "aggregate_monthly_30d": "501.67",
+    "annual_arr_impact": "6020.00",
+    "approval_id": "805c2339-4292-460b-a995-192252f2c642",
+    "assigned_approver_id": "EMP-0082",
+    "card": {
+     "approver": {
+      "email": "parker.kim.0082@nexusflow.example",
+      "employee_id": "EMP-0082",
+      "name": "Parker Kim",
+      "role": "Finance Director"
+     },
+     "contract_documents": [],
+     "contract_review": null,
+     "facts": [
+      {
+       "label": "Request",
+       "value": "SRQ-DEMO-6feba3d5"
+      },
+      {
+       "label": "Customer",
+       "value": "Nexus Client 0071 LLC (CUST-0071)"
+      },
+      {
+       "label": "Contract",
+       "value": "CTR-0071 \u00b7 ENTERPRISE \u00b7 $140.00/seat/yr"
+      },
+      {
+       "label": "Seats",
+       "value": "1500 -> 1543"
+      },
+      {
+       "label": "Monthly impact",
+       "value": "$501.67 (30-day aggregate $501.67)"
+      },
+      {
+       "label": "ARR impact",
+       "value": "+$6020.00"
+      },
+      {
+       "label": "Requested by",
+       "value": "it-admin@client.example (PURCHASE)"
+      },
+      {
+       "label": "Expires",
+       "value": "2026-11-01T14:57:11.499142+00:00"
+      }
+     ],
+     "reasons": [
+      {
+       "code": "MONTHLY_IMPACT_OVER_THRESHOLD",
+       "text": "Aggregate 30-day monthly equivalent exceeds $500.00 (SOP-02 \u00a71)"
+      }
+     ],
+     "summary": "43 \u00d7 $140.00 \u00f7 12 = $501.67/month; 30-day aggregate $501.67/month vs $500.00 threshold. ARR $210000.00 -> $216020.00.",
+     "title": "Seat expansion approval: Nexus Client 0071 LLC (+43 seats)"
+    },
+    "contract_id": "CTR-0071",
+    "created_at": "2026-10-29 14:57:11.496976+00:00",
+    "customer_id": "CUST-0071",
+    "decided_at": null,
+    "decided_by": null,
+    "decision_comment": null,
+    "expires_at": "2026-11-01 14:57:11.499142+00:00",
+    "monthly_cost_impact": "501.67",
+    "plan_tier": "ENTERPRISE",
+    "proposed_seats": 43,
+    "reasons": [
+     "MONTHLY_IMPACT_OVER_THRESHOLD"
+    ],
+    "request_id": "SRQ-DEMO-6feba3d5",
+    "run_id": "d75080a0-19e4-4063-b2d5-6737e86c0658",
+    "status": "EXPIRED"
+   },
+   "clause_check": {
+    "corpus_indexed": true,
+    "documents": [],
+    "review": null
+   },
+   "contract": {
+    "annual_recurring_revenue": "210000.00",
+    "annual_unit_price": "140.00",
+    "auto_renew": true,
+    "committed_seats": 1500,
+    "company_name": "Nexus Client 0071 LLC",
+    "contract_status": "ACTIVE",
+    "customer_tier": "ENTERPRISE",
+    "days_remaining_in_term": 217,
+    "plan_tier": "ENTERPRISE",
+    "term": [
+     "2026-06-03",
+     "2027-06-03"
+    ],
+    "tier_seat_range": [
+     1000,
+     10000
+    ]
+   },
+   "contract_id": "CTR-0071",
+   "customer_id": "CUST-0071",
+   "decision": {
+    "by": "agent",
+    "outcome": "HITL_REQUIRED",
+    "reasons": [
+     "MONTHLY_IMPACT_OVER_THRESHOLD"
+    ]
+   },
+   "duplicate": false,
+   "error": null,
+   "execution": null,
+   "explanation": {
+    "actions": [
+     {
+      "label": "Seat request recorded as PENDING_FINANCE_APPROVAL",
+      "status": "done"
+     },
+     {
+      "label": "Approval opened for EMP-0082",
+      "status": "done"
+     },
+     {
+      "label": "Approval expired",
+      "status": "done"
+     },
+     {
+      "label": "No seats or ARR changed",
+      "status": "done"
+     }
+    ],
+    "advisory_confidence": null,
+    "checks": [
+     {
+      "detail": "Enterprise plan, 217 days left in term",
+      "label": "Contract is active and belongs to the customer",
+      "status": "pass"
+     },
+     {
+      "detail": "Account ACTIVE",
+      "label": "Customer account is in good standing",
+      "status": "pass"
+     },
+     {
+      "detail": "1,543 seats vs Enterprise range 1,000-10,000",
+      "label": "Seats stay within the plan's range",
+      "status": "pass"
+     },
+     {
+      "detail": "43 seats in the window, including 0 earlier requests",
+      "label": "Rolling 30-day seat total checked",
+      "status": "pass"
+     },
+     {
+      "detail": "$501.67/month vs $500.00 (43 \u00d7 $140.00 \u00f7 12 = $501.67/month)",
+      "label": "$500/month approval threshold",
+      "status": "flag"
+     },
+     {
+      "detail": "PURCHASE",
+      "label": "Request is an explicit purchase",
+      "status": "pass"
+     },
+     {
+      "detail": "No SOW or order form for this customer",
+      "label": "No customer-specific contract terms",
+      "status": "pass"
+     },
+     {
+      "detail": "Not needed",
+      "label": "Copilot contract review",
+      "status": "skipped"
+     }
+    ],
+    "decision_basis": "deterministic",
+    "failures": 0,
+    "flags": 1,
+    "headline": "Approval expired without a decision: nothing provisioned",
+    "rules_evaluated": 7,
+    "rules_total": 8
+   },
+   "history": [
+    {
+     "at": "2026-10-29T14:57:11.443692+00:00",
+     "from": null,
+     "reason": "seat request received from crm:EMP-0057",
+     "to": "INITIATED"
+    },
+    {
+     "at": "2026-10-29T14:57:11.454349+00:00",
+     "from": "INITIATED",
+     "reason": "loading contract terms and negotiated clauses",
+     "to": "ANALYZING_CONTRACT"
+    },
+    {
+     "at": "2026-10-29T14:57:11.475425+00:00",
+     "from": "ANALYZING_CONTRACT",
+     "reason": "contract and negotiated clauses analysed",
+     "to": "CALCULATING_IMPACT"
+    },
+    {
+     "at": "2026-10-29T14:57:11.500903+00:00",
+     "from": "CALCULATING_IMPACT",
+     "reason": "Aggregate 30-day monthly equivalent exceeds $500.00 (SOP-02 \u00a71)",
+     "to": "WAITING_FOR_APPROVAL"
+    },
+    {
+     "at": "2026-11-01T19:29:06.881599+00:00",
+     "from": "WAITING_FOR_APPROVAL",
+     "reason": "approval request expired without a decision",
+     "to": "REJECTED"
+    }
+   ],
+   "human_decision": {
+    "at": "2026-11-01T19:29:06.881588+00:00",
+    "by": null,
+    "outcome": "EXPIRED"
+   },
+   "impact": {
+    "added_seats": 43,
+    "aggregate_monthly_30d": "501.6666666666666666666666667",
+    "aggregate_monthly_30d_display": "501.67",
+    "aggregate_seats_30d": 43,
+    "annual_arr_impact": "6020.00",
+    "arr_after": "216020.00",
+    "arr_before": "210000.00",
+    "formula": "43 \u00d7 $140.00 \u00f7 12 = $501.67/month",
+    "monthly_cost_impact": "501.6666666666666666666666667",
+    "monthly_cost_impact_display": "501.67",
+    "mrr_after": "18001.67",
+    "mrr_before": "17500.00",
+    "prior_requests_in_window": [],
+    "projected_seats": 1543,
+    "seat_request_status": "PENDING_FINANCE_APPROVAL",
+    "threshold_monthly": "500.00"
+   },
+   "pipeline": {
+    "current_step": null,
+    "eta": null,
+    "finished": true,
+    "progress_pct": 100,
+    "steps": [
+     {
+      "at": "2026-10-29T14:57:11.475425+00:00",
+      "description": "Contract, account standing and plan terms",
+      "key": "analyze_contract",
+      "name": "Contract analysis",
+      "status": "complete"
+     },
+     {
+      "at": "2026-10-29T14:57:11.475425+00:00",
+      "description": "Customer-specific MSA/SOW terms (RAG)",
+      "key": "check_rag_compliance",
+      "name": "Policy verification",
+      "status": "complete"
+     },
+     {
+      "at": "2026-10-29T14:57:11.500903+00:00",
+      "description": "30-day seat total, MRR and ARR impact",
+      "key": "calculate_impact",
+      "name": "Financial delta",
+      "status": "complete"
+     },
+     {
+      "at": "2026-11-01T19:29:06.881588+00:00",
+      "description": "Human-in-the-loop decision",
+      "key": "wait_for_approval",
+      "name": "Manager approval",
+      "status": "expired"
+     },
+     {
+      "at": null,
+      "description": "Seats and ARR updated",
+      "key": "execute_mutation",
+      "name": "Provisioning",
+      "status": "skipped"
+     }
+    ]
+   },
+   "request_id": "SRQ-DEMO-6feba3d5",
+   "run_id": "d75080a0-19e4-4063-b2d5-6737e86c0658",
+   "state": "REJECTED"
+  },
+  "e58dcbb1-beea-446f-ae57-1d5dccc3c1c2": {
+   "approval": {
+    "aggregate_monthly_30d": "501.67",
+    "annual_arr_impact": "6020.00",
+    "approval_id": "fa3023b1-2415-4e7d-b429-53f9a6f4948e",
+    "assigned_approver_id": "EMP-0082",
+    "card": {
+     "approver": {
+      "email": "parker.kim.0082@nexusflow.example",
+      "employee_id": "EMP-0082",
+      "name": "Parker Kim",
+      "role": "Finance Director"
+     },
+     "contract_documents": [],
+     "contract_review": null,
+     "facts": [
+      {
+       "label": "Request",
+       "value": "SRQ-SAMPLE-231f78e0"
+      },
+      {
+       "label": "Customer",
+       "value": "Nexus Client 0071 LLC (CUST-0071)"
+      },
+      {
+       "label": "Contract",
+       "value": "CTR-0071 \u00b7 ENTERPRISE \u00b7 $140.00/seat/yr"
+      },
+      {
+       "label": "Seats",
+       "value": "1500 -> 1543"
+      },
+      {
+       "label": "Monthly impact",
+       "value": "$501.67 (30-day aggregate $501.67)"
+      },
+      {
+       "label": "ARR impact",
+       "value": "+$6020.00"
+      },
+      {
+       "label": "Requested by",
+       "value": "requester@example.com (PURCHASE)"
+      },
+      {
+       "label": "Expires",
+       "value": "2026-11-05T19:13:19.588799+00:00"
+      }
+     ],
+     "reasons": [
+      {
+       "code": "MONTHLY_IMPACT_OVER_THRESHOLD",
+       "text": "Aggregate 30-day monthly equivalent exceeds $500.00 (SOP-02 \u00a71)"
+      }
+     ],
+     "summary": "43 \u00d7 $140.00 \u00f7 12 = $501.67/month; 30-day aggregate $501.67/month vs $500.00 threshold. ARR $210000.00 -> $216020.00.",
+     "title": "Seat expansion approval: Nexus Client 0071 LLC (+43 seats)"
+    },
+    "contract_id": "CTR-0071",
+    "created_at": "2026-11-02 19:13:19.587710+00:00",
+    "customer_id": "CUST-0071",
+    "decided_at": null,
+    "decided_by": null,
+    "decision_comment": null,
+    "expires_at": "2026-11-05 19:13:19.588799+00:00",
+    "monthly_cost_impact": "501.67",
+    "plan_tier": "ENTERPRISE",
+    "proposed_seats": 43,
+    "reasons": [
+     "MONTHLY_IMPACT_OVER_THRESHOLD"
+    ],
+    "request_id": "SRQ-SAMPLE-231f78e0",
+    "run_id": "e58dcbb1-beea-446f-ae57-1d5dccc3c1c2",
+    "status": "PENDING"
+   },
+   "clause_check": {
+    "corpus_indexed": true,
+    "documents": [],
+    "review": null
+   },
+   "contract": {
+    "annual_recurring_revenue": "210000.00",
+    "annual_unit_price": "140.00",
+    "auto_renew": true,
+    "committed_seats": 1500,
+    "company_name": "Nexus Client 0071 LLC",
+    "contract_status": "ACTIVE",
+    "customer_tier": "ENTERPRISE",
+    "days_remaining_in_term": 213,
+    "plan_tier": "ENTERPRISE",
+    "term": [
+     "2026-06-03",
+     "2027-06-03"
+    ],
+    "tier_seat_range": [
+     1000,
+     10000
+    ]
+   },
+   "contract_id": "CTR-0071",
+   "customer_id": "CUST-0071",
+   "decision": {
+    "by": "agent",
+    "outcome": "HITL_REQUIRED",
+    "reasons": [
+     "MONTHLY_IMPACT_OVER_THRESHOLD"
+    ]
+   },
+   "duplicate": false,
+   "error": null,
+   "execution": null,
+   "explanation": {
+    "actions": [
+     {
+      "label": "Seat request recorded as PENDING_FINANCE_APPROVAL",
+      "status": "done"
+     },
+     {
+      "label": "Approval opened for EMP-0082",
+      "status": "done"
+     }
+    ],
+    "advisory_confidence": null,
+    "checks": [
+     {
+      "detail": "Enterprise plan, 213 days left in term",
+      "label": "Contract is active and belongs to the customer",
+      "status": "pass"
+     },
+     {
+      "detail": "Account ACTIVE",
+      "label": "Customer account is in good standing",
+      "status": "pass"
+     },
+     {
+      "detail": "1,543 seats vs Enterprise range 1,000-10,000",
+      "label": "Seats stay within the plan's range",
+      "status": "pass"
+     },
+     {
+      "detail": "43 seats in the window, including 0 earlier requests",
+      "label": "Rolling 30-day seat total checked",
+      "status": "pass"
+     },
+     {
+      "detail": "$501.67/month vs $500.00 (43 \u00d7 $140.00 \u00f7 12 = $501.67/month)",
+      "label": "$500/month approval threshold",
+      "status": "flag"
+     },
+     {
+      "detail": "PURCHASE",
+      "label": "Request is an explicit purchase",
+      "status": "pass"
+     },
+     {
+      "detail": "No SOW or order form for this customer",
+      "label": "No customer-specific contract terms",
+      "status": "pass"
+     },
+     {
+      "detail": "Not needed",
+      "label": "Copilot contract review",
+      "status": "skipped"
+     }
+    ],
+    "decision_basis": "deterministic",
+    "failures": 0,
+    "flags": 1,
+    "headline": "Paused for manager approval: 30-day total over $500/month",
+    "rules_evaluated": 7,
+    "rules_total": 8
+   },
+   "history": [
+    {
+     "at": "2026-11-02T19:13:19.513763+00:00",
+     "from": null,
+     "reason": "seat request received from crm:EMP-0057",
+     "to": "INITIATED"
+    },
+    {
+     "at": "2026-11-02T19:13:19.539988+00:00",
+     "from": "INITIATED",
+     "reason": "loading contract terms and negotiated clauses",
+     "to": "ANALYZING_CONTRACT"
+    },
+    {
+     "at": "2026-11-02T19:13:19.563371+00:00",
+     "from": "ANALYZING_CONTRACT",
+     "reason": "contract and negotiated clauses analysed",
+     "to": "CALCULATING_IMPACT"
+    },
+    {
+     "at": "2026-11-02T19:13:19.591140+00:00",
+     "from": "CALCULATING_IMPACT",
+     "reason": "Aggregate 30-day monthly equivalent exceeds $500.00 (SOP-02 \u00a71)",
+     "to": "WAITING_FOR_APPROVAL"
+    }
+   ],
+   "human_decision": null,
+   "impact": {
+    "added_seats": 43,
+    "aggregate_monthly_30d": "501.6666666666666666666666667",
+    "aggregate_monthly_30d_display": "501.67",
+    "aggregate_seats_30d": 43,
+    "annual_arr_impact": "6020.00",
+    "arr_after": "216020.00",
+    "arr_before": "210000.00",
+    "formula": "43 \u00d7 $140.00 \u00f7 12 = $501.67/month",
+    "monthly_cost_impact": "501.6666666666666666666666667",
+    "monthly_cost_impact_display": "501.67",
+    "mrr_after": "18001.67",
+    "mrr_before": "17500.00",
+    "prior_requests_in_window": [],
+    "projected_seats": 1543,
+    "seat_request_status": "PENDING_FINANCE_APPROVAL",
+    "threshold_monthly": "500.00"
+   },
+   "pipeline": {
+    "current_step": "Manager approval",
+    "eta": "Waiting on EMP-0082; the remaining steps finish within seconds of a decision. The request expires in 72 h.",
+    "finished": false,
+    "progress_pct": 60,
+    "steps": [
+     {
+      "at": "2026-11-02T19:13:19.563371+00:00",
+      "description": "Contract, account standing and plan terms",
+      "key": "analyze_contract",
+      "name": "Contract analysis",
+      "status": "complete"
+     },
+     {
+      "at": "2026-11-02T19:13:19.563371+00:00",
+      "description": "Customer-specific MSA/SOW terms (RAG)",
+      "key": "check_rag_compliance",
+      "name": "Policy verification",
+      "status": "complete"
+     },
+     {
+      "at": "2026-11-02T19:13:19.591140+00:00",
+      "description": "30-day seat total, MRR and ARR impact",
+      "key": "calculate_impact",
+      "name": "Financial delta",
+      "status": "complete"
+     },
+     {
+      "at": null,
+      "description": "Human-in-the-loop decision",
+      "key": "wait_for_approval",
+      "name": "Manager approval",
+      "status": "in_progress"
+     },
+     {
+      "at": null,
+      "description": "Seats and ARR updated",
+      "key": "execute_mutation",
+      "name": "Provisioning",
+      "status": "pending"
+     }
+    ]
+   },
+   "request_id": "SRQ-SAMPLE-231f78e0",
+   "run_id": "e58dcbb1-beea-446f-ae57-1d5dccc3c1c2",
+   "state": "WAITING_FOR_APPROVAL"
+  }
+ },
+ "searches": {
+  "CUST-0040 wants 50 more seats. Does that need Finance approval?": {
+   "count": 6,
+   "embedding_model": "gemini/gemini-embedding-001@768",
+   "query": "CUST-0040 wants 50 more seats. Does that need Finance approval?",
+   "results": [
+    {
+     "authority": "governing",
+     "chunk_id": "947caa8b-9b9b-4bbf-bdb3-c83be90b8236",
+     "content": "[SOP-02] SOP-02 \u2014 Managed Seat Expansion and Human Approval \u2014 4. Boundary examples\nSource: sops/SOP_02_Seat_Provisioning.md | Type: sops (governing) | Document entities: CTR-0040, CUST-0040, EMP-0082, SOP-02\n\n- Starter +10 seats: $500/month; no threshold approval. Starter +11: $550/month; approval required.\n- Growth +20 seats: $500/month; no threshold approval. Growth +21: $525/month; approval required.\n- Enterprise +42 seats: $490/month; no threshold approval. Enterprise +43 seats: $501.666\u2026/month; approval required.\n- Enterprise `CUST-0040` (`CTR-0040`), 1500 current seats: proposed +50 = $583.333\u2026/month. Request is **pending clarification and human approval**, not activated. A split +30 then +20 within 30 days still totals +50 and requires approval. Neither request changes the dataset's $210,000.00 ARR.",
+     "doc_id": "SOP-02",
+     "doc_type": "sops",
+     "keyword_rank": 1,
+     "keyword_score": 0.8611111,
+     "rrf_score": 0.03201844262295082,
+     "section": "4. Boundary examples",
+     "semantic_rank": 4,
+     "similarity": 0.7288630766354274,
+     "source_file": "sops/SOP_02_Seat_Provisioning.md",
+     "title": "SOP-02 \u2014 Managed Seat Expansion and Human Approval"
+    },
+    {
+     "authority": "governing",
+     "chunk_id": "7338590f-c345-4560-a3e6-222d371fff57",
+     "content": "[SOP-02] SOP-02 \u2014 Managed Seat Expansion and Human Approval \u2014 3. Workflow\nSource: sops/SOP_02_Seat_Provisioning.md | Type: sops (governing) | Document entities: CTR-0040, CUST-0040, EMP-0082, SOP-02\n\n1. Capture `CUST-XXXX`, `CTR-XXXX`, requested count, request timestamp, desired activation date, business justification, and authorized customer requester.\n2. Validate customer/contract active, signed seat count and tier limits (Starter 50\u2013249, Growth 250\u2013999, Enterprise 1,000\u201310,000). A tier-crossing request requires a signed plan amendment before provisioning.\n3. Lock customer seat ledger; compute 30-day aggregate and monthly equivalent using `Decimal`; record full calculation and prior requests.\n4. If aggregate exceeds $500/month, route to Finance human approver. No provisioning while approval is pending. Approval expires seven calendar days after decision if unused; a rejection/expiry creates no charge.\n5. Once customer authorization and required Finance approval exist, activate exactly the approved seat count. Prorate first-year incremental invoice by remaining service days divided by actual contract-term days; additions co-terminate with the existing contract. Update ARR ledger only on effective activation, with immutable audit events.\n6. Notify CSM and Finance, and reconcile entitlements, invoice, and amended committed seats. Avoid retroactive changes to the frozen 2026-10-28 baseline.",
+     "doc_id": "SOP-02",
+     "doc_type": "sops",
+     "keyword_rank": 2,
+     "keyword_score": 0.85294116,
+     "rrf_score": 0.03200204813108039,
+     "section": "3. Workflow",
+     "semantic_rank": 3,
+     "similarity": 0.7528343123643798,
+     "source_file": "sops/SOP_02_Seat_Provisioning.md",
+     "title": "SOP-02 \u2014 Managed Seat Expansion and Human Approval"
+    },
+    {
+     "authority": "governing",
+     "chunk_id": "17ce96bf-adb2-4e33-ab29-d55025f29529",
+     "content": "[SOP-02] SOP-02 \u2014 Managed Seat Expansion and Human Approval \u2014 1. Rule and arithmetic\nSource: sops/SOP_02_Seat_Provisioning.md | Type: sops (governing) | Document entities: CTR-0040, CUST-0040, EMP-0082, SOP-02\n\nFor each request, calculate `incremental_monthly_equivalent = added_seats \u00d7 annual_unit_price / 12` using exact decimal arithmetic. Starter $600/year ($50/month); Growth $300/year ($25/month); Enterprise $140/year ($11.666666\u2026/month). **Human Finance approval is mandatory when the aggregated incremental monthly equivalent is strictly greater than $500.00.** Exactly $500.00 does not trigger this extra approval, but customer authorization remains mandatory.",
+     "doc_id": "SOP-02",
+     "doc_type": "sops",
+     "keyword_rank": 6,
+     "keyword_score": 0.7916667,
+     "rrf_score": 0.03128054740957967,
+     "section": "1. Rule and arithmetic",
+     "semantic_rank": 2,
+     "similarity": 0.7556212094056006,
+     "source_file": "sops/SOP_02_Seat_Provisioning.md",
+     "title": "SOP-02 \u2014 Managed Seat Expansion and Human Approval"
+    },
+    {
+     "authority": "narrative",
+     "chunk_id": "ae6b4118-d13f-4929-830b-63f96642d773",
+     "content": "[Slack_Transcript_CSM_Sync] Internal Chat \u2014 CSM / Finance Risk Sync (Synthetic Transcript) \u2014 Transcript (part 1/2)\nSource: internal_ops/Slack_Transcript_CSM_Sync.md | Type: internal_ops (narrative) | Document entities: CTR-0011, CTR-0040, CUST-0011, CUST-0040, EMP-0057, EMP-0058, EMP-0062, EMP-0082, EMP-0084, INV-2026-0011, TK-0139\n\n**10:30 UTC \u2014 Avery Diaz (`EMP-0058`, CSM):** Enterprise customer `CUST-0040` / `CTR-0040` asked for \"about 50\" extra seats during their P1 issue `TK-0139`. I interpreted it as a reservation, not an order. Current commitment is 1500 seats and ARR is $210,000.00. They also mentioned a temporary pilot.\n\n**10:33 UTC \u2014 Rowan Patel (`EMP-0084`, Billing Analyst):** If +50 is a paid addition, that's 50 \u00d7 $140 \u00f7 12 = $583.333\u2026 monthly equivalent. It exceeds $500, so a human Finance approval is mandatory. A \"reservation\" alone is not a provisioning authorization. Do we have an exact count, signed amendment or effective date?\n\n**10:36 UTC \u2014 Avery Diaz:** Not yet. Customer suggested \"30 now and 20 next week\" to avoid paperwork. Can we treat those as independent requests?\n\n**10:39 UTC \u2014 Rowan Patel:** No. Rolling 30-calendar-day aggregation counts pending and approved additions; +30 and +20 still equal +50 and require approval. Nothing has been activated. Please refer to `sops/SOP_02_Seat_Provisioning.md`.\n\n**10:43 UTC \u2014 Drew Chen (`EMP-0062`, CSM):** Separate risk: `CUST-0011` has invoice `INV-2026-0011` for $150,000.00 overdue since 2026-09-16, but their contract `CTR-0011` is still ACTIVE. Customer says their AP team \"already sent a transfer.\" I cannot verify settlement in the snapshot. Renewal discussion is at risk; should I mark churn now?",
+     "doc_id": "Slack_Transcript_CSM_Sync",
+     "doc_type": "internal_ops",
+     "keyword_rank": 3,
+     "keyword_score": 0.8148148,
+     "rrf_score": 0.031024531024531024,
+     "section": "Transcript (part 1/2)",
+     "semantic_rank": 6,
+     "similarity": 0.7064710609351375,
+     "source_file": "internal_ops/Slack_Transcript_CSM_Sync.md",
+     "title": "Internal Chat \u2014 CSM / Finance Risk Sync (Synthetic Transcript)"
+    },
+    {
+     "authority": "governing",
+     "chunk_id": "559aff7c-ae5d-4f93-9f01-92de053b0bab",
+     "content": "[SOP-02] SOP-02 \u2014 Managed Seat Expansion and Human Approval \u2014 2. Rolling 30-calendar-day window\nSource: sops/SOP_02_Seat_Provisioning.md | Type: sops (governing) | Document entities: CTR-0040, CUST-0040, EMP-0082, SOP-02\n\nAt evaluation time T, find all pending and approved seat additions for the customer submitted in `(T \u2212 30 days, T]`; compute aggregate requested incremental seats against the committed-seat baseline at the start of that window, counting previously activated additions only once. Exclude rejected/expired requests, but do not exclude approved-not-yet-activated additions. Maintain a stable event ledger and evaluate under a tenant-scoped transaction lock to prevent concurrent requests from evading the threshold. The existing nine-table CSV snapshot has **no approval event table**: all `APR-XXXX` references in training discussions are scenario-only and must not be treated as database rows.",
+     "doc_id": "SOP-02",
+     "doc_type": "sops",
+     "keyword_rank": 4,
+     "keyword_score": 0.8076923,
+     "rrf_score": 0.031009615384615385,
+     "section": "2. Rolling 30-calendar-day window",
+     "semantic_rank": 5,
+     "similarity": 0.7204761838345359,
+     "source_file": "sops/SOP_02_Seat_Provisioning.md",
+     "title": "SOP-02 \u2014 Managed Seat Expansion and Human Approval"
+    },
+    {
+     "authority": "governing",
+     "chunk_id": "4c804415-a3c3-4062-95e2-75cf4dc7bdb9",
+     "content": "[SOW_Enterprise_Client_Sample] Statement of Work \u2014 Nexus Client 0040 LLC \u2014 4. Change control and business friction example\nSource: legal/SOW_Enterprise_Client_Sample.md | Type: legal (governing) | Document entities: CTR-0040, CUST-0040, EMP-0058, TK-0139\n\nThe customer asked in a synthetic follow-up for \"about 50 additional seats, perhaps temporarily.\" At $140 per seat per year, **50 seats = $583.333\u2026 monthly equivalent**, above the $500 approval threshold; **no seats are provisioned** until a human Finance approval and customer authorization are recorded. An exact seat count, effective date, and whether a signed amendment is required remain unresolved. Approval expires seven days after grant if not activated. Splitting into smaller requests within a rolling 30 days does not bypass approval. See `sops/SOP_02_Seat_Provisioning.md`.",
+     "doc_id": "SOW_Enterprise_Client_Sample",
+     "doc_type": "legal",
+     "keyword_rank": 9,
+     "keyword_score": 0.75,
+     "rrf_score": 0.030886196246139225,
+     "section": "4. Change control and business friction example",
+     "semantic_rank": 1,
+     "similarity": 0.7559469924099463,
+     "source_file": "legal/SOW_Enterprise_Client_Sample.md",
+     "title": "Statement of Work \u2014 Nexus Client 0040 LLC"
+    }
+   ]
+  },
+  "Can we mark CUST-0011 as churned if they say payment was sent?": {
+   "count": 6,
+   "embedding_model": "gemini/gemini-embedding-001@768",
+   "query": "Can we mark CUST-0011 as churned if they say payment was sent?",
+   "results": [
+    {
+     "authority": "narrative",
+     "chunk_id": "ae6b4118-d13f-4929-830b-63f96642d773",
+     "content": "[Slack_Transcript_CSM_Sync] Internal Chat \u2014 CSM / Finance Risk Sync (Synthetic Transcript) \u2014 Transcript (part 1/2)\nSource: internal_ops/Slack_Transcript_CSM_Sync.md | Type: internal_ops (narrative) | Document entities: CTR-0011, CTR-0040, CUST-0011, CUST-0040, EMP-0057, EMP-0058, EMP-0062, EMP-0082, EMP-0084, INV-2026-0011, TK-0139\n\n**10:30 UTC \u2014 Avery Diaz (`EMP-0058`, CSM):** Enterprise customer `CUST-0040` / `CTR-0040` asked for \"about 50\" extra seats during their P1 issue `TK-0139`. I interpreted it as a reservation, not an order. Current commitment is 1500 seats and ARR is $210,000.00. They also mentioned a temporary pilot.\n\n**10:33 UTC \u2014 Rowan Patel (`EMP-0084`, Billing Analyst):** If +50 is a paid addition, that's 50 \u00d7 $140 \u00f7 12 = $583.333\u2026 monthly equivalent. It exceeds $500, so a human Finance approval is mandatory. A \"reservation\" alone is not a provisioning authorization. Do we have an exact count, signed amendment or effective date?\n\n**10:36 UTC \u2014 Avery Diaz:** Not yet. Customer suggested \"30 now and 20 next week\" to avoid paperwork. Can we treat those as independent requests?\n\n**10:39 UTC \u2014 Rowan Patel:** No. Rolling 30-calendar-day aggregation counts pending and approved additions; +30 and +20 still equal +50 and require approval. Nothing has been activated. Please refer to `sops/SOP_02_Seat_Provisioning.md`.\n\n**10:43 UTC \u2014 Drew Chen (`EMP-0062`, CSM):** Separate risk: `CUST-0011` has invoice `INV-2026-0011` for $150,000.00 overdue since 2026-09-16, but their contract `CTR-0011` is still ACTIVE. Customer says their AP team \"already sent a transfer.\" I cannot verify settlement in the snapshot. Renewal discussion is at risk; should I mark churn now?",
+     "doc_id": "Slack_Transcript_CSM_Sync",
+     "doc_type": "internal_ops",
+     "keyword_rank": 1,
+     "keyword_score": 0.7368421,
+     "rrf_score": 0.03252247488101533,
+     "section": "Transcript (part 1/2)",
+     "semantic_rank": 2,
+     "similarity": 0.6753732755557742,
+     "source_file": "internal_ops/Slack_Transcript_CSM_Sync.md",
+     "title": "Internal Chat \u2014 CSM / Finance Risk Sync (Synthetic Transcript)"
+    },
+    {
+     "authority": "narrative",
+     "chunk_id": "f367d407-7485-425e-8074-6bf256bf0a2c",
+     "content": "[Slack_Transcript_CSM_Sync] Internal Chat \u2014 CSM / Finance Risk Sync (Synthetic Transcript) \u2014 Transcript (part 2/2)\nSource: internal_ops/Slack_Transcript_CSM_Sync.md | Type: internal_ops (narrative) | Document entities: CTR-0011, CTR-0040, CUST-0011, CUST-0040, EMP-0057, EMP-0058, EMP-0062, EMP-0082, EMP-0084, INV-2026-0011, TK-0139\n\n**10:46 UTC \u2014 Rowan Patel:** Do **not** convert DELINQUENT to CHURNED on an unverified claim. We have six delinquent accounts (5% of 120), not six confirmed cancellations. The collection letter is a simulation; a real notice needs recorded delivery and cure timing. Reconcile bank receipt before changing invoice status.\n\n**10:51 UTC \u2014 Casey Rivera (`EMP-0057`, VP Customer Success):** Record both as risks. The 30-day nonrenewal deadline is a contract rule, not a grace period for overdue invoices. Do not promise suspension or a credit. The P1 ticket remains open until verified restoration or accepted workaround; a customer's \"looks better\" email is not a closure event.\n\n**10:55 UTC \u2014 Parker Kim (`EMP-0082`, Finance Director):** Decision: HOLD the Enterprise +50 request pending exact written authorization, 30-day aggregate review and Finance approval. HOLD any account-status change for `CUST-0011` pending payment reconciliation. Neither discussion changes the $12.4M ARR snapshot. Any future approval identifier (`APR-XXXX`) belongs in a new approval-event ledger, not an invented current database row.\n\n**Retrieval warning:** This transcript contains *requests, interpretations and proposed actions*, not signed amendments, payment confirmation, actual approval, or verified incident resolution. Source-of-truth records remain the approved CSV tables and the governing SOPs.",
+     "doc_id": "Slack_Transcript_CSM_Sync",
+     "doc_type": "internal_ops",
+     "keyword_rank": 3,
+     "keyword_score": 0.6666667,
+     "rrf_score": 0.032266458495966696,
+     "section": "Transcript (part 2/2)",
+     "semantic_rank": 1,
+     "similarity": 0.6988565505232496,
+     "source_file": "internal_ops/Slack_Transcript_CSM_Sync.md",
+     "title": "Internal Chat \u2014 CSM / Finance Risk Sync (Synthetic Transcript)"
+    },
+    {
+     "authority": "narrative",
+     "chunk_id": "d14f1869-789f-4ae9-b04c-9d6ae4211172",
+     "content": "[Finance_Collection_Notice] Finance \u2014 Collection Notice and Conditional Suspension Warning (Synthetic) \u2014 Body (part 1/2)\nSource: correspondence/Finance_Collection_Notice.md | Type: correspondence (narrative) | Document entities: CTR-0011, CUST-0011, EMP-0062, EMP-0082, EMP-0084, INV-2026-0011\n\n**Status:** Unsent example; no real notice or suspension has occurred.  \n**To:** accounts-payable@client0011.example  \n**From:** rowan.patel.0084@nexusflow.example  \n**Date:** 2026-10-28  \n**Subject:** Payment overdue \u2014 INV-2026-0011 / CTR-0011\n\nDear Accounts Payable,\n\nOur billing snapshot shows an outstanding invoice for **Nexus Client 0011 LLC** (`CUST-0011`), contract `CTR-0011`:\n\n| Field | Ledger value |\n|---|---|\n| Invoice | `INV-2026-0011` |\n| Issued | 2026-08-17 |\n| Due | 2026-09-16 |\n| Outstanding amount | **$150,000.00** |\n| Invoice status | `OVERDUE` |\n| Account status | `DELINQUENT` |\n| Contract status | `ACTIVE` (still active) |\n\nPlease remit payment or provide written evidence of payment and remittance details. If you dispute this invoice in good faith, notify Finance with the disputed line items; undisputed charges remain due. Under the model MSA, the cure period is **15 calendar days after receipt of a valid notice**. If receipt occurs on 2026-10-28, the illustrative cure deadline is **2026-11-12**; actual deadline must be computed from documented receipt. Continued nonpayment may lead to discretionary suspension **only after** review, notice, and any applicable legal restrictions. No suspension is automatic or recorded here.",
+     "doc_id": "Finance_Collection_Notice",
+     "doc_type": "correspondence",
+     "keyword_rank": 2,
+     "keyword_score": 0.7222222,
+     "rrf_score": 0.031754032258064516,
+     "section": "Body (part 1/2)",
+     "semantic_rank": 4,
+     "similarity": 0.6655943395624757,
+     "source_file": "correspondence/Finance_Collection_Notice.md",
+     "title": "Finance \u2014 Collection Notice and Conditional Suspension Warning (Synthetic)"
+    },
+    {
+     "authority": "narrative",
+     "chunk_id": "5d1b05cb-6d41-444b-9c61-724f3d121102",
+     "content": "[Finance_Collection_Notice] Finance \u2014 Collection Notice and Conditional Suspension Warning (Synthetic) \u2014 Body (part 2/2)\nSource: correspondence/Finance_Collection_Notice.md | Type: correspondence (narrative) | Document entities: CTR-0011, CUST-0011, EMP-0062, EMP-0082, EMP-0084, INV-2026-0011\n\nA colleague has asked whether the customer's pending seat expansion can proceed before the debt is resolved. That request remains separate; Finance must evaluate credit risk and the seat-approval threshold before any provisioning. We have not applied an unapproved credit or modified the source invoice.\n\nRegards,  \nRowan Patel  \nBilling Analyst, NexusFlow Systems (`EMP-0084`)\n\n**Internal routing:** CSM Drew Chen (EMP-0062; Customer Success Manager; drew.chen.0062@nexusflow.example); escalation to Parker Kim (EMP-0082; Finance Director; parker.kim.0082@nexusflow.example). **Cross-reference:** `legal/MSA_Template_v1.0.md`, `internal_ops/Slack_Transcript_CSM_Sync.md`.",
+     "doc_id": "Finance_Collection_Notice",
+     "doc_type": "correspondence",
+     "keyword_rank": 6,
+     "keyword_score": 0.44444445,
+     "rrf_score": 0.031024531024531024,
+     "section": "Body (part 2/2)",
+     "semantic_rank": 3,
+     "similarity": 0.6672424077987719,
+     "source_file": "correspondence/Finance_Collection_Notice.md",
+     "title": "Finance \u2014 Collection Notice and Conditional Suspension Warning (Synthetic)"
+    },
+    {
+     "authority": "narrative",
+     "chunk_id": "f41addc0-44b3-441f-b07c-5467a3215014",
+     "content": "[Slack_Transcript_CSM_Sync] Internal Chat \u2014 CSM / Finance Risk Sync (Synthetic Transcript) \u2014 Overview\nSource: internal_ops/Slack_Transcript_CSM_Sync.md | Type: internal_ops (narrative) | Document entities: CTR-0011, CTR-0040, CUST-0011, CUST-0040, EMP-0057, EMP-0058, EMP-0062, EMP-0082, EMP-0084, INV-2026-0011, TK-0139\n\n**Channel:** `#csm-finance-risk` (fictional). **Date:** 2026-10-28. **Purpose:** Training-only contradictory evidence and approval routing. No `APR-XXXX` row exists in the approved CSV dataset.",
+     "doc_id": "Slack_Transcript_CSM_Sync",
+     "doc_type": "internal_ops",
+     "keyword_rank": 4,
+     "keyword_score": 0.5,
+     "rrf_score": 0.03055037313432836,
+     "section": "Overview",
+     "semantic_rank": 7,
+     "similarity": 0.6379014253616379,
+     "source_file": "internal_ops/Slack_Transcript_CSM_Sync.md",
+     "title": "Internal Chat \u2014 CSM / Finance Risk Sync (Synthetic Transcript)"
+    },
+    {
+     "authority": "governing",
+     "chunk_id": "52d86eb4-bf36-4a24-9a11-7dea15a577fe",
+     "content": "[MSA_Template_v1.0] NexusFlow Systems \u2014 Master Services Agreement (MSA) v1.0 \u2014 6. Fees, late payment, and disputed charges\nSource: legal/MSA_Template_v1.0.md | Type: legal (governing) | Document entities: EMP-0082\n\nInvoices are issued on the contract start date and due 30 calendar days later unless the signed order form varies this. Provider shall flag overdue balances, provide a written collection notice, and allow a 15-calendar-day cure period following that notice before discretionary service suspension, subject to legal restrictions and documented security exceptions. A good-faith written invoice dispute raised before suspension triggers Finance review; undisputed balances remain payable. Suspension does not extinguish payment obligations. Finance Director must approve credits and nonstandard payment terms. See `correspondence/Finance_Collection_Notice.md` for a **simulation**, not an issued notice.",
+     "doc_id": "MSA_Template_v1.0",
+     "doc_type": "legal",
+     "keyword_rank": 5,
+     "keyword_score": 0.5,
+     "rrf_score": 0.030536130536130537,
+     "section": "6. Fees, late payment, and disputed charges",
+     "semantic_rank": 6,
+     "similarity": 0.648246726498204,
+     "source_file": "legal/MSA_Template_v1.0.md",
+     "title": "NexusFlow Systems \u2014 Master Services Agreement (MSA) v1.0"
+    }
+   ]
+  },
+  "What is the Enterprise P1 initial response and resolution SLA?": {
+   "count": 6,
+   "embedding_model": "gemini/gemini-embedding-001@768",
+   "query": "What is the Enterprise P1 initial response and resolution SLA?",
+   "results": [
+    {
+     "authority": "governing",
+     "chunk_id": "add1de3f-77e5-40ad-8102-3a9f54a2e257",
+     "content": "[SOP-01] SOP-01 \u2014 Ticket Triage, Escalation, and SLA Clocks \u2014 2. Human initial response matrix\nSource: sops/SOP_01_Ticket_Escalation.md | Type: sops (governing) | Document entities: CUST-0040, EMP-0001, EMP-0059, EMP-0069, SOP-01, TK-0139\n\n| Priority | Starter | Growth | Enterprise |\n|---|---|---|---|\n| P1 | 4 business hours | 1 coverage hour | 15 clock minutes |\n| P2 | 8 business hours | 4 coverage hours | 1 clock hour |\n| P3 | 1 business day | 1 business day | 8 business hours |\n| P4 | 2 business days | 2 business days | 1 business day |\n\nBusiness hours = Mon\u2013Fri 09:00\u201317:00 America/Chicago, excluding observed US holidays; one business day = eight business hours. Growth P1/P2 coverage = Monday 00:00 through Friday 23:59:59 America/Chicago, including weekday holidays; Enterprise P1/P2 = 24\u00d77. All other clocks run in business hours. Store event timestamps in UTC and calculate eligibility in America/Chicago with DST-aware time-zone logic. Auto-replies do not count as human responses.",
+     "doc_id": "SOP-01",
+     "doc_type": "sops",
+     "keyword_rank": 2,
+     "keyword_score": 0.7619048,
+     "rrf_score": 0.03252247488101533,
+     "section": "2. Human initial response matrix",
+     "semantic_rank": 1,
+     "similarity": 0.7686640758118598,
+     "source_file": "sops/SOP_01_Ticket_Escalation.md",
+     "title": "SOP-01 \u2014 Ticket Triage, Escalation, and SLA Clocks"
+    },
+    {
+     "authority": "governing",
+     "chunk_id": "8f378f01-eb8b-47e3-811a-a2beedc2a74f",
+     "content": "[SOW_Enterprise_Client_Sample] Statement of Work \u2014 Nexus Client 0040 LLC \u2014 3. Service commitments\nSource: legal/SOW_Enterprise_Client_Sample.md | Type: legal (governing) | Document entities: CTR-0040, CUST-0040, EMP-0058, TK-0139\n\nEnterprise uptime **99.95% monthly**; P1 initial human response **15 clock minutes**, resolution **4 clock hours**, both 24\u00d77. P2 initial response **1 clock hour**, resolution **12 clock hours**. P3 initial response **8 business hours**, resolution **3 business days**; P4 initial response **1 business day**, resolution **10 business days**. Business hours are Mon\u2013Fri 09:00\u201317:00 America/Chicago, excluding observed US holidays. Resolution requires verified restoration or an accepted workaround; RCA may follow. See `sops/SOP_01_Ticket_Escalation.md`.",
+     "doc_id": "SOW_Enterprise_Client_Sample",
+     "doc_type": "legal",
+     "keyword_rank": 1,
+     "keyword_score": 0.7619048,
+     "rrf_score": 0.03252247488101533,
+     "section": "3. Service commitments",
+     "semantic_rank": 2,
+     "similarity": 0.7644749967284664,
+     "source_file": "legal/SOW_Enterprise_Client_Sample.md",
+     "title": "Statement of Work \u2014 Nexus Client 0040 LLC"
+    },
+    {
+     "authority": "governing",
+     "chunk_id": "0a0de616-1a07-4674-a5e1-04f87d6d3306",
+     "content": "[SOP-01] SOP-01 \u2014 Ticket Triage, Escalation, and SLA Clocks \u2014 3. Procedure\nSource: sops/SOP_01_Ticket_Escalation.md | Type: sops (governing) | Document entities: CUST-0040, EMP-0001, EMP-0059, EMP-0069, SOP-01, TK-0139\n\n1. Log ticket ID, customer ID, plan snapshot, severity, creation timestamp, reporter, owner, business impact and evidence. Confirm whether incident is security-related.\n2. Start response and resolution clocks at ticket creation. Human triage acknowledges the customer and confirms severity. Support may raise severity immediately; downgrade requires Support Manager's documented approval.\n3. Page on-call Support and SRE immediately for P1 within covered hours. At **50%** of P1 resolution budget, escalate to VP Engineering; at **75%**, escalate to the executive committee chair (same VP Engineering role, separate executive escalation record). P2 goes to Support Manager at 50% and VP Customer Success at 75%.\n4. Send P1 updates at least every 60 eligible coverage minutes and P2 updates every four eligible coverage hours. Log acknowledgments, updates, mitigation, breach and verification events.\n5. P1/P2 clocks **never pause** for customer input. P3/P4 resolution clocks may pause only in documented `WAITING_CUSTOMER` state with explicit begin/end timestamps; the flat CSV status vocabulary may not encode this state, so store it in the future event ledger rather than overwrite the snapshot.\n6. Stop the resolution clock only after verified restoration or accepted workaround, record resolver and verification. Open a P1 post-incident review within five business days. An overdue SLA is still a breach even if later resolved.",
+     "doc_id": "SOP-01",
+     "doc_type": "sops",
+     "keyword_rank": 3,
+     "keyword_score": 0.7619048,
+     "rrf_score": 0.03149801587301587,
+     "section": "3. Procedure",
+     "semantic_rank": 4,
+     "similarity": 0.728615478955778,
+     "source_file": "sops/SOP_01_Ticket_Escalation.md",
+     "title": "SOP-01 \u2014 Ticket Triage, Escalation, and SLA Clocks"
+    },
+    {
+     "authority": "governing",
+     "chunk_id": "7da8b7c9-7c1c-426d-8061-eb8e024aba4b",
+     "content": "[SOP-01] SOP-01 \u2014 Ticket Triage, Escalation, and SLA Clocks \u2014 1. Severity rubric\nSource: sops/SOP_01_Ticket_Escalation.md | Type: sops (governing) | Document entities: CUST-0040, EMP-0001, EMP-0059, EMP-0069, SOP-01, TK-0139\n\n| Priority | Qualifying condition | Starter resolution | Growth resolution | Enterprise resolution |\n|---|---|---|---|---|\n| P1 | Production-wide outage, severe security incident, essential service unusable | 2 business days | 8 coverage hours | 4 clock hours |\n| P2 | Major feature unavailable, no viable workaround, material impact | 4 business days | 48 coverage hours | 12 clock hours |\n| P3 | Partial degradation with workaround | 10 business days | 5 business days | 3 business days |\n| P4 | How-to, cosmetic issue, minor enhancement | 20 business days | 15 business days | 10 business days |",
+     "doc_id": "SOP-01",
+     "doc_type": "sops",
+     "keyword_rank": 5,
+     "keyword_score": 0.6875,
+     "rrf_score": 0.03125763125763126,
+     "section": "1. Severity rubric",
+     "semantic_rank": 3,
+     "similarity": 0.7487468273194549,
+     "source_file": "sops/SOP_01_Ticket_Escalation.md",
+     "title": "SOP-01 \u2014 Ticket Triage, Escalation, and SLA Clocks"
+    },
+    {
+     "authority": "narrative",
+     "chunk_id": "38b3bece-21d5-4f10-9c62-b13cd53153fd",
+     "content": "[Email_Thread_P1_Outage] Email Thread \u2014 P1 Incident Follow-up (Synthetic) \u2014 Message from alex.stone.0069@nexusflow.example 2026-10-28 09:10 UTC\nSource: correspondence/Email_Thread_P1_Outage.md | Type: correspondence (narrative) | Document entities: CTR-0040, CUST-0040, TK-0139\n\n**From:** alex.stone.0069@nexusflow.example  \n**To:** it-operations@client0040.example  \n**Cc:** avery.diaz.0058@nexusflow.example  \n**Date:** 2026-10-28 09:10 UTC  \n**Subject:** Re: [P1] API inventory refresh failing \u2014 TK-0139\n\nHuman acknowledgment: we are treating this as P1 pending impact verification. Engineering/on-call SRE has been paged. The Enterprise P1 human response objective is 15 clock minutes and resolution objective is four clock hours from ticket creation, with continuous 24\u00d77 coverage. Please confirm affected regions and whether the compliance export depends on the same endpoint. This message is an illustrative acknowledgment; it is **not present as an event in the source CSV**.",
+     "doc_id": "Email_Thread_P1_Outage",
+     "doc_type": "correspondence",
+     "keyword_rank": 4,
+     "keyword_score": 0.7222222,
+     "rrf_score": 0.030776515151515152,
+     "section": "Message from alex.stone.0069@nexusflow.example 2026-10-28 09:10 UTC",
+     "semantic_rank": 6,
+     "similarity": 0.6793228578971126,
+     "source_file": "correspondence/Email_Thread_P1_Outage.md",
+     "title": "Email Thread \u2014 P1 Incident Follow-up (Synthetic)"
+    },
+    {
+     "authority": "narrative",
+     "chunk_id": "e77cb17b-b1df-4c7a-81b9-14d2283fe41a",
+     "content": "[Email_Thread_P1_Outage] Email Thread \u2014 P1 Incident Follow-up (Synthetic) \u2014 Message from alex.stone.0069@nexusflow.example 2026-10-28 10:22 UTC\nSource: correspondence/Email_Thread_P1_Outage.md | Type: correspondence (narrative) | Document entities: CTR-0040, CUST-0040, TK-0139\n\n**From:** alex.stone.0069@nexusflow.example  \n**To:** it-operations@client0040.example  \n**Date:** 2026-10-28 10:22 UTC  \n**Subject:** Re: [P1] API inventory refresh failing \u2014 TK-0139\n\nNot yet. We need verified restoration or an explicitly accepted workaround, recorded against the ticket. The incident remains open in the dataset. Root-cause analysis follows verification; no resolution timestamp has been asserted. Next customer update is due no later than the applicable 60-eligible-minute interval. Escalations follow `SOP_01_Ticket_Escalation.md`.",
+     "doc_id": "Email_Thread_P1_Outage",
+     "doc_type": "correspondence",
+     "keyword_rank": 9,
+     "keyword_score": 0.64285713,
+     "rrf_score": 0.029418126757516764,
+     "section": "Message from alex.stone.0069@nexusflow.example 2026-10-28 10:22 UTC",
+     "semantic_rank": 7,
+     "similarity": 0.6610194444656419,
+     "source_file": "correspondence/Email_Thread_P1_Outage.md",
+     "title": "Email Thread \u2014 P1 Incident Follow-up (Synthetic)"
+    }
+   ]
+  }
+ },
+ "workflow_runs": {
+  "counts": {
+   "completed": 10,
+   "failed": 4,
+   "rejected": 3,
+   "running": 0,
+   "waiting": 3
+  },
+  "items": [
+   {
+    "current_step": "Manager approval",
+    "detail": "Paused for manager approval: not an explicit purchase",
+    "id": "358c6351-bde3-4ba2-a852-dc27c6d76d3a",
+    "kind": "LangGraph agent",
+    "name": "Governance agent",
+    "priority": "normal",
+    "started_at": "2026-11-02T19:13:36.443496Z",
+    "state": "waiting",
+    "steps_done": 3,
+    "steps_total": 5,
+    "subject": "CUST-0001, SRQ-SAMPLE-b6496bb4",
+    "updated_at": "2026-11-02T19:13:36.547243Z",
+    "workflow": "governance_agent"
+   },
+   {
+    "current_step": "Manager approval",
+    "detail": "Paused for manager approval: 30-day total over $500/month, customer-specific contract terms",
+    "id": "53b1907d-a5f4-45aa-b7f2-8142ec5917f3",
+    "kind": "LangGraph agent",
+    "name": "Governance agent",
+    "priority": "high",
+    "started_at": "2026-11-02T19:13:19.626855Z",
+    "state": "waiting",
+    "steps_done": 3,
+    "steps_total": 5,
+    "subject": "CUST-0040, SRQ-SAMPLE-89c3d7ae",
+    "updated_at": "2026-11-02T19:13:36.411361Z",
+    "workflow": "governance_agent"
+   },
+   {
+    "current_step": "Manager approval",
+    "detail": "Paused for manager approval: 30-day total over $500/month",
+    "id": "e58dcbb1-beea-446f-ae57-1d5dccc3c1c2",
+    "kind": "LangGraph agent",
+    "name": "Governance agent",
+    "priority": "high",
+    "started_at": "2026-11-02T19:13:19.513763Z",
+    "state": "waiting",
+    "steps_done": 3,
+    "steps_total": 5,
+    "subject": "CUST-0071, SRQ-SAMPLE-231f78e0",
+    "updated_at": "2026-11-02T19:13:19.591140Z",
+    "workflow": "governance_agent"
+   },
+   {
+    "current_step": "Copilot triage",
+    "detail": "no callback from n8n after 10 min",
+    "id": "021d3097-faf4-4f03-802d-cff73a73f3d3",
+    "kind": "n8n workflow",
+    "name": "P1 escalation",
+    "priority": "critical",
+    "started_at": "2026-10-29T10:43:21.420294Z",
+    "state": "failed",
+    "steps_done": 2,
+    "steps_total": 4,
+    "subject": "TK-0139",
+    "updated_at": "2026-10-29T10:43:21.420294Z",
+    "workflow": "p1_ticket_escalation"
+   },
+   {
+    "current_step": "Copilot triage",
+    "detail": "no callback from n8n after 10 min",
+    "id": "623bbfd3-b226-4f59-af92-8b660590cb88",
+    "kind": "n8n workflow",
+    "name": "P1 escalation",
+    "priority": "critical",
+    "started_at": "2026-10-29T10:36:16.539827Z",
+    "state": "failed",
+    "steps_done": 2,
+    "steps_total": 4,
+    "subject": "TK-0139",
+    "updated_at": "2026-10-29T10:36:16.539827Z",
+    "workflow": "p1_ticket_escalation"
+   },
+   {
+    "current_step": "Copilot triage",
+    "detail": "no callback from n8n after 10 min",
+    "id": "7d945beb-1cd2-4cf9-ba52-907bf4a55b90",
+    "kind": "n8n workflow",
+    "name": "P1 escalation",
+    "priority": "critical",
+    "started_at": "2026-10-28T22:14:53.599320Z",
+    "state": "failed",
+    "steps_done": 2,
+    "steps_total": 4,
+    "subject": "TK-0139",
+    "updated_at": "2026-10-28T22:14:53.599320Z",
+    "workflow": "p1_ticket_escalation"
+   },
+   {
+    "current_step": "Copilot triage",
+    "detail": "no callback from n8n after 10 min",
+    "id": "b5486f94-419e-4e50-8a41-51094a05624c",
+    "kind": "n8n workflow",
+    "name": "P1 escalation",
+    "priority": "critical",
+    "started_at": "2026-10-28T22:10:35.896098Z",
+    "state": "failed",
+    "steps_done": 2,
+    "steps_total": 4,
+    "subject": "TK-0139",
+    "updated_at": "2026-10-28T22:10:35.896098Z",
+    "workflow": "p1_ticket_escalation"
+   },
+   {
+    "current_step": null,
+    "detail": "approval card sent",
+    "id": "ea482511-439d-4481-9cb0-bbac9ce8da68",
+    "kind": "n8n workflow",
+    "name": "Approval notifications",
+    "priority": "normal",
+    "started_at": "2026-11-02T19:13:36.656363Z",
+    "state": "completed",
+    "steps_done": 4,
+    "steps_total": 4,
+    "subject": "SRQ-SAMPLE-b6496bb4",
+    "updated_at": "2026-11-02T19:13:36.656363Z",
+    "workflow": "hitl_approval_notification"
+   },
+   {
+    "current_step": null,
+    "detail": "approval card sent",
+    "id": "da69155b-de65-434b-95d4-ff7c125f886c",
+    "kind": "n8n workflow",
+    "name": "Approval notifications",
+    "priority": "normal",
+    "started_at": "2026-11-02T19:13:36.528401Z",
+    "state": "completed",
+    "steps_done": 4,
+    "steps_total": 4,
+    "subject": "SRQ-SAMPLE-89c3d7ae",
+    "updated_at": "2026-11-02T19:13:36.528401Z",
+    "workflow": "hitl_approval_notification"
+   },
+   {
+    "current_step": null,
+    "detail": "approval card sent",
+    "id": "5eefa065-2fb9-408f-ab45-38636babf278",
+    "kind": "n8n workflow",
+    "name": "Approval notifications",
+    "priority": "normal",
+    "started_at": "2026-11-02T19:13:19.755430Z",
+    "state": "completed",
+    "steps_done": 4,
+    "steps_total": 4,
+    "subject": "SRQ-SAMPLE-231f78e0",
+    "updated_at": "2026-11-02T19:13:19.755430Z",
+    "workflow": "hitl_approval_notification"
+   },
+   {
+    "current_step": null,
+    "detail": "approval outcome notified",
+    "id": "abd9015a-56e1-4922-9d6b-582a0a481a94",
+    "kind": "n8n workflow",
+    "name": "Approval notifications",
+    "priority": "normal",
+    "started_at": "2026-11-01T19:29:07.362818Z",
+    "state": "completed",
+    "steps_done": 4,
+    "steps_total": 4,
+    "subject": "SRQ-DEMO-71ce92a3",
+    "updated_at": "2026-11-01T19:29:07.362818Z",
+    "workflow": "hitl_approval_notification"
+   },
+   {
+    "current_step": null,
+    "detail": "approval outcome notified",
+    "id": "7a127298-86eb-4179-9e0d-00e530ad7b71",
+    "kind": "n8n workflow",
+    "name": "Approval notifications",
+    "priority": "normal",
+    "started_at": "2026-11-01T19:29:07.290855Z",
+    "state": "completed",
+    "steps_done": 4,
+    "steps_total": 4,
+    "subject": "SRQ-DEMO-8b8ff0cd",
+    "updated_at": "2026-11-01T19:29:07.290855Z",
+    "workflow": "hitl_approval_notification"
+   },
+   {
+    "current_step": null,
+    "detail": "approval outcome notified",
+    "id": "6c9926fa-9b50-4144-aa88-d199dd484257",
+    "kind": "n8n workflow",
+    "name": "Approval notifications",
+    "priority": "normal",
+    "started_at": "2026-11-01T19:29:07.142169Z",
+    "state": "completed",
+    "steps_done": 4,
+    "steps_total": 4,
+    "subject": "SRQ-DEMO-6feba3d5",
+    "updated_at": "2026-11-01T19:29:07.142169Z",
+    "workflow": "hitl_approval_notification"
+   },
+   {
+    "current_step": null,
+    "detail": "Approval expired without a decision: nothing provisioned",
+    "id": "9aac56cc-2a04-444b-8edd-77668a16ea05",
+    "kind": "LangGraph agent",
+    "name": "Governance agent",
+    "priority": "normal",
+    "started_at": "2026-10-29T14:59:04.353419Z",
+    "state": "rejected",
+    "steps_done": 4,
+    "steps_total": 4,
+    "subject": "CUST-0001, SRQ-DEMO-71ce92a3",
+    "updated_at": "2026-11-01T19:29:06.929770Z",
+    "workflow": "governance_agent"
+   },
+   {
+    "current_step": null,
+    "detail": "Approval expired without a decision: nothing provisioned",
+    "id": "35fd21b1-f8a6-4adb-99f8-9c9bbbfe14f9",
+    "kind": "LangGraph agent",
+    "name": "Governance agent",
+    "priority": "high",
+    "started_at": "2026-10-29T14:57:11.532073Z",
+    "state": "rejected",
+    "steps_done": 4,
+    "steps_total": 4,
+    "subject": "CUST-0040, SRQ-DEMO-8b8ff0cd",
+    "updated_at": "2026-11-01T19:29:06.905445Z",
+    "workflow": "governance_agent"
+   },
+   {
+    "current_step": null,
+    "detail": "Approval expired without a decision: nothing provisioned",
+    "id": "d75080a0-19e4-4063-b2d5-6737e86c0658",
+    "kind": "LangGraph agent",
+    "name": "Governance agent",
+    "priority": "high",
+    "started_at": "2026-10-29T14:57:11.443692Z",
+    "state": "rejected",
+    "steps_done": 4,
+    "steps_total": 4,
+    "subject": "CUST-0071, SRQ-DEMO-6feba3d5",
+    "updated_at": "2026-11-01T19:29:06.881599Z",
+    "workflow": "governance_agent"
+   },
+   {
+    "current_step": null,
+    "detail": "collection notice drafted",
+    "id": "50f9b556-b40f-48d0-acdf-01d9817be826",
+    "kind": "n8n workflow",
+    "name": "Invoice reconciliation",
+    "priority": "high",
+    "started_at": "2026-11-01T14:52:17.289192Z",
+    "state": "completed",
+    "steps_done": 4,
+    "steps_total": 4,
+    "subject": "INV-2026-0011",
+    "updated_at": "2026-11-01T14:52:17.289192Z",
+    "workflow": "delinquent_invoice_reconciliation"
+   },
+   {
+    "current_step": null,
+    "detail": "finance approval requested",
+    "id": "800db54e-0e6e-42f1-8ba9-dde16c3fc6da",
+    "kind": "n8n workflow",
+    "name": "Seat expansion intake",
+    "priority": "high",
+    "started_at": "2026-11-01T14:52:17.162145Z",
+    "state": "completed",
+    "steps_done": 4,
+    "steps_total": 4,
+    "subject": "SRQ-E2E-f000577c",
+    "updated_at": "2026-11-01T14:52:17.162145Z",
+    "workflow": "seat_expansion_trigger"
+   },
+   {
+    "current_step": null,
+    "detail": "collection notice drafted",
+    "id": "e4906d66-c7bc-4552-b7f7-a982cfa78037",
+    "kind": "n8n workflow",
+    "name": "Invoice reconciliation",
+    "priority": "high",
+    "started_at": "2026-11-01T14:51:03.057738Z",
+    "state": "completed",
+    "steps_done": 4,
+    "steps_total": 4,
+    "subject": "INV-2026-0011",
+    "updated_at": "2026-11-01T14:51:03.057738Z",
+    "workflow": "delinquent_invoice_reconciliation"
+   },
+   {
+    "current_step": null,
+    "detail": "finance approval requested",
+    "id": "be97d3d2-321c-4ad6-b16a-97f3307bd40e",
+    "kind": "n8n workflow",
+    "name": "Seat expansion intake",
+    "priority": "high",
+    "started_at": "2026-11-01T14:51:02.867937Z",
+    "state": "completed",
+    "steps_done": 4,
+    "steps_total": 4,
+    "subject": "SRQ-E2E-35cced0d",
+    "updated_at": "2026-11-01T14:51:02.867937Z",
+    "workflow": "seat_expansion_trigger"
+   }
+  ],
+  "window": "30d"
+ }
+}

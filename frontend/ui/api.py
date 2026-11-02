@@ -16,6 +16,10 @@ import httpx
 DEFAULT_BASE_URL = "http://127.0.0.1:8010"
 
 
+def configured_api_url() -> str:
+    return os.environ.get("NEXUSFLOW_API_URL") or os.environ.get("BACKEND_URL") or ""
+
+
 @dataclass
 class ApiError(Exception):
     status: int
@@ -28,9 +32,11 @@ class ApiError(Exception):
 
 
 class NexusFlowClient:
+    sample = False
+
     def __init__(self, base_url: str | None = None, token: str | None = None, timeout: float = 30.0,
                  transport: httpx.BaseTransport | None = None):
-        self.base_url = (base_url or os.environ.get("NEXUSFLOW_API_URL") or DEFAULT_BASE_URL).rstrip("/")
+        self.base_url = (base_url or configured_api_url() or DEFAULT_BASE_URL).rstrip("/")
         self.token = token if token is not None else os.environ.get("NEXUSFLOW_API_TOKEN", "")
         self._http = httpx.Client(base_url=self.base_url, timeout=timeout, transport=transport,
                                   headers={"User-Agent": "nexusflow-operator-ui/1.0"})
@@ -38,7 +44,7 @@ class NexusFlowClient:
     # ------------------------------------------------------------------ plumbing
 
     def _request(self, method: str, path: str, *, json: Any = None, params: dict | None = None,
-                 timeout: float | None = None, auth: bool = True, ok_statuses: tuple[int, ...] = ()) -> dict:
+                 timeout: float | httpx.Timeout | None = None, auth: bool = True, ok_statuses: tuple[int, ...] = ()) -> dict:
         headers = {"Authorization": f"Bearer {self.token}"} if auth and self.token else {}
         try:
             r = self._http.request(method, path, json=json, params=params, headers=headers,
@@ -59,7 +65,7 @@ class NexusFlowClient:
     # ------------------------------------------------------------------ endpoints
 
     def health(self) -> dict:
-        return self._request("GET", "/health", auth=False, ok_statuses=(503,), timeout=10)
+        return self._request("GET", "/health", auth=False, ok_statuses=(503,), timeout=httpx.Timeout(10, connect=3))
 
     def me(self) -> dict:
         return self._request("GET", "/api/v1/auth/me")

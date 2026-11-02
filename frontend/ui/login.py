@@ -43,6 +43,9 @@ def _flow() -> str:
 
 def _sign_in(client: NexusFlowClient, token: str, mode: str) -> str | None:
     """Validate the token against the API; on success store the session and rerun. Returns an error message."""
+    if client.sample:
+        st.session_state["auth"] = {"token": "", "me": client.me(), "mode": "sample"}
+        st.rerun()
     candidate = NexusFlowClient(base_url=client.base_url, token=token)
     try:
         me = candidate.me()
@@ -61,7 +64,7 @@ def _sign_in(client: NexusFlowClient, token: str, mode: str) -> str | None:
     return None
 
 
-def render(client: NexusFlowClient, health: dict) -> None:
+def render(client, health: dict) -> None:
     html_block("<style>[data-testid='stSidebar'], [data-testid='stExpandSidebarButton'] { display: none !important; }"
                ".block-container { max-width: 1100px; padding: 4rem 1.5rem !important; }"
                "</style>")
@@ -75,21 +78,27 @@ def render(client: NexusFlowClient, health: dict) -> None:
     with hero_col:
         html_block(f'<div class="nf-login-foot">{esc(FOOTER_LEFT)}</div>')
     with card_col, st.container(key="login_card"):
-        api_ok = health.get("status") in ("ok", "degraded")
-        tone = "ok" if health.get("status") == "ok" else "wait" if api_ok else "fail"
-        html_block(f'<div class="nf-login-card-head"><div class="nf-login-card-title">Try the live demo</div>'
-                   f'<span class="nf-pill {tone}"><span class="nf-dot {tone}"></span>'
-                   f'{"API online" if api_ok else "API offline"}</span></div>'
-                   '<p class="nf-login-copy">Browse live workflows, approvals and the copilot on real data. '
-                   'The demo is read-only: decisions stay with the assigned manager.</p>')
+        api_ok = client.sample or health.get("status") in ("ok", "degraded")
+        tone = "idle" if client.sample else "ok" if health.get("status") == "ok" else "wait" if api_ok else "fail"
+        pill = "Sample data" if client.sample else "API online" if api_ok else "API offline"
+        title = "Try the demo" if client.sample else "Try the live demo"
+        copy = ("Browse workflows, approvals and the copilot on sample data. No API is connected here, so the "
+                "figures are illustrative and decisions are off." if client.sample else
+                "Browse live workflows, approvals and the copilot on real data. "
+                "The demo is read-only: decisions stay with the assigned manager.")
+        html_block(f'<div class="nf-login-card-head"><div class="nf-login-card-title">{title}</div>'
+                   f'<span class="nf-pill {tone}"><span class="nf-dot {tone}"></span>{pill}</span></div>'
+                   f'<p class="nf-login-copy">{copy}</p>')
         demo_token = os.environ.get("NEXUSFLOW_DEMO_TOKEN", "")
         error_key = "login_error"
         if st.button("Explore the demo", key="login_demo", type="primary", use_container_width=True,
-                     disabled=not (api_ok and demo_token)):
+                     disabled=not (client.sample or (api_ok and demo_token))):
             st.session_state[error_key] = _sign_in(client, demo_token, "demo")
-        if not demo_token:
+        if not (demo_token or client.sample):
             html_block('<p class="nf-login-hint">Demo entry is off: start the console with frontend/run.sh.</p>')
 
+        if client.sample:          # nothing to verify a token against, so none is ever accepted
+            return _footer(card_col)
         html_block('<div class="nf-login-divider"><span>or sign in as a reviewer</span></div>')
         with st.form("login_token_form", border=False):
             token = st.text_input("Reviewer token", key="reviewer_token", type="password",
@@ -102,7 +111,11 @@ def render(client: NexusFlowClient, health: dict) -> None:
         if not api_ok:
             st.warning(md(f"The API at {client.base_url} isn't answering. Start it with: "
                           "cd backend && .venv/bin/uvicorn app.main:app --port 8010"))
-    with card_col:
+    _footer(card_col)
+
+
+def _footer(column) -> None:
+    with column:
         html_block(f'<div class="nf-login-foot">{esc(FOOTER_RIGHT)}</div>')
 
 

@@ -4,15 +4,18 @@
 
 Every visitor starts at the login gate (ui/login.py): "Explore the demo" signs in with the read-only
 token run.sh puts in NEXUSFLOW_DEMO_TOKEN; reviewers paste their own JWT. The token is kept in this
-browser session's server-side state and sent to the FastAPI backend (NEXUSFLOW_API_URL, default
-http://127.0.0.1:8010). No database access and no signing secrets live in the UI.
+browser session's server-side state and sent to the FastAPI backend (NEXUSFLOW_API_URL or BACKEND_URL,
+default http://127.0.0.1:8010). No database access and no signing secrets live in the UI.
+
+With no API connected, as on Streamlit Community Cloud, the console runs in labelled sample mode (ui/synthetic.py).
+This script never starts a backend. Streamlit's default port applies unless run.sh sets one.
 """
 
 from __future__ import annotations
 
 import streamlit as st
 
-from ui import login, views
+from ui import login, synthetic, views
 from ui.api import ApiError, NexusFlowClient
 from ui.components import badge, esc, html_block, inject_theme, md, topbar
 from views import ai_agents, n8n_workflows
@@ -56,16 +59,24 @@ def cached_pending_count(token: str) -> int | None:
 
 
 health = cached_health(public_client().base_url)
+sample_client = synthetic.SampleClient() if synthetic.should_use(health) else None
+if sample_client:
+    health = sample_client.health()
 
 # ---------------------------------------------------------------- login gate
 auth = st.session_state.get("auth")
+if auth and auth["mode"] == "sample" and not sample_client:      # the API came back: leave the sample session
+    login.sign_out()
+    auth = None
 if not auth:
-    login.render(public_client(), health)
+    login.render(sample_client or public_client(), health)
     st.stop()
 
-if "client" not in st.session_state:
+if sample_client:
+    st.session_state["client"] = sample_client
+elif "client" not in st.session_state or st.session_state["client"].sample:
     st.session_state["client"] = NexusFlowClient(token=auth["token"])
-client: NexusFlowClient = st.session_state["client"]
+client = st.session_state["client"]
 try:
     me = client.me()          # re-checked every run: an expired token sends you back to the gate
 except ApiError as exc:
@@ -94,11 +105,11 @@ def _from_top():
 with st.sidebar:
     html_block('<div class="nf-brand"><div class="nf-brand-mark" aria-hidden="true"></div><div>'
                '<div class="nf-brand-name">NexusFlow</div><div class="nf-brand-sub">Autopilot operations</div></div></div>')
-    pending = cached_pending_count(client.token)
+    pending = client.pending_approvals()["count"] if client.sample else cached_pending_count(client.token)
     labels = {p: (f"{p}  ({pending})" if p == "Approvals" and pending else p) for p in PAGES}
     st.radio("Navigate", list(PAGES), format_func=lambda p: labels[p], label_visibility="collapsed",
              key="page", on_change=_from_sidebar)
-    meta = ("Read-only demo access" if auth["mode"] == "demo"
+    meta = ("Read-only demo access" if auth["mode"] in ("demo", "sample") or client.sample
             else f'{me["subject"]}, {", ".join(r.title() for r in me["roles"])}')
     html_block(f'<div class="nf-identity"><div class="nf-identity-name">{esc(me.get("name") or me["subject"])}</div>'
                f'<div class="nf-identity-meta">{esc(meta)}</div></div>')
@@ -116,6 +127,9 @@ badges = badge("API", api_status, f"API {health.get('status', 'unreachable')}") 
     badge(name, comps.get(key, {}).get("status", "unknown"), f"{name}: {comps.get(key, {}).get('status', 'unknown')}")
     for key, name in (("database", "PostgreSQL"), ("pgvector", "pgvector"), ("n8n", "n8n"), ("gemini", "Gemini")))
 topbar(choice, PAGES[choice], badges)
+if client.sample:
+    html_block('<div class="nf-sample-banner" role="status"><strong>Sample data.</strong> No API is connected to this '
+               "deployment, so these figures are illustrative and decisions are off.</div>")
 
 if health.get("error"):
     st.error(md(f"{health['error']}. Start it with: cd backend && .venv/bin/uvicorn app.main:app --port 8010"))

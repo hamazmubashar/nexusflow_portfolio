@@ -130,3 +130,15 @@ cd frontend && python3 -m venv .venv && .venv/bin/pip install -r requirements.tx
 #   backend/.venv/bin/python -m app.core.security issue-token EMP-0082 MANAGER
 .venv/bin/python -m pytest                # client + AppTest against the API on :8010
 ```
+
+### Deploying the console to Streamlit Community Cloud
+
+Set the main file to `frontend/app.py`. Dependencies come from `frontend/requirements.txt`, and the app listens on Streamlit's default port (`run.sh` sets 8502 on loopback for local use only).
+
+| Setting | Effect |
+|---|---|
+| No `NEXUSFLOW_API_URL` or `BACKEND_URL` | Labelled sample mode: read-only, no sign-in tokens, and every page says the data is illustrative |
+| URL set, `NEXUSFLOW_ENV=production`, API unreachable | Falls back to sample mode |
+| URL set, API unreachable, not production | Shows "API offline", so a local outage isn't hidden |
+
+Sample data lives in `frontend/ui/sample_data.json`, rebuilt from the local API by `frontend/scripts/capture_sample_data.py`.
